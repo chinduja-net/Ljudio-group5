@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import SearchBar from "./SearchBar"
+import SearchBar from "./components/SearchBar"
 
 function App() {
   const [count, setCount] = useState(0);
