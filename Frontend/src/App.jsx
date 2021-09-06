@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
-import './App.css';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PlayerPage from './routes/PlayerPage';
+import Player from './components/player';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Router>
+        <nav>
+          <Link to="/PlayerPage">Player Page</Link>
+        </nav>
+        <Switch>
+          <Route path="/PlayerPage">
+            <PlayerPage />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
