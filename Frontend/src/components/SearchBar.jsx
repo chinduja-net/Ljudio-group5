@@ -1,10 +1,17 @@
-import React, { useRef } from "react"
+import React, { useRef, useContext } from "react"
+import { Redirect } from "react-router"
+import { useLocation as RouterLink } from "react-router-dom"
+
+import { SearchContext } from "../context/SearchContext"
 
 function SearchBar() {
-  /** 
-   * Looks at the current value in the input field and 
-   * update the value so that we can use it further up in the code
-  */
+	const { setSearchResults } = useContext(SearchContext)
+	// const location = useLocation()
+
+	/**
+	 * Looks at the current value in the input field and
+	 * update the value so that we can use it further up in the code
+	 */
 	let searchInput = useRef(null)
 
 	async function fetchApi() {
@@ -24,14 +31,25 @@ function SearchBar() {
 		let filteredResults = []
 
 		searchResult.content.forEach((obj) => {
-      // Destructure the searchResult to get our desired properties we want to use
-      // TODO: destructure the videoId and duration properties
-			if (obj.type === "song" || obj.type === "album") {
+			// Destructure the searchResult to get our desired properties we want to use
+			if (obj.type === "song") {
 				filteredResults.push({
 					type: obj.type,
 					name: obj.name,
 					thumbnails: obj.thumbnails,
 					artist: obj.artist,
+					album: obj.album,
+					duration: obj.duration,
+					videoId: obj.videoId,
+				})
+			}
+			if (obj.type === "album") {
+				filteredResults.push({
+					type: obj.type,
+					name: obj.name,
+					thumbnails: obj.thumbnails,
+					artist: obj.artist,
+					browseId: obj.browseId,
 				})
 			}
 			if (obj.type === "artist") {
@@ -39,12 +57,22 @@ function SearchBar() {
 					type: obj.type,
 					name: obj.name,
 					thumbnails: obj.thumbnails,
+					browseId: obj.browseId,
 				})
 			}
 		})
-    // Sorts the types after alphabetical order
-		filteredResults.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0))
+		// Sorts the types after alphabetical order
+		filteredResults.sort((a, b) =>
+			a.type > b.type ? 1 : b.type > a.type ? -1 : 0,
+		)
 		console.log(filteredResults)
+		// update the searchResults context
+		setSearchResults(filteredResults)
+
+		// TODO: Try if this works after the home page has been created.
+		// if(location.pathname === "/") {
+		// 	<Redirect to="/searchResults"/>
+		// }
 	}
 
 	return (
@@ -57,7 +85,7 @@ function SearchBar() {
 			>
 				<input
 					type="text"
-          // Saves a reference for the target element so that it can be used globally in the component
+					// Saves a reference for the target element so that it can be used globally in the component
 					ref={searchInput}
 					placeholder="Search for artists/album/song"
 				/>
