@@ -2,7 +2,7 @@ import React from "react"
 import "./App.css"
 
 import SearchBar from "./components/SearchBar"
-import SearchResults from "./Router/SearchResults"
+import SearchResults from "./routes/SearchResults"
 import SearchProvider from "./context/SearchContext"
 
 function App() {
