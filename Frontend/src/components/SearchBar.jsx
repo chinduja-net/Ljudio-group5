@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react"
 import { Redirect } from "react-router"
 import { useLocation as RouterLink } from "react-router-dom"
 
-import { SearchContext } from "../context/SearchContext"
+import { SearchContext } from "../context/SongProvider"
 
 function SearchBar() {
 	const { setSearchResults } = useContext(SearchContext)
