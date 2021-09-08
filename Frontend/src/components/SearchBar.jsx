@@ -39,8 +39,8 @@ function SearchBar() {
 					type: obj.type,
 					name: obj.name,
 					thumbnail: obj.thumbnails[0].url,
-					artist: obj.artist,
-					album: obj.album,
+					artist: obj.artist.browseId,
+					album: obj.album.browseId,
 					duration: obj.duration, 
 					videoId: obj.videoId,
 				})

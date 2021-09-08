@@ -11,31 +11,15 @@ function SearchResults() {
 			<SearchBar />
 			<div>
 				{searchResults ? // When looping through the search results we can limit the loop with user input
-					searchResults.map((result) => (
-						// const {id, name, artist, type, videoId, thumbnail } = result
-						<div key={result.id}>
-							<p>{result.videoId}</p>
-							<p>{result.type}</p>
-							<h2>{result.name}</h2>
-							<h3>{result.artist}</h3>
-							<img src={result.thumbnail} alt="" />
+					searchResults.map(({id, videoId, type, name, artist, thumbnail}) => (
+						<div key={id}>
+							<p>{videoId}</p>
+							<p>{type}</p>
+							<h2>{name}</h2>
+							<h3>{artist}</h3>
+							<img src={thumbnail} alt={name + " thumbnail."} />
 						</div>
-						
 					)) : console.warn("Didn't work, sorry")}
-				{/* {searchResults ? (
-					<div>
-						<p>{searchResults[0].videoId}</p>
-						<p>{searchResults[0].type}</p>
-						<h2>{searchResults[0].name}</h2>
-						<h3>{searchResults[0].artist}</h3>
-						<img src={searchResults[0].thumbnails[0].url} alt="" />
-					</div>
-				) : (
-					console.warn("nothing found")
-				)} */}
-				{
-					console.log(searchResults)
-				}
 			</div>
 		</div>
 	)
