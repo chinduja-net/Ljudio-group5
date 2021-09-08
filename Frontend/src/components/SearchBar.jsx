@@ -39,7 +39,7 @@ function SearchBar() {
 					thumbnails: obj.thumbnails,
 					artist: obj.artist,
 					album: obj.album,
-					duration: obj.duration,
+					duration: obj.duration, 
 					videoId: obj.videoId,
 				})
 			}
@@ -79,6 +79,7 @@ function SearchBar() {
 		<>
 			<form
 				onSubmit={(e) => {
+					// Todo: something
 					e.preventDefault()
 					fetchApi()
 				}}
