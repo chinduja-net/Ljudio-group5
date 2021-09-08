@@ -1,6 +1,7 @@
 import React, { useRef, useContext } from "react"
 import { Redirect } from "react-router"
 import { useLocation as RouterLink } from "react-router-dom"
+import {nanoid} from "nanoid"
 
 import { SearchContext } from "../context/SongProvider"
 
@@ -34,9 +35,10 @@ function SearchBar() {
 			// Destructure the searchResult to get our desired properties we want to use
 			if (obj.type === "song") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
+					thumbnail: obj.thumbnails[0].url,
 					artist: obj.artist,
 					album: obj.album,
 					duration: obj.duration, 
@@ -45,18 +47,20 @@ function SearchBar() {
 			}
 			if (obj.type === "album") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
+					thumbnail: obj.thumbnails[0].url,
 					artist: obj.artist,
 					browseId: obj.browseId,
 				})
 			}
 			if (obj.type === "artist") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
+					thumbnail: obj.thumbnails[0].url,
 					browseId: obj.browseId,
 				})
 			}
