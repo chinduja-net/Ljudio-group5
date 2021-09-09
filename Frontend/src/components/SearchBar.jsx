@@ -3,6 +3,8 @@ import { Redirect } from "react-router"
 import { useLocation as RouterLink } from "react-router-dom"
 import {nanoid} from "nanoid"
 
+import style from "../styles/searchBar.module.css"
+
 import { SearchContext } from "../context/SongProvider"
 
 function SearchBar() {
@@ -89,6 +91,7 @@ function SearchBar() {
 				}}
 			>
 				<input
+				id={style.search_input}
 					type="text"
 					// Saves a reference for the target element so that it can be used globally in the component
 					ref={searchInput}
