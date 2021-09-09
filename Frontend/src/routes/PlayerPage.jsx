@@ -14,6 +14,10 @@ function playerPage() {
     }, 3000);
   }
 
+  // 2 variables controling player state.
+  let isPlaying = true;
+  let isAudio = true;
+
   function playNewSong() {
     // This will be changed depending on queue list
     let videoId = 'uHU48c-dtqk';
@@ -21,31 +25,44 @@ function playerPage() {
     player.playVideo();
   }
 
-  function pauseBtn() {
-    player.pauseVideo(2);
+  function pauseVid() {
+    player.pauseVideo();
+    isPlaying = false;
   }
 
-  function playBtn() {
+  function playVid() {
     player.playVideo();
+    isPlaying = true;
   }
 
-  function muteBtn() {
+  function muteAudio() {
     player.mute();
+    isAudio = false;
   }
 
-  function unmuteBtn() {
+  function unmuteAudio() {
     player.unMute();
+    isAudio = true;
   }
 
+  // Calls 2 functions depending on if isPlaying is true / false.
+  // Toggles between playing and pauseing player
+  function toggleVidBtn() {
+    isPlaying ? pauseVid() : playVid();
+    console.log('player state', isPlaying);
+  }
+
+  function toggleAudio() {
+    isAudio ? muteAudio() : unmuteAudio();
+    console.log('Audio state', isAudio);
+  }
   return (
     <div>
       <Player onLoad={onPlayerLoad} />
+      <button onClick={toggleVidBtn}>Play / Pause toggle</button>
       <h1>I have never seen such an ugly page before, BUT it works!</h1>
       <button onClick={playNewSong}>ABBA SONGS</button>
-      <button onClick={pauseBtn}>Pause Button</button>
-      <button onClick={playBtn}>Play Button</button>
-      <button onClick={muteBtn}>Mute Button</button>
-      <button onClick={unmuteBtn}>Unmute Button</button>
+      <button onClick={toggleAudio}>Toggle mute / unmute</button>
     </div>
   );
 }
