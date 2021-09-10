@@ -14,31 +14,22 @@ function SearchResults() {
 		currentArtist,
 	} = useContext(SearchContext)
 
-	function renderSong({
-		id,
-		type,
-		name,
-		thumbnail,
-		artist,
-		album,
-		duration,
-		videoId,
-	}) {
+	function renderSong(object) {
 		return (
 			<div
 				className={style.result_card}
-				data-render-song={JSON.stringify({ type, videoId })}
-				key={id}
+				data-render-song={JSON.stringify(object)}
+				key={object.id}
 			>
-				<p>{type}</p>
+				<p>{object.type}</p>
 				<img
 					className={style.result_ThumbnailSquare}
-					src={thumbnail}
-					alt={artist + "'s cover thumbnail"}
+					src={object.thumbnail}
+					alt={object.artist + "'s cover thumbnail"}
 				/>
 				<div>
-					<h4>{name}</h4>
-					<p>{artist}</p>
+					<h4>{object.name}</h4>
+					<p>{object.artist}</p>
 				</div>
 				<button type="button" className="resultSettingsBtn">
 					:{/* Add an icon */}
@@ -46,100 +37,81 @@ function SearchResults() {
 			</div>
 		)
 	}
-	function renderArtist({ id, type, name, thumbnail, browseId }) {
+	function renderArtist(object) {
 		return (
 			<div
 				className={style.result_card}
-				data-render-artist={JSON.stringify({ type, browseId })}
-				key={id}
+				data-render-artist={JSON.stringify(object)}
+				key={object.id}
 			>
-				<p>{type}</p>
+				<p>{object.type}</p>
 				<img
 					className={style.result_ThumbnailArtist}
-					src={thumbnail}
-					alt={name + "'s cover thumbnail"}
+					src={object.thumbnail}
+					alt={object.name + "'s cover thumbnail"}
 				/>
-				<h3>{name}</h3>
+				<h3>{object.name}</h3>
 			</div>
 		)
 	}
-	function renderAlbum({ id, type, name, thumbnail, artist, browseId }) {
+	function renderAlbum(object) {
 		return (
 			<div
 				className={style.result_card}
-				data-render-album={JSON.stringify({ type, browseId })}
-				key={id}
+				data-render-album={JSON.stringify(object)}
+				key={object.id}
 			>
-				<p>{type}</p>
+				<p>{object.type}</p>
 				<img
 					className={style.result_ThumbnailSquare}
-					src={thumbnail}
-					alt={artist + "'s cover thumbnail"}
+					src={object.thumbnail}
+					alt={object.artist + "'s cover thumbnail"}
 				/>
 				<div>
-					<h4>{name}</h4>
-					<p>{artist}</p>
+					<h4>{object.name}</h4>
+					<p>{object.artist}</p>
 				</div>
 			</div>
 		)
 	}
 
 	function resultsClickHandler(e) {
-		console.log(e.target.attributes.getNamedItem("data-render-song").value)
-
-		// What the code is SUPPOSED to do
-		// If the value from the dataset isnt null
-		// we want to save that value and JSON.parse it (since its stringified)
-		// and then we want to send and update that value in the context
-
-		if (e.target.attributes.getNamedItem("data-render-song").value !== null) {
+		// Look at the clicked element and determine their types, then update the context with the element's connected data
+		// SONG
+		if (e.target.attributes.getNamedItem("data-render-song") !== null) {
 			let clickedValueSong = JSON.parse(
 				e.target.attributes.getNamedItem("data-render-song").value,
 			)
-			console.log(clickedValueSong)
+			console.log("parsed SONG: ", clickedValueSong)
 
-			setCurrentSong(clickedValueSong.videoId)
-			console.log(JSON.parse(clickedValueSong))
+			setCurrentSong(clickedValueSong)
 		}
 
-		if (
-			e.target.attributes.getNamedItem("data-render-album").value !== null
-		) {
-			let clickedValueAlbum = JSON.parse(
-				e.target.attributes.getNamedItem("data-render-album").value,
-			)
-			console.log(clickedValueAlbum)
-
-			setCurrentAlbum(clickedValueAlbum.browseId)
-			console.log(JSON.parse(clickedValueAlbum))
-		}
-
-		if (
-			e.target.attributes.getNamedItem("data-render-artist").value !== null
-		) {
+		// Look at the clicked element and determine their types, then update the context with the element's connected data
+		// ARTIST
+		if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
 			let clickedValueArtist = JSON.parse(
 				e.target.attributes.getNamedItem("data-render-artist").value,
 			)
-			console.log(clickedValueArtist)
+			console.log("parsed ARTIST: ", clickedValueArtist)
 
-			setCurrentArtist(clickedValueArtist.browseId)
-			console.log(JSON.parse(clickedValueArtist))
+			setCurrentArtist(clickedValueArtist)
 		}
 
-		// clickedValue.type === "song"
-		// 	? setCurrentSong(clickedValueSong.videoId)
-		// 	: clickedValue.type === "album"
-		// 	? setCurrentAlbum(clickedValueAlbum.browseId)
-		// 	: clickedValue.type === "artist"
-		// 	? setCurrentArtist(clickedValueArtist.browseId)
-		// 	: null
+		// Look at the clicked element and determine their types, then update the context with the element's connected data
+		// ALBUM
+		if (e.target.attributes.getNamedItem("data-render-album") !== null) {
+			let clickedValueAlbum = JSON.parse(
+				e.target.attributes.getNamedItem("data-render-album").value,
+			)
+			console.log("parsed ALBUM: ", clickedValueAlbum)
 
-		console.log(
-			"CONTEXT: ",
-			currentSong,
-			currentAlbum,
-			currentArtist,
-		)
+			setCurrentAlbum(clickedValueAlbum)
+		}
+		// ! Maybe a bug, the context doesn't seem to update instantly because it's always logging the PREVIOUS context value
+		console.log("currentSong Context: ", currentSong)
+		console.log("currentAlbum Context: ", currentAlbum)
+		console.log("currentArtist Context: ", currentArtist)
 	}
 
 	return (
