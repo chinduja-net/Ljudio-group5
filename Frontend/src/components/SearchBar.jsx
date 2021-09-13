@@ -1,11 +1,14 @@
 import React, { useRef, useContext } from "react"
-import { Redirect } from "react-router"
-import { useLocation as RouterLink } from "react-router-dom"
+import {useHistory} from "react-router-dom"
+import {nanoid} from "nanoid"
+
+import style from "../styles/searchBar.module.css"
 
 import { SearchContext } from "../context/SongProvider"
 
 function SearchBar() {
 	const { setSearchResults } = useContext(SearchContext)
+	const history = useHistory()
 	// const location = useLocation()
 
 	/**
@@ -34,29 +37,32 @@ function SearchBar() {
 			// Destructure the searchResult to get our desired properties we want to use
 			if (obj.type === "song") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
-					artist: obj.artist,
-					album: obj.album,
+					thumbnail: obj.thumbnails[0].url,
+					artist: obj.artist.browseId,
+					album: obj.album.browseId,
 					duration: obj.duration, 
 					videoId: obj.videoId,
 				})
 			}
 			if (obj.type === "album") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
+					thumbnail: obj.thumbnails[0].url,
 					artist: obj.artist,
 					browseId: obj.browseId,
 				})
 			}
 			if (obj.type === "artist") {
 				filteredResults.push({
+					id: nanoid(),
 					type: obj.type,
 					name: obj.name,
-					thumbnails: obj.thumbnails,
+					thumbnail: obj.thumbnails[0].url,
 					browseId: obj.browseId,
 				})
 			}
@@ -69,10 +75,10 @@ function SearchBar() {
 		// update the searchResults context
 		setSearchResults(filteredResults)
 
-		// TODO: Try if this works after the home page has been created.
-		// if(location.pathname === "/") {
-		// 	<Redirect to="/searchResults"/>
-		// }
+		// Redirect to the searchResults page if we are not on the home page
+		if(location.pathname === "/") {
+			history.push("/searchResults")
+		}
 	}
 
 	return (
@@ -85,6 +91,7 @@ function SearchBar() {
 				}}
 			>
 				<input
+				id={style.search_input}
 					type="text"
 					// Saves a reference for the target element so that it can be used globally in the component
 					ref={searchInput}

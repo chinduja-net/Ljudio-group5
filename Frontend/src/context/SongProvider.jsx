@@ -5,6 +5,9 @@ export const SearchContext = createContext()
 export default function SongProvider(props) {
 	const [searchResults, setSearchResults] = useState()
 	const [currentSong, setCurrentSong] = useState("")
+	const [currentAlbum, setCurrentAlbum] = useState("")
+	const [currentArtist, setCurrentArtist] = useState("")
+
 	// ? next in queue view
 	// ? next from: playlist/album view
 
@@ -17,6 +20,8 @@ export default function SongProvider(props) {
 				setSearchResults,
 				currentSong,
 				setCurrentSong,
+				currentAlbum, setCurrentAlbum,
+				currentArtist, setCurrentArtist
 			}}
 		>
 			{props.children}
