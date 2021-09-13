@@ -82,9 +82,9 @@ function SearchResults() {
       </div>
     );
   }
-//Displays the details of the song in a new page /route
+//Displays the details of the song in a new page or route
   function showSongDetails(e) {
-	   console.log(e.currentTarget.parentElement.attributes.getNamedItem("data-render-details").value) 
+	   
 	      if (e.currentTarget.parentElement.attributes.getNamedItem("data-render-details") !== null) {
 
      let clickedDetailSong = JSON.parse(
@@ -102,10 +102,11 @@ function SearchResults() {
   function resultsClickHandler(e) {
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // SONG
+
 	
     if (e.target.attributes.getNamedItem("data-render-song") !== null) {
       let clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-song").value
+        e.target.attributes.getNamedItem("data-render-song").value,
       );
       console.log("parsed SONG: ", clickedValueSong);
 
