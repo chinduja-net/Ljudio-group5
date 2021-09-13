@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Player from '../components/player';
 
 function playerPage() {
-  let player;
+  const player = useRef();
 
   function onPlayerLoad(ytPlayer) {
-    player = ytPlayer;
+    player.current = ytPlayer;
     setTimeout(() => {
       // Default ID, will change depending on user input later on
       let videoId = 'dQw4w9WgXcQ';
-      player.loadVideoById(videoId);
-      player.playVideo();
+      player.current.loadVideoById(videoId);
+      player.current.playVideo();
     }, 3000);
   }
 
@@ -21,27 +21,28 @@ function playerPage() {
   function playNewSong() {
     // This will be changed depending on queue list
     let videoId = 'uHU48c-dtqk';
-    player.loadVideoById(videoId);
-    player.playVideo();
+    player.current.loadVideoById(videoId);
+    player.current.playVideo();
   }
 
   function pauseVid() {
-    player.pauseVideo();
+    player.current.pauseVideo();
     isPlaying = false;
   }
 
   function playVid() {
-    player.playVideo();
+    player.current.playVideo();
     isPlaying = true;
+    console.log('in player log');
   }
 
   function muteAudio() {
-    player.mute();
+    player.current.mute();
     isAudio = false;
   }
 
   function unmuteAudio() {
-    player.unMute();
+    player.current.unMute();
     isAudio = true;
   }
 
@@ -56,12 +57,23 @@ function playerPage() {
     isAudio ? muteAudio() : unmuteAudio();
     console.log('Audio state', isAudio);
   }
+
+  function showDuration() {
+    console.log('Progress bar', player.current.getDuration());
+  }
+
+  function fastForward() {
+    player.current.seekTo(60);
+  }
+
   return (
     <div>
       <Player onLoad={onPlayerLoad} />
       <button onClick={toggleVidBtn}>Play / Pause toggle</button>
       <h1>I have never seen such an ugly page before, BUT it works!</h1>
       <button onClick={playNewSong}>ABBA SONGS</button>
+      <button onClick={showDuration}>SHOW DURATION</button>
+      <button onClick={fastForward}>FAST FORWARD</button>
       <button onClick={toggleAudio}>Toggle mute / unmute</button>
     </div>
   );
