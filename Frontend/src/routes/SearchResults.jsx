@@ -107,7 +107,9 @@ function SearchResults() {
 			console.log("parsed ALBUM: ", clickedValueAlbum)
 
 			setCurrentAlbum(clickedValueAlbum)
+
 		}
+
 		// ! Maybe a bug, the context doesn't seem to update instantly because it's always logging the PREVIOUS context value
 		console.log("currentSong Context: ", currentSong)
 		console.log("currentAlbum Context: ", currentAlbum)

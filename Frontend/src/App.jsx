@@ -1,15 +1,14 @@
 import React from "react"
+import { BrowserRouter as Router } from "react-router-dom"
 import "./App.css"
 
-import SearchBar from "./components/SearchBar"
-import SearchResults from "./routes/SearchResults"
+import Routes from "./routes/Index"
 
 function App() {
 	return (
-		<div className="App">
-			<SearchBar />
-			<SearchResults />
-		</div>
+		<Router>
+			<Routes />
+		</Router>
 	)
 }
 

@@ -1,6 +1,5 @@
 import React, { useRef, useContext } from "react"
-import { Redirect } from "react-router"
-import { useLocation as RouterLink } from "react-router-dom"
+import {useHistory} from "react-router-dom"
 import {nanoid} from "nanoid"
 
 import style from "../styles/searchBar.module.css"
@@ -9,6 +8,7 @@ import { SearchContext } from "../context/SongProvider"
 
 function SearchBar() {
 	const { setSearchResults } = useContext(SearchContext)
+	const history = useHistory()
 	// const location = useLocation()
 
 	/**
@@ -75,10 +75,10 @@ function SearchBar() {
 		// update the searchResults context
 		setSearchResults(filteredResults)
 
-		// TODO: Try if this works after the home page has been created.
-		// if(location.pathname === "/") {
-		// 	<Redirect to="/searchResults"/>
-		// }
+		// Redirect to the searchResults page if we are not on the home page
+		if(location.pathname === "/") {
+			history.push("/SearchResults")
+		}
 	}
 
 	return (
