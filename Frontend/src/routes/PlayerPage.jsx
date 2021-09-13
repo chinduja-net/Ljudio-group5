@@ -25,6 +25,7 @@ function PlayerPage() {
     // This will be changed depending on queue list
     /* let videoId = 'uHU48c-dtqk'; */
     let videoId = queueSong.videoId;
+    console.log(videoId)
     player.current.loadVideoById(videoId);
     player.current.playVideo();
   }

@@ -7,7 +7,7 @@ export default function SongProvider(props) {
 	const [currentSong, setCurrentSong] = useState("")
 	const [currentAlbum, setCurrentAlbum] = useState("")
 	const [currentArtist, setCurrentArtist] = useState("")
-	const[currentSongDetail,setCurrentSongDetail] = useState("")
+	const[songDetail,setSongDetail] = useState("")
 	const[queueSong, setQueueSong] = useState("")
 
 	// ? next in queue view
@@ -24,7 +24,7 @@ export default function SongProvider(props) {
 				setCurrentSong,
 				currentAlbum, setCurrentAlbum,
 				currentArtist, setCurrentArtist,
-				currentSongDetail,setCurrentSongDetail,
+				songDetail,setSongDetail,
 				queueSong, setQueueSong
 			}}
 		>

@@ -14,7 +14,7 @@ function SearchResults() {
     currentSong,
     currentAlbum,
     currentArtist,
-    setCurrentSongDetail,
+    setSongDetail,
   } = useContext(SearchContext);
 
   const history = useHistory();
@@ -82,7 +82,7 @@ function SearchResults() {
       </div>
     );
   }
-
+//Displays the details of the song in a new page /route
   function showSongDetails(e) {
 	   console.log(e.currentTarget.parentElement.attributes.getNamedItem("data-render-details").value) 
 	      if (e.currentTarget.parentElement.attributes.getNamedItem("data-render-details") !== null) {
@@ -92,7 +92,7 @@ function SearchResults() {
       );
 	console.log("parsed SONG_DETAILS: ", clickedDetailSong)
 
-	setCurrentSongDetail(clickedDetailSong);
+	setSongDetail(clickedDetailSong);
 
     history.push("/detailsPage");
     } 
