@@ -1,14 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import Player from '../components/Player';
+
+import { SearchContext } from '../context/SongProvider';
 
 function PlayerPage() {
   const player = useRef();
+  const { currentSong } = useContext(SearchContext);
 
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
     setTimeout(() => {
       // Default ID, will change depending on user input later on
-      let videoId = 'dQw4w9WgXcQ';
+      let videoId = currentSong.videoId;
       player.current.loadVideoById(videoId);
       player.current.playVideo();
     }, 3000);
