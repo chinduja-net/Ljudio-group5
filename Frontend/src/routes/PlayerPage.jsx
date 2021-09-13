@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import Player from '../components/player';
+import Player from '../components/Player';
 
-function playerPage() {
+function PlayerPage() {
   const player = useRef();
 
   function onPlayerLoad(ytPlayer) {
@@ -79,4 +79,4 @@ function playerPage() {
   );
 }
 
-export default playerPage;
+export default PlayerPage;
