@@ -44,17 +44,7 @@ function SearchResults() {
     );
   }
 
-  function showSongDetails(e) {
-    if (e.target.attributes.getNamedItem("data-render-details").value !== null) {
-      clickedDetailSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-details").value
-      );
-    }
-    setCurrentSongDetail(clickedDetailSong);
-
-    history.push("/detailsPage");
-  }
-
+ 
   function renderArtist(object) {
     return (
       <div
@@ -93,9 +83,26 @@ function SearchResults() {
     );
   }
 
+  function showSongDetails(e) {
+	   console.log(e.currentTarget.parentElement.attributes.getNamedItem("data-render-details").value) 
+	      if (e.currentTarget.parentElement.attributes.getNamedItem("data-render-details") !== null) {
+
+     let clickedDetailSong = JSON.parse(
+        e.currentTarget.parentElement.attributes.getNamedItem("data-render-details").value,
+      );
+	console.log("parsed SONG_DETAILS: ", clickedDetailSong)
+
+	setCurrentSongDetail(clickedDetailSong);
+
+    history.push("/detailsPage");
+    } 
+    
+  }
+
   function resultsClickHandler(e) {
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // SONG
+	
     if (e.target.attributes.getNamedItem("data-render-song") !== null) {
       let clickedValueSong = JSON.parse(
         e.target.attributes.getNamedItem("data-render-song").value

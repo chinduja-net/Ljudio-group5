@@ -5,7 +5,7 @@ import {SearchContext} from "../context/SongProvider"
 
 function PlayerPage() {
   const player = useRef();
-  const {currentSong} = useContext(SearchContext)
+  const {currentSong, queueSong} = useContext(SearchContext)
 
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
@@ -23,7 +23,8 @@ function PlayerPage() {
 
   function playNewSong() {
     // This will be changed depending on queue list
-    let videoId = 'uHU48c-dtqk';
+    /* let videoId = 'uHU48c-dtqk'; */
+    let videoId = queueSong.videoId;
     player.current.loadVideoById(videoId);
     player.current.playVideo();
   }
