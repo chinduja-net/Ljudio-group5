@@ -9,8 +9,7 @@ import { SearchContext } from "../context/SongProvider"
 function SearchBar() {
 	const { setSearchResults } = useContext(SearchContext)
 	const history = useHistory()
-	// const location = useLocation()
-
+	
 	/**
 	 * Looks at the current value in the input field and
 	 * update the value so that we can use it further up in the code
