@@ -1,11 +1,16 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import Player from '../components/Player';
-
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SearchContext } from '../context/SongProvider';
+import PauseIcon from '@material-ui/icons/Pause';
 
 function PlayerPage() {
   const player = useRef();
   const { currentSong } = useContext(SearchContext);
+
+  const [playingState, setPlayingState] = useState(true);
 
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
@@ -14,6 +19,7 @@ function PlayerPage() {
       let videoId = currentSong.videoId;
       player.current.loadVideoById(videoId);
       player.current.playVideo();
+      setPlayingState(true);
     }, 3000);
   }
 
@@ -26,17 +32,17 @@ function PlayerPage() {
     let videoId = 'uHU48c-dtqk';
     player.current.loadVideoById(videoId);
     player.current.playVideo();
+    setPlayingState(true);
   }
 
   function pauseVid() {
     player.current.pauseVideo();
-    isPlaying = false;
+    setPlayingState(false);
   }
 
   function playVid() {
     player.current.playVideo();
-    isPlaying = true;
-    console.log('in player log');
+    setPlayingState(true);
   }
 
   function muteAudio() {
@@ -52,7 +58,7 @@ function PlayerPage() {
   // Calls 2 functions depending on if isPlaying is true / false.
   // Toggles between playing and pauseing player
   function toggleVidBtn() {
-    isPlaying ? pauseVid() : playVid();
+    playingState ? pauseVid() : playVid();
     console.log('player state', isPlaying);
   }
 
@@ -72,12 +78,27 @@ function PlayerPage() {
   return (
     <div>
       <Player onLoad={onPlayerLoad} />
-      <button onClick={toggleVidBtn}>Play / Pause toggle</button>
-      <h1>I have never seen such an ugly page before, BUT it works!</h1>
-      <button onClick={playNewSong}>ABBA SONGS</button>
+      <img
+        src={currentSong.thumbnail}
+        alt="Song tumbnail"
+        style={{ width: '120px', height: '120px', borderRadius: '50%' }}
+      />
+      <h1>{currentSong.name}</h1>
+      <button>
+        <SkipPreviousIcon />
+      </button>
+
+      <button onClick={toggleVidBtn}>
+        {playingState ? <PauseIcon /> : <PlayArrowIcon />}
+      </button>
+
+      <button>
+        <SkipNextIcon />
+      </button>
       <button onClick={showDuration}>SHOW DURATION</button>
       <button onClick={fastForward}>FAST FORWARD</button>
       <button onClick={toggleAudio}>Toggle mute / unmute</button>
+      <button onClick={playNewSong}>ABBA SONGS</button>
     </div>
   );
 }
