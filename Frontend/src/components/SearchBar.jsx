@@ -77,7 +77,7 @@ function SearchBar() {
 
 		// Redirect to the searchResults page if we are not on the home page
 		if(location.pathname === "/") {
-			history.push("/SearchResults")
+			history.push("/searchResults")
 		}
 	}
 

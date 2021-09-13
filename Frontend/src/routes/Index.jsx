@@ -11,10 +11,10 @@ function Routes() {
       <Route path="/" exact>
         <Home />
       </Route>
-      <Route path="/SearchResults">
+      <Route path="/searchResults">
         <SearchResults />
       </Route>
-      <Route path="/PlayerPage">
+      <Route path="/playerPage">
         <PlayerPage />
       </Route>
       {/* <Route path="/QueueViewer">
