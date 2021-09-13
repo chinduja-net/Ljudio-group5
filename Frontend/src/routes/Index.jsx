@@ -1,26 +1,27 @@
-import React from "react"
-import { Switch, Route } from "react-router-dom"
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import SearchResults from "./SearchResults"
-import Home from "./Home"
+import SearchResults from './SearchResults';
+import PlayerPage from './PlayerPage';
+import Home from './Home';
 
 function Routes() {
-	return (
-			<Switch>
-				<Route path="/" exact>
-					<Home />
-				</Route>
-				<Route path="/SearchResults">
-					<SearchResults />
-				</Route>
-				{/* <Route path="/PlayerPage">
-					<PlayerPage />
-				</Route> */}
-				{/* <Route path="/QueueViewer">
+  return (
+    <Switch>
+      <Route path="/" exact>
+        <Home />
+      </Route>
+      <Route path="/SearchResults">
+        <SearchResults />
+      </Route>
+      <Route path="/PlayerPage">
+        <PlayerPage />
+      </Route>
+      {/* <Route path="/QueueViewer">
 					<QueueViewer />
 				</Route> */}
-			</Switch>
-	)
+    </Switch>
+  );
 }
 
-export default Routes
+export default Routes;
