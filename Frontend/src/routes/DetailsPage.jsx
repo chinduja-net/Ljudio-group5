@@ -13,7 +13,7 @@ function DetailsPage() {
     console.log(songDetail.videoId)
    // setCurrentSong(currentSongDetail.videoId)
     setQueueSong(songDetail)
-    history.push("/playerPage")
+    history.push("/searchResults")
 
   }
 
