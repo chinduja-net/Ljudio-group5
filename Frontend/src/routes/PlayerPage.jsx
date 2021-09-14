@@ -5,12 +5,16 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SearchContext } from '../context/SongProvider';
 import PauseIcon from '@material-ui/icons/Pause';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 function PlayerPage() {
   const player = useRef();
   const { currentSong } = useContext(SearchContext);
 
+  // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
   const [playingState, setPlayingState] = useState(true);
+  const [audioState, setAudioState] = useState(true);
 
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
@@ -22,10 +26,6 @@ function PlayerPage() {
       setPlayingState(true);
     }, 3000);
   }
-
-  // 2 variables controling player state.
-  let isPlaying = true;
-  let isAudio = true;
 
   function playNewSong() {
     // This will be changed depending on queue list
@@ -47,23 +47,23 @@ function PlayerPage() {
 
   function muteAudio() {
     player.current.mute();
-    isAudio = false;
+    setAudioState(false);
   }
 
   function unmuteAudio() {
     player.current.unMute();
-    isAudio = true;
+    setAudioState(true);
   }
 
-  // Calls 2 functions depending on if isPlaying is true / false.
+  // Calls 2 functions depending on if playingState is true / false.
   // Toggles between playing and pauseing player
   function toggleVidBtn() {
     playingState ? pauseVid() : playVid();
-    console.log('player state', isPlaying);
+    console.log('player state', playingState);
   }
 
   function toggleAudio() {
-    isAudio ? muteAudio() : unmuteAudio();
+    audioState ? muteAudio() : unmuteAudio();
     console.log('Audio state', isAudio);
   }
 
@@ -96,8 +96,10 @@ function PlayerPage() {
         <SkipNextIcon />
       </button>
       <button onClick={showDuration}>SHOW DURATION</button>
-      <button onClick={fastForward}>FAST FORWARD</button>
-      <button onClick={toggleAudio}>Toggle mute / unmute</button>
+      <button onClick={fastForward}></button>
+      <button onClick={toggleAudio}>
+        {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
+      </button>
       <button onClick={playNewSong}>ABBA SONGS</button>
     </div>
   );
