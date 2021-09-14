@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import PlayerPage from './PlayerPage';
 import Home from './Home';
+import DetailsPage from './DetailsPage';
 
 function Routes() {
   return (
@@ -13,6 +14,9 @@ function Routes() {
       </Route>
       <Route path="/searchResults">
         <SearchResults />
+      </Route>
+      <Route path="/detailsPage">
+        <DetailsPage />
       </Route>
       <Route path="/playerPage">
         <PlayerPage />

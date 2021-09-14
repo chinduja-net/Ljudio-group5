@@ -11,6 +11,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 function PlayerPage() {
   const player = useRef();
   const { currentSong } = useContext(SearchContext);
+  const { currentSong, queueSong } = useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
   const [playingState, setPlayingState] = useState(true);
@@ -29,7 +30,9 @@ function PlayerPage() {
 
   function playNewSong() {
     // This will be changed depending on queue list
-    let videoId = 'uHU48c-dtqk';
+    /* let videoId = 'uHU48c-dtqk'; */
+    let videoId = queueSong.videoId;
+    console.log(videoId);
     player.current.loadVideoById(videoId);
     player.current.playVideo();
     setPlayingState(true);
