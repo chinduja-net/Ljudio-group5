@@ -10,8 +10,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 function PlayerPage() {
   const player = useRef();
-  const { currentSong } = useContext(SearchContext);
-  const { currentSong, queueSong } = useContext(SearchContext);
+  const { currentSong, queueSongs } = useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
   const [playingState, setPlayingState] = useState(true);
@@ -20,6 +19,11 @@ function PlayerPage() {
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
     setTimeout(() => {
+      if (!currentSong) {
+        playNewSong();
+
+        return;
+      }
       // Default ID, will change depending on user input later on
       let videoId = currentSong.videoId;
       player.current.loadVideoById(videoId);
@@ -31,8 +35,8 @@ function PlayerPage() {
   function playNewSong() {
     // This will be changed depending on queue list
     /* let videoId = 'uHU48c-dtqk'; */
-    let videoId = queueSong.videoId;
-    console.log(videoId);
+    console.log('log of quesongs inside playNewSong func', queueSongs);
+    let videoId = queueSongs[0].videoId;
     player.current.loadVideoById(videoId);
     player.current.playVideo();
     setPlayingState(true);
@@ -67,7 +71,7 @@ function PlayerPage() {
 
   function toggleAudio() {
     audioState ? muteAudio() : unmuteAudio();
-    console.log('Audio state', isAudio);
+    console.log('audio state', audioState);
   }
 
   function showDuration() {
@@ -79,7 +83,7 @@ function PlayerPage() {
   }
 
   return (
-    <div>
+    <div style={{ width: '200px', height: '200px' }}>
       <Player onLoad={onPlayerLoad} />
       <img
         src={currentSong.thumbnail}
@@ -95,15 +99,17 @@ function PlayerPage() {
         {playingState ? <PauseIcon /> : <PlayArrowIcon />}
       </button>
 
-      <button>
+      <button onClick={playNewSong}>
         <SkipNextIcon />
       </button>
+
       <button onClick={showDuration}>SHOW DURATION</button>
+
       <button onClick={fastForward}></button>
+
       <button onClick={toggleAudio}>
         {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
       </button>
-      <button onClick={playNewSong}>ABBA SONGS</button>
     </div>
   );
 }
