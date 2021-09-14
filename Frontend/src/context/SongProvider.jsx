@@ -7,8 +7,8 @@ export default function SongProvider(props) {
   const [currentSong, setCurrentSong] = useState("");
   const [currentAlbum, setCurrentAlbum] = useState("");
   const [currentArtist, setCurrentArtist] = useState("");
-  const [songDetail, setSongDetail] = useState("");
-  const [queueSong, setQueueSong] = useState("");
+  const [songDetail, setSongDetail] = useState({});
+  const [queueSongs, setQueueSongs] = useState();
 
   // ? next in queue view
   // ? next from: playlist/album view
@@ -28,8 +28,8 @@ export default function SongProvider(props) {
         setCurrentArtist,
         songDetail,
         setSongDetail,
-        queueSong,
-        setQueueSong,
+        queueSongs,
+        setQueueSongs,
       }}
     >
       {props.children}

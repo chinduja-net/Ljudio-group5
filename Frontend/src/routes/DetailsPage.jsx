@@ -5,14 +5,14 @@ import { useHistory } from "react-router-dom";
 import { SearchContext } from "../context/SongProvider";
 
 function DetailsPage() {
-  const { songDetail, setQueueSong} = useContext(SearchContext);
+  const { songDetail, setQueueSongs} = useContext(SearchContext);
 
   const history = useHistory();
 
   function addToQueue(){
     console.log(songDetail.videoId)
    // setCurrentSong(currentSongDetail.videoId)
-    setQueueSong(songDetail)
+    setQueueSongs(songDetail)
     history.push("/searchResults")
 
   }
