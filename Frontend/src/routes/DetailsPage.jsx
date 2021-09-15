@@ -1,32 +1,33 @@
-import React from "react";
-import { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { SearchContext } from "../context/SongProvider";
+import { SearchContext } from '../context/SongProvider';
 
 function DetailsPage() {
-  const { songDetail, setQueueSongs} = useContext(SearchContext);
+  const { songDetail, addObjToArray } = useContext(SearchContext);
 
   const history = useHistory();
 
-  function addToQueue(){
-    console.log(songDetail.videoId)
-   // setCurrentSong(currentSongDetail.videoId)
-    setQueueSongs(songDetail)
-    history.push("/searchResults")
-
+  function addToQueue() {
+    // setCurrentSong(currentSongDetail.videoId)
+    addObjToArray(songDetail);
+    console.log('console log for entire songDetail obj', songDetail);
+    console.log('consol log for songdetail.vidID', songDetail.videoId);
+    history.push('/searchResults');
   }
 
   return (
-
     <div>
       <img
         src={songDetail.thumbnail}
         alt={songDetail.artist + "'s cover thumbnail"}
       />
       <h4>{songDetail.name}</h4>
-        <button type = "click" onClick = {addToQueue}>Add to Queue</button>
-        <button>Add to PlayList</button>
+      <button type="click" onClick={addToQueue}>
+        Add to Queue
+      </button>
+      <button>Add to PlayList</button>
     </div>
   );
 }
