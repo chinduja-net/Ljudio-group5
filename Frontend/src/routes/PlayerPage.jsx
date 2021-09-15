@@ -10,7 +10,6 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 function PlayerPage() {
   const player = useRef();
-  const {currentSong, queueSongs} = useContext(SearchContext)
   const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
     useContext(SearchContext);
 
@@ -32,10 +31,16 @@ function PlayerPage() {
   function playNextSong() {
     // This will be changed depending on queue list
     /* let videoId = 'uHU48c-dtqk'; */
-    let videoId = queueSongs.videoId;
-    console.log(videoId)
-    player.current.loadVideoById(videoId);
-    player.current.playVideo();
+    console.log('log of queued songs inside playNext func', queueSongs);
+    if (queueSongs[0]) {
+      let videoId = queueSongs[0].videoId;
+      player.current.loadVideoById(videoId);
+      player.current.playVideo();
+      setPlayingState(true);
+      // updates
+      setCurrentSong(queueSongs[0]);
+      shiftQueue();
+    }
   }
 
   function pauseVid() {
