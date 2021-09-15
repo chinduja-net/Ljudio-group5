@@ -10,7 +10,8 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 function PlayerPage() {
   const player = useRef();
-  const { currentSong, queueSongs } = useContext(SearchContext);
+  const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
+    useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
   const [playingState, setPlayingState] = useState(true);
@@ -19,11 +20,6 @@ function PlayerPage() {
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
     setTimeout(() => {
-      if (!currentSong) {
-        playNewSong();
-
-        return;
-      }
       // Default ID, will change depending on user input later on
       let videoId = currentSong.videoId;
       player.current.loadVideoById(videoId);
@@ -32,14 +28,19 @@ function PlayerPage() {
     }, 3000);
   }
 
-  function playNewSong() {
+  function playNextSong() {
     // This will be changed depending on queue list
     /* let videoId = 'uHU48c-dtqk'; */
-    console.log('log of quesongs inside playNewSong func', queueSongs);
-    let videoId = queueSongs[0].videoId;
-    player.current.loadVideoById(videoId);
-    player.current.playVideo();
-    setPlayingState(true);
+    console.log('log of queued songs inside playNext func', queueSongs);
+    if (queueSongs[0]) {
+      let videoId = queueSongs[0].videoId;
+      player.current.loadVideoById(videoId);
+      player.current.playVideo();
+      setPlayingState(true);
+      // updates
+      setCurrentSong(queueSongs[0]);
+      shiftQueue();
+    }
   }
 
   function pauseVid() {
@@ -99,7 +100,7 @@ function PlayerPage() {
         {playingState ? <PauseIcon /> : <PlayArrowIcon />}
       </button>
 
-      <button onClick={playNewSong}>
+      <button onClick={playNextSong}>
         <SkipNextIcon />
       </button>
 

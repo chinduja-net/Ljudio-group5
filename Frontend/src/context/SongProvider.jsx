@@ -19,6 +19,12 @@ export default function SongProvider(props) {
     setQueueSongs([...queueSongs, newObj]);
   }
 
+  function shiftQueue() {
+    const newArr = queueSongs;
+    newArr.shift();
+    setQueueSongs(newArr);
+  }
+
   return (
     <SearchContext.Provider
       value={{
@@ -34,6 +40,7 @@ export default function SongProvider(props) {
         setSongDetail,
         queueSongs,
         addObjToArray,
+        shiftQueue,
       }}
     >
       {props.children}
