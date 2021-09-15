@@ -10,8 +10,8 @@ function App() {
     <>
       <Router>
         <Routes />
+        <MiniPlayer />
       </Router>
-      <MiniPlayer />
     </>
   );
 }

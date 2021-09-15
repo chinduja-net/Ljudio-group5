@@ -14,7 +14,7 @@ function Player({ onLoad }) {
     player = new YT.Player('yt-player', {
       height: '0',
       width: '0',
-      playerVars: { autoplay: 1 },
+      playerVars: { autoplay: 0 },
       events: {
         onStateChange: onPlayerStateChange,
       },
