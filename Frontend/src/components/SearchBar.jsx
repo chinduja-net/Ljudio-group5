@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { SearchContext } from "../context/SongProvider";
 
+import style from "../styles/searchBar.module.css"
+
 function SearchBar() {
   const { setSearchResults } = useContext(SearchContext);
   const history = useHistory();
@@ -24,8 +26,6 @@ function SearchBar() {
       }
     );
     const searchResult = await response.json();
-      console.log(searchInput.current.value)
-    console.log(searchResult.content);
 
     let filteredResults = [];
 
@@ -68,6 +68,7 @@ function SearchBar() {
       a.type < b.type ? 1 : b.type < a.type ? -1 : 0
     );
     console.log(filteredResults);
+    
     // update the searchResults context
     setSearchResults(filteredResults);
 
@@ -78,24 +79,21 @@ function SearchBar() {
   }
 
   return (
-
     <>
       <form
         onSubmit={(e) => {
-          // Todo: something
           e.preventDefault();
           fetchApi();
         }}
       >
-        <input 
+        <input
+        id={style.search_input}
           // Saves a reference for the target element so that it can be used globally in the component
           ref={searchInput}
           placeholder="Search for artists/album/song"
         />
-        
       </form>
     </>
-    
   );
 }
 
