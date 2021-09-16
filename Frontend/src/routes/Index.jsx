@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import SearchResults from './SearchResults';
-import PlayerPage from './PlayerPage';
 import Home from './Home';
 import DetailsPage from './DetailsPage';
 
@@ -17,9 +16,6 @@ function Routes() {
       </Route>
       <Route path="/detailsPage">
         <DetailsPage />
-      </Route>
-      <Route path="/playerPage">
-        <PlayerPage />
       </Route>
       {/* <Route path="/QueueViewer">
 					<QueueViewer />

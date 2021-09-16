@@ -1,10 +1,9 @@
-import React, { useRef, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { nanoid } from 'nanoid';
+import React, { useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { SearchContext } from "../context/SongProvider";
 
-import style from '../styles/searchBar.module.css';
-
-import { SearchContext } from '../context/SongProvider';
+import style from "../styles/searchBar.module.css"
 
 function SearchBar() {
   const { setSearchResults } = useContext(SearchContext);
@@ -20,48 +19,46 @@ function SearchBar() {
     const response = await fetch(
       `https://yt-music-api.herokuapp.com/api/yt/search/${searchInput.current.value}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
     const searchResult = await response.json();
 
-    console.log(searchResult.content);
-
     let filteredResults = [];
 
     searchResult.content.forEach((obj) => {
       // Destructure the searchResult to get our desired properties we want to use
-      if (obj.type === 'song') {
+      if (obj.type === "song") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist.browseId,
           album: obj.album.browseId,
           duration: obj.duration,
           videoId: obj.videoId,
         });
       }
-      if (obj.type === 'album') {
+      if (obj.type === "album") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist,
           browseId: obj.browseId,
         });
       }
-      if (obj.type === 'artist') {
+      if (obj.type === "artist") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           browseId: obj.browseId,
         });
       }
@@ -71,12 +68,13 @@ function SearchBar() {
       a.type < b.type ? 1 : b.type < a.type ? -1 : 0
     );
     console.log(filteredResults);
+    
     // update the searchResults context
     setSearchResults(filteredResults);
 
     // Redirect to the searchResults page if we are not on the home page
-    if (location.pathname === '/') {
-      history.push('/searchResults');
+    if (location.pathname === "/") {
+      history.push("/searchResults");
     }
   }
 
@@ -84,22 +82,20 @@ function SearchBar() {
     <>
       <form
         onSubmit={(e) => {
-          // Todo: something
           e.preventDefault();
           fetchApi();
         }}
       >
         <input
-          id={style.search_input}
-          type="text"
+        id={style.search_input}
           // Saves a reference for the target element so that it can be used globally in the component
           ref={searchInput}
           placeholder="Search for artists/album/song"
         />
-        <button type="submit">Search</button>
       </form>
     </>
   );
 }
 
 export default SearchBar;
+
