@@ -10,6 +10,7 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { AppBar, Toolbar } from '@material-ui/core';
 import useStyles from '../styles/MiniPlayerStyle';
+import ListIcon from '@material-ui/icons/List';
 
 function MiniPlayer() {
   const location = useLocation();
@@ -123,7 +124,7 @@ function MiniPlayer() {
               history.push('/queueViewer');
             }}
           >
-            QueueViewer Page
+            <ListIcon />
           </button>
         </div>
       ) : (
