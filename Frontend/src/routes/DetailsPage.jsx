@@ -5,10 +5,7 @@ import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import { Box, Typography, CssBaseline } from "@material-ui/core";
-
-
-
+import { Box, Typography } from "@material-ui/core";
 
 import { SearchContext } from "../context/SongProvider";
 
@@ -17,16 +14,17 @@ function DetailsPage() {
 
   const history = useHistory();
 
+  //Add songs to the queue list
   function addToQueue() {
+
     addObjToArray(songDetail);
-    console.log("console log for entire songDetail obj", songDetail);
-    console.log("consol log for songdetail.vidID", songDetail.videoId);
+
     history.push("/searchResults");
   }
 
   return (
     <>
-    <CssBaseline/>
+    
     <Box
       display="flex"
       justifyContent="center"
