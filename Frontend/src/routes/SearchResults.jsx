@@ -1,6 +1,8 @@
 import React, { useContext } from "react"
 import { useHistory } from "react-router-dom"
 
+import { Container } from "@material-ui/core"
+
 import { SearchContext } from "../context/SongProvider"
 import SearchBar from "../components/SearchBar"
 import style from "../styles/SearchResults.module.css"
@@ -20,64 +22,69 @@ function SearchResults() {
 	const history = useHistory()
 
 	function renderSong(object) {
-		console.log(object.thumbnails)
 		return (
-			<div
+			<Container
+				maxWidth="xs"
 				className="searchResultCard"
 				data-render-song={JSON.stringify(object)}
 				data-render-details={JSON.stringify(object)}
 				key={object.id}
 			>
 				<img
+					data-render-song={JSON.stringify(object)}
 					className={style.result_ThumbnailSquare}
 					src={object.thumbnails[0].url}
 					alt={object.artist + "'s cover thumbnail"}
 				/>
-				<div>
-					<h4>{object.name}</h4>
-					<p>{object.artist}</p>
+				<div data-render-song={JSON.stringify(object)}>
+					<h4 data-render-song={JSON.stringify(object)}>{object.name}</h4>
+					<p data-render-song={JSON.stringify(object)}>{object.artist}</p>
 				</div>
 				<button type="click" onClick={showSongDetails}>
 					show Details
 				</button>
-			</div>
+			</Container>
 		)
 	}
 
 	function renderArtist(object) {
 		return (
-			<div
+			<Container
+				maxWidth="xs"
 				className="searchResultCard"
 				data-render-artist={JSON.stringify(object)}
 				key={object.id}
 			>
-				<p>{object.type}</p>
+				<p data-render-artist={JSON.stringify(object)}>{object.type}</p>
 				<img
+					data-render-artist={JSON.stringify(object)}
 					className={style.result_ThumbnailArtist}
 					src={object.thumbnails[0].url}
 					alt={object.name + "'s cover thumbnail"}
 				/>
-				<h3>{object.name}</h3>
-			</div>
+				<h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
+			</Container>
 		)
 	}
 	function renderAlbum(object) {
 		return (
-			<div
+			<Container
+				maxWidth="xs"
 				className="searchResultCard"
 				data-render-album={JSON.stringify(object)}
 				key={object.id}
 			>
 				<img
+					data-render-album={JSON.stringify(object)}
 					className={style.result_ThumbnailSquare}
 					src={object.thumbnails[0].url}
 					alt={object.artist + "'s cover thumbnail"}
 				/>
-				<div>
-					<h4>{object.name}</h4>
-					<p>{object.artist}</p>
+				<div data-render-album={JSON.stringify(object)}>
+					<h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
+					<p data-render-album={JSON.stringify(object)}>{object.artist}</p>
 				</div>
-			</div>
+			</Container>
 		)
 	}
 	//Displays the details of the song in a new page or route
@@ -103,14 +110,21 @@ function SearchResults() {
 	function resultsClickHandler(e) {
 		console.log("______________________")
 
-		console.log("test",e.currentTarget.parentElement.attributes.getNamedItem(
-      "data-render-details",
-    ))
+		/** This part could be used to find all the child nodes of an element in hopes of making a cleaner solution to the problem*/
+		// If the user clicks on a result card
+		// or any of the result card's child nodes
 
-		// ? may be useful
-		// e.target
-		// 			.closest(".searchResultCard")
-		// 			.attributes.getNamedItem("data-render-song")
+		// ! This solution may not work with material ui components since the IF statement searches for a DIV
+
+		// ? Element.matches("selectorString") could be used to find parent element of e.target
+
+		// let addedChildNodes = []
+		// let directChildNodes = [...e.target.childNodes]
+		// directChildNodes.forEach((node) => {
+		// 	if (node.tagName === "DIV") addedChildNodes = [...node.childNodes]
+		// })
+		// directChildNodes = [...directChildNodes, ...addedChildNodes]
+		// console.log("COMPLETED CHILDNODES: ", directChildNodes)
 
 		if (e.target.attributes.getNamedItem("data-render-song") !== null) {
 			let clickedValueSong = JSON.parse(
@@ -155,7 +169,7 @@ function SearchResults() {
 		<div id="root">
 			<h5>SearchResults.jsx</h5>
 			<SearchBar />
-			<div className={style.result_container} onClick={resultsClickHandler}>
+			<Container maxWidth="xs" onClick={resultsClickHandler}>
 				{searchResults // When looping through the search results we can limit the loop with user input
 					? searchResults.map((obj) => {
 							return obj.type === "song"
@@ -167,7 +181,7 @@ function SearchResults() {
 								: null
 					  })
 					: null}
-			</div>
+			</Container>
 		</div>
 	)
 }
