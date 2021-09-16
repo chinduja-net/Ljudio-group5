@@ -14,7 +14,7 @@ function QueueViewer() {
           <img src={currentSong.thumbnails[1].url} alt="song thumbnail" />
           <div>
             <h3>{currentSong.name}</h3>
-            <h4>{currentSong.artist}</h4>
+            <h4>{currentSong.artist.name}</h4>
           </div>
         </div>
       ) : null}
@@ -27,10 +27,10 @@ function QueueViewer() {
         ? queueSongs.map((obj) => {
             return (
               <>
-                <div className="queueListContainer">
+                <div key={obj.id} className="queueListContainer">
                   <div className="">
                     <h3>{obj.name}</h3>
-                    <p>{obj.artist}</p>
+                    <p>{obj.artist.name}</p>
                   </div>
                 </div>
               </>
