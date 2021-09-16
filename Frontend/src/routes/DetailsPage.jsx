@@ -34,8 +34,8 @@ function DetailsPage() {
 			>
 				<img
 					style={{ height: 200 }}
-					src={songDetail.thumbnail}
-					alt={songDetail.artist + "'s cover thumbnail"}
+					src={songDetail.thumbnails[1].url}
+					alt={songDetail.artist.name + "'s cover thumbnail"}
 				/>
 				<Typography fontSize="small" variant="h5">
 					{songDetail.name}
@@ -45,13 +45,13 @@ function DetailsPage() {
 						<AddToQueueIcon fontSize="large" />
 					</IconButton>
 
-					<IconButton>
+					{/* <IconButton>
 						<PlaylistAddIcon fontSize="large" />
 					</IconButton>
 
 					<IconButton>
 						<ShareOutlinedIcon fontSize="large" />
-					</IconButton>
+					</IconButton> */}
 				</Box>
 			</Box>
 		</>

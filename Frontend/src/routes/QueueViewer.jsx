@@ -24,16 +24,15 @@ function QueueViewer() {
       </div>
 
       {queueSongs
-        ? queueSongs.map((obj) => {
+        ? queueSongs.map((obj, index) => {
             return (
-              <>
-                <div key={obj.id} className="queueListContainer">
-                  <div className="">
-                    <h3>{obj.name}</h3>
-                    <p>{obj.artist.name}</p>
-                  </div>
+              // Adds id and index so if the same song is added several times the key prop still works
+              <div key={`${obj.id} ${index}`} className="queueListContainer">
+                <div className="">
+                  <h3>{obj.name}</h3>
+                  <p>{obj.artist.name}</p>
                 </div>
-              </>
+              </div>
             );
           })
         : null}
