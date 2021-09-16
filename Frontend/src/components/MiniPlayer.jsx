@@ -27,7 +27,6 @@ function MiniPlayer() {
   function onPlayerLoad(ytPlayer) {
     player.current = ytPlayer;
     setTimeout(() => {
-      // Default ID, will change depending on user input later on
       let videoId = currentSong.videoId;
       player.current.loadVideoById(videoId);
       player.current.playVideo();
@@ -36,8 +35,7 @@ function MiniPlayer() {
   }
 
   function playNextSong() {
-    // This will be changed depending on queue list
-    /* let videoId = 'uHU48c-dtqk'; */
+    // Plays next song from queueSongs
     console.log('log of queued songs inside playNext func', queueSongs);
     if (queueSongs[0]) {
       let videoId = queueSongs[0].videoId;
@@ -89,12 +87,8 @@ function MiniPlayer() {
     }
   }
   return (
-    /**
-     * Make a check if we are on the playerPage, render the PlayerPage DOM/styling inside the miniPlayer, creating a "viritual" playerPage
-     * If we are on any other page BUT the playerPage, render the miniPlayer DOM/styling
-     *
-     * *Try using routing to check which page we are on
-     */ <>
+    // Checks if we are on playerPage and if so renders out playerPage DOM
+    <>
       {location.pathname === '/playerPage' ? (
         <div style={{ width: '200px', height: '200px' }}>
           <Player onLoad={onPlayerLoad} />
