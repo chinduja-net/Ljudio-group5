@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Player from '../components/Player';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -13,7 +13,7 @@ import useStyles from '../styles/MiniPlayerStyle';
 
 function MiniPlayer() {
   const location = useLocation();
-  console.log('you are here', location.pathname);
+  const history = useHistory();
   const classes = useStyles();
   const player = useRef();
   const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
@@ -81,12 +81,11 @@ function MiniPlayer() {
     console.log('audio state', audioState);
   }
 
-  function showDuration() {
-    console.log('Progress bar', player.current.getDuration());
-  }
-
-  function fastForward() {
-    player.current.seekTo(60);
+  // Checks if user clicked ON miniplayer
+  function miniPlayerClickHandler(e) {
+    if (e.target.classList.contains('miniPlayerClick')) {
+      history.push('/playerPage');
+    }
   }
   return (
     /**
@@ -116,24 +115,32 @@ function MiniPlayer() {
             <SkipNextIcon />
           </button>
 
-          <button onClick={showDuration}>SHOW DURATION</button>
-
-          <button onClick={fastForward}></button>
-
           <button onClick={toggleAudio}>
             {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
           </button>
+          <button
+            onClick={() => {
+              history.push('/queueViewer');
+            }}
+          >
+            QueueViewer Page
+          </button>
         </div>
       ) : (
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
+        <AppBar
+          position="fixed"
+          className={`miniPlayerClick ${classes.appBar}`}
+          onClick={miniPlayerClickHandler}
+        >
+          <Toolbar className="miniPlayerClick">
             <Player onLoad={onPlayerLoad} />
             <img
+              className="miniPlayerClick"
               src={currentSong.thumbnail}
               alt="Song tumbnail"
               style={{ width: '120px', height: '120px', borderRadius: '50%' }}
             />
-            <h1>{currentSong.name}</h1>
+            <h1 className="miniPlayerClick">{currentSong.name}</h1>
             <button>
               <SkipPreviousIcon />
             </button>
@@ -145,10 +152,6 @@ function MiniPlayer() {
             <button onClick={playNextSong}>
               <SkipNextIcon />
             </button>
-
-            <button onClick={showDuration}>SHOW DURATION</button>
-
-            <button onClick={fastForward}>Fast Forward to 1 min</button>
 
             <button onClick={toggleAudio}>
               {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
