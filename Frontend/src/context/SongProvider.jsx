@@ -4,9 +4,9 @@ export const SearchContext = createContext();
 
 export default function SongProvider(props) {
   const [searchResults, setSearchResults] = useState();
-  const [currentSong, setCurrentSong] = useState('');
-  const [currentAlbum, setCurrentAlbum] = useState('');
-  const [currentArtist, setCurrentArtist] = useState('');
+  const [currentSong, setCurrentSong] = useState();
+  const [currentAlbum, setCurrentAlbum] = useState();
+  const [currentArtist, setCurrentArtist] = useState();
   const [songDetail, setSongDetail] = useState({});
   const [queueSongs, setQueueSongs] = useState([]);
 
