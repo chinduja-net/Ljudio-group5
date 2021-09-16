@@ -89,53 +89,16 @@ function MiniPlayer() {
   return (
     // Checks if we are on playerPage and if so renders out playerPage DOM
     <>
-      {location.pathname === '/playerPage' ? (
-        <div style={{ width: '200px', height: '200px' }}>
-          <Player onLoad={onPlayerLoad} />
-          <img
-            src={currentSong.thumbnail}
-            alt="Song tumbnail"
-            style={{ width: '120px', height: '120px', borderRadius: '50%' }}
-          />
-          <h1>{currentSong.name}</h1>
-          <button>
-            <SkipPreviousIcon />
-          </button>
-
-          <button onClick={toggleVidBtn}>
-            {playingState ? <PauseIcon /> : <PlayArrowIcon />}
-          </button>
-
-          <button onClick={playNextSong}>
-            <SkipNextIcon />
-          </button>
-
-          <button onClick={toggleAudio}>
-            {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
-          </button>
-          <button
-            onClick={() => {
-              history.push('/queueViewer');
-            }}
-          >
-            <ListIcon />
-          </button>
-        </div>
-      ) : (
-        <AppBar
-          position="fixed"
-          className={`miniPlayerClick ${classes.appBar}`}
-          onClick={miniPlayerClickHandler}
-        >
-          <Toolbar className="miniPlayerClick">
+      {currentSong ? (
+        location.pathname === '/playerPage' ? (
+          <div style={{ width: '200px', height: '200px' }}>
             <Player onLoad={onPlayerLoad} />
             <img
-              className="miniPlayerClick"
-              src={currentSong.thumbnail}
+              src={currentSong.thumbnails[1].url}
               alt="Song tumbnail"
               style={{ width: '120px', height: '120px', borderRadius: '50%' }}
             />
-            <h1 className="miniPlayerClick">{currentSong.name}</h1>
+            <h1>{currentSong.name}</h1>
             <button>
               <SkipPreviousIcon />
             </button>
@@ -151,9 +114,48 @@ function MiniPlayer() {
             <button onClick={toggleAudio}>
               {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
             </button>
-          </Toolbar>
-        </AppBar>
-      )}
+            <button
+              onClick={() => {
+                history.push('/queueViewer');
+              }}
+            >
+              <ListIcon />
+            </button>
+          </div>
+        ) : (
+          <AppBar
+            position="fixed"
+            className={`miniPlayerClick ${classes.appBar}`}
+            onClick={miniPlayerClickHandler}
+          >
+            <Toolbar className="miniPlayerClick">
+              <Player onLoad={onPlayerLoad} />
+              <img
+                className="miniPlayerClick"
+                src={currentSong.thumbnails[0].url}
+                alt="Song tumbnail"
+                style={{ width: '120px', height: '120px', borderRadius: '50%' }}
+              />
+              <h1 className="miniPlayerClick">{currentSong.name}</h1>
+              <button>
+                <SkipPreviousIcon />
+              </button>
+
+              <button onClick={toggleVidBtn}>
+                {playingState ? <PauseIcon /> : <PlayArrowIcon />}
+              </button>
+
+              <button onClick={playNextSong}>
+                <SkipNextIcon />
+              </button>
+
+              <button onClick={toggleAudio}>
+                {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
+              </button>
+            </Toolbar>
+          </AppBar>
+        )
+      ) : null}
     </>
   );
 }
