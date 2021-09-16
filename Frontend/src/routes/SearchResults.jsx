@@ -30,7 +30,7 @@ function SearchResults() {
         <p>{object.type}</p>
         <img
           className={style.result_ThumbnailSquare}
-          src={object.thumbnail}
+          src={object.thumbnails[0]}
           alt={object.artist + "'s cover thumbnail"}
         />
         <div>
@@ -55,7 +55,7 @@ function SearchResults() {
         <p>{object.type}</p>
         <img
           className={style.result_ThumbnailArtist}
-          src={object.thumbnail}
+          src={object.thumbnails[1]}
           alt={object.name + "'s cover thumbnail"}
         />
         <h3>{object.name}</h3>
@@ -72,7 +72,7 @@ function SearchResults() {
         <p>{object.type}</p>
         <img
           className={style.result_ThumbnailSquare}
-          src={object.thumbnail}
+          src={object.thumbnails[1]}
           alt={object.artist + "'s cover thumbnail"}
         />
         <div>

@@ -39,7 +39,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist.browseId,
           album: obj.album.browseId,
           duration: obj.duration,
@@ -51,7 +51,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist,
           browseId: obj.browseId,
         });
@@ -61,7 +61,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           browseId: obj.browseId,
         });
       }

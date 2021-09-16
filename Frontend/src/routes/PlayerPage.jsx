@@ -8,7 +8,10 @@ import PauseIcon from '@material-ui/icons/Pause';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
+import { useHistory } from "react-router-dom"
+
 function PlayerPage() {
+  const history = useHistory()
   const player = useRef();
   const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
     useContext(SearchContext);
@@ -111,6 +114,13 @@ function PlayerPage() {
       <button onClick={toggleAudio}>
         {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
       </button>
+      <button
+				onClick={() => {
+					history.push("/queueViewer")
+				}}
+			>
+				QueueViewer Page
+			</button>
     </div>
   );
 }
