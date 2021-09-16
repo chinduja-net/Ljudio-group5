@@ -12,8 +12,8 @@ function Player({ onLoad }) {
   // gets called automatically when YouTube player loads
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('yt-player', {
-      height: '300',
-      width: '400',
+      height: '400',
+      width: '300',
       playerVars: { autoplay: 1 },
       events: {
         onStateChange: onPlayerStateChange,
