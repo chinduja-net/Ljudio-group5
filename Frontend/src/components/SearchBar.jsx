@@ -2,7 +2,16 @@ import React, { useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 
-import style from '../styles/searchBar.module.css';
+import {
+  InputBase,
+  InputAdornment,
+  Grid,
+  Box,
+  ListItem,
+  Link,
+  Card,
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { SearchContext } from '../context/SongProvider';
 
@@ -82,6 +91,9 @@ function SearchBar() {
 
   return (
     <>
+    <Box display = "flex"
+    justifyContent = "center"
+    alignItems = "center">
       <form
         onSubmit={(e) => {
           // Todo: something
@@ -89,15 +101,29 @@ function SearchBar() {
           fetchApi();
         }}
       >
-        <input
-          id={style.search_input}
+        <InputBase
+          startAdornment = {
+            <InputAdornment position = "end">
+              <SearchIcon/>
+            </InputAdornment>
+          }
+          style={{
+            fontSize: 16,
+            background: "#E8EEF3",
+            borderRadius: 10,
+            textAlign: "center",
+            letterSpacing: -0.5,
+            width: 300,
+            marginTop: 30,
+          }}
           type="text"
           // Saves a reference for the target element so that it can be used globally in the component
           ref={searchInput}
-          placeholder="Search for artists/album/song"
+          placeholder="Search for artists/album/songs"
         />
-        <button type="submit">Search</button>
+        
       </form>
+      </Box>
     </>
   );
 }
