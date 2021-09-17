@@ -26,7 +26,6 @@ function DetailsPage() {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        bgcolor="#FFF7E3"
         style={{
           height: 700,
           flexDirection: 'column',
