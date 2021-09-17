@@ -23,8 +23,6 @@ function SearchBar() {
     );
     const searchResult = await response.json();
 
-    console.log(searchResult.content);
-
     let filteredResults = [];
 
     searchResult.content.forEach((obj) => {
@@ -34,7 +32,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist.browseId,
           album: obj.album.browseId,
           duration: obj.duration,
@@ -46,7 +44,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           artist: obj.artist,
           browseId: obj.browseId,
         });
@@ -56,7 +54,7 @@ function SearchBar() {
           id: nanoid(),
           type: obj.type,
           name: obj.name,
-          thumbnail: obj.thumbnails[0].url,
+          thumbnails: obj.thumbnails,
           browseId: obj.browseId,
         });
       }
@@ -66,6 +64,7 @@ function SearchBar() {
       a.type < b.type ? 1 : b.type < a.type ? -1 : 0
     );
     console.log(filteredResults);
+    
     // update the searchResults context
     setSearchResults(filteredResults);
 
@@ -79,7 +78,6 @@ function SearchBar() {
     <Box display="flex" justifyContent="center" alignItems="center">
       <form
         onSubmit={(e) => {
-          // Todo: something
           e.preventDefault();
           fetchApi();
         }}
@@ -109,3 +107,4 @@ function SearchBar() {
 }
 
 export default SearchBar;
+

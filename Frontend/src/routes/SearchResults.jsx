@@ -1,167 +1,156 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext } from "react"
+import { useHistory } from "react-router-dom"
 
-import { SearchContext } from "../context/SongProvider";
-import SearchBar from "../components/SearchBar";
-import style from "../styles/SearchResults.module.css";
+import { Grid, Button } from "@material-ui/core"
+
+import { SearchContext } from "../context/SongProvider"
+import SearchBar from "../components/SearchBar"
 
 function SearchResults() {
-  const {
-    searchResults,
-    setCurrentSong,
-    setCurrentAlbum,
-    setCurrentArtist,
-    currentSong,
-    currentAlbum,
-    currentArtist,
-    setSongDetail,
-  } = useContext(SearchContext);
+	const {
+		searchResults,
+		setCurrentSong,
+		setCurrentAlbum,
+		setCurrentArtist,
+		currentSong,
+		currentAlbum,
+		currentArtist,
+		setSongDetail,
+	} = useContext(SearchContext)
 
-  const history = useHistory();
+	const history = useHistory()
 
-  function renderSong(object) {
-    return (
-      <div
-        className={style.result_card}
-        data-render-song={JSON.stringify(object)}
-		data-render-details = {JSON.stringify(object)}
-        key={object.id}
-      >
-        <p>{object.type}</p>
-        <img
-          className={style.result_ThumbnailSquare}
-          src={object.thumbnail}
-          alt={object.artist + "'s cover thumbnail"}
-        />
-        <div>
-          <h4>{object.name}</h4>
-          <p>{object.artist}</p>
-        </div>
-        <button type="click" onClick={showSongDetails}>
-          show Details
-        </button>
-      </div>
-    );
-  }
+	function renderSong(object) {
+		return (
+			<Grid
+				data-render-song={JSON.stringify(object)}
+				data-render-details={JSON.stringify(object)}
+				key={object.id}
+			>
+				<img
+					data-render-song={JSON.stringify(object)}
+					src={object.thumbnails[0].url}
+					alt={"song thumbnail"}
+				/>
+				<div data-render-song={JSON.stringify(object)}>
+					<h4 data-render-song={JSON.stringify(object)}>{object.name}</h4>
+					<p data-render-song={JSON.stringify(object)}>{object.artist}</p>
+				</div>
+				<Button variant="contained" type="click" onClick={showSongDetails}>
+					song details
+				</Button>
+			</Grid>
+		)
+	}
 
- 
-  function renderArtist(object) {
-    return (
-      <div
-        className={style.result_card}
-        data-render-artist={JSON.stringify(object)}
-        key={object.id}
-      >
-        <p>{object.type}</p>
-        <img
-          className={style.result_ThumbnailArtist}
-          src={object.thumbnail}
-          alt={object.name + "'s cover thumbnail"}
-        />
-        <h3>{object.name}</h3>
-      </div>
-    );
-  }
-  function renderAlbum(object) {
-    return (
-      <div
-        className={style.result_card}
-        data-render-album={JSON.stringify(object)}
-        key={object.id}
-      >
-        <p>{object.type}</p>
-        <img
-          className={style.result_ThumbnailSquare}
-          src={object.thumbnail}
-          alt={object.artist + "'s cover thumbnail"}
-        />
-        <div>
-          <h4>{object.name}</h4>
-          <p>{object.artist}</p>
-        </div>
-      </div>
-    );
-  }
-//Displays the details of the song in a new page or route
-  function showSongDetails(e) {
-	   
-	      if (e.currentTarget.parentElement.attributes.getNamedItem("data-render-details") !== null) {
+	function renderArtist(object) {
+		return (
+			<Grid data-render-artist={JSON.stringify(object)} key={object.id}>
+				<p data-render-artist={JSON.stringify(object)}>{object.type}</p>
+				<img
+					data-render-artist={JSON.stringify(object)}
+					src={object.thumbnails[0].url}
+					alt={"artist thumbnail"}
+				/>
+				<h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
+			</Grid>
+		)
+	}
+	function renderAlbum(object) {
+		return (
+			<Grid data-render-album={JSON.stringify(object)} key={object.id}>
+				<img
+					data-render-album={JSON.stringify(object)}
+					src={object.thumbnails[0].url}
+					alt={"album cover"}
+				/>
+				<h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
+				<p data-render-album={JSON.stringify(object)}>{object.artist}</p>
+			</Grid>
+		)
+	}
 
-     let clickedDetailSong = JSON.parse(
-        e.currentTarget.parentElement.attributes.getNamedItem("data-render-details").value,
-      );
-	console.log("parsed SONG_DETAILS: ", clickedDetailSong)
+	//Displays the details of the song in a new page or route
+	function showSongDetails(e) {
+		if (
+			e.currentTarget.parentElement.attributes.getNamedItem(
+				"data-render-details",
+			) !== null
+		) {
+			let clickedDetailSong = JSON.parse(
+				e.currentTarget.parentElement.attributes.getNamedItem(
+					"data-render-details",
+				).value,
+			)
 
-	setSongDetail(clickedDetailSong);
+			setSongDetail(clickedDetailSong)
+			history.push("/detailsPage")
+		}
+	}
 
-    history.push("/detailsPage");
-    } 
-    
-  }
+	/**
+	 * Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
+	 */
+	function resultsClickHandler(e) {
+		if (e.target.attributes.getNamedItem("data-render-song") !== null) {
+			let clickedValueSong = JSON.parse(
+				e.target.attributes.getNamedItem("data-render-song").value,
+			)
 
-  function resultsClickHandler(e) {
-    // Look at the clicked element and determine their types, then update the context with the element's connected data
-    // SONG
+			setCurrentSong(clickedValueSong)
+			history.push("/playerPage")
+		}
 
-	
-    if (e.target.attributes.getNamedItem("data-render-song") !== null) {
-      let clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-song").value,
-      );
-      console.log("parsed SONG: ", clickedValueSong);
+		// Look at the clicked element and determine their types, then update the context with the element's connected data
+		// ARTIST
+		if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
+			let clickedValueArtist = JSON.parse(
+				e.target.attributes.getNamedItem("data-render-artist").value,
+			)
 
-      setCurrentSong(clickedValueSong);
+			setCurrentArtist(clickedValueArtist)
+		}
 
-      history.push("/playerPage");
-    }
+		// Look at the clicked element and determine their types, then update the context with the element's connected data
+		// ALBUM
+		if (e.target.attributes.getNamedItem("data-render-album") !== null) {
+			let clickedValueAlbum = JSON.parse(
+				e.target.attributes.getNamedItem("data-render-album").value,
+			)
 
-    // Look at the clicked element and determine their types, then update the context with the element's connected data
-    // ARTIST
-    if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
-      let clickedValueArtist = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-artist").value
-      );
-      console.log("parsed ARTIST: ", clickedValueArtist);
+			setCurrentAlbum(clickedValueAlbum)
+		}
+	}
 
-      setCurrentArtist(clickedValueArtist);
-    }
-
-    // Look at the clicked element and determine their types, then update the context with the element's connected data
-    // ALBUM
-    if (e.target.attributes.getNamedItem("data-render-album") !== null) {
-      let clickedValueAlbum = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-album").value
-      );
-      console.log("parsed ALBUM: ", clickedValueAlbum);
-
-      setCurrentAlbum(clickedValueAlbum);
-    }
-
-    // ! Maybe a bug, the context doesn't seem to update instantly because it's always logging the PREVIOUS context value
-    console.log("currentSong Context: ", currentSong);
-    console.log("currentAlbum Context: ", currentAlbum);
-    console.log("currentArtist Context: ", currentArtist);
-  }
-
-  return (
-    <div id="root">
-      <h5>SearchResults.jsx</h5>
-      <SearchBar />
-      <div className={style.result_container} onClick={resultsClickHandler}>
-        {searchResults // When looping through the search results we can limit the loop with user input
-          ? searchResults.map((obj) => {
-              return obj.type === "song"
-                ? renderSong(obj)
-                : obj.type === "artist"
-                ? renderArtist(obj)
-                : obj.type === "album"
-                ? renderAlbum(obj)
-                : null;
-            })
-          : null}
-      </div>
-    </div>
-  );
+	return (
+		<div id="root">
+			<h5>SearchResults</h5>
+			<SearchBar />
+			<Grid
+				container
+				direction="column"
+				justifyContent="center"
+				alignItems="center"
+				maxwidth="xs"
+				style={{
+					background: "#FFEED3",
+				}}
+				onClick={resultsClickHandler}
+			>
+				{searchResults
+					? searchResults.map((obj) => {
+							return obj.type === "song"
+								? renderSong(obj)
+								: obj.type === "artist"
+								? renderArtist(obj)
+								: obj.type === "album"
+								? renderAlbum(obj)
+								: null
+					  })
+					: null}
+			</Grid>
+		</div>
+	)
 }
 
-export default SearchResults;
+export default SearchResults
