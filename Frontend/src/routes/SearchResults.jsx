@@ -121,7 +121,6 @@ function SearchResults() {
 
   return (
     <div id="root">
-      <h5>SearchResults</h5>
       <SearchBar />
       <Grid
         container
