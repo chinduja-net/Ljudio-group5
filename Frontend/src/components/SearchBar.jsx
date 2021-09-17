@@ -1,33 +1,35 @@
-import React, { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { nanoid } from "nanoid";
-import { InputBase, InputAdornment, Box } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { nanoid } from 'nanoid';
+import { InputBase, InputAdornment, Box } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-import { SearchContext } from "../context/SongProvider";
+import { SearchContext } from '../context/SongProvider';
 
 function SearchBar() {
   const { setSearchResults } = useContext(SearchContext);
   const history = useHistory();
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
 
   async function fetchApi() {
     const response = await fetch(
       `https://yt-music-api.herokuapp.com/api/yt/search/${searchInput}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
     const searchResult = await response.json();
 
+    console.log(searchResult.content);
+
     let filteredResults = [];
 
     searchResult.content.forEach((obj) => {
       // Destructure the searchResult to get our desired properties we want to use
-      if (obj.type === "song") {
+      if (obj.type === 'song') {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -39,7 +41,8 @@ function SearchBar() {
           videoId: obj.videoId,
         });
       }
-      if (obj.type === "album") {
+
+      if (obj.type === 'album') {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -49,7 +52,7 @@ function SearchBar() {
           browseId: obj.browseId,
         });
       }
-      if (obj.type === "artist") {
+      if (obj.type === 'artist') {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -64,13 +67,12 @@ function SearchBar() {
       a.type < b.type ? 1 : b.type < a.type ? -1 : 0
     );
     console.log(filteredResults);
-    
     // update the searchResults context
     setSearchResults(filteredResults);
 
     // Redirect to the searchResults page if we are not on the home page
-    if (location.pathname === "/") {
-      history.push("/searchResults");
+    if (location.pathname === '/') {
+      history.push('/searchResults');
     }
   }
 
@@ -78,6 +80,7 @@ function SearchBar() {
     <Box display="flex" justifyContent="center" alignItems="center">
       <form
         onSubmit={(e) => {
+          // Todo: something
           e.preventDefault();
           fetchApi();
         }}
@@ -90,9 +93,9 @@ function SearchBar() {
           }
           style={{
             fontSize: 16,
-            background: "#E8EEF3",
+            background: '#E8EEF3',
             borderRadius: 10,
-            textAlign: "center",
+            textAlign: 'center',
             letterSpacing: -0.5,
             width: 300,
             marginTop: 30,
@@ -107,4 +110,3 @@ function SearchBar() {
 }
 
 export default SearchBar;
-

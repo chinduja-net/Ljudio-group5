@@ -1,21 +1,20 @@
 import React, { useRef, useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import Player from '../components/Player';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SearchContext } from '../context/SongProvider';
-import PauseIcon from '@material-ui/icons/Pause';
-import VolumeOffIcon from '@material-ui/icons/VolumeOff';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { AppBar, Toolbar } from '@material-ui/core';
-import useStyles from '../styles/MiniPlayerStyle';
-import ListIcon from '@material-ui/icons/List';
+
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { AppBar, Toolbar } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
 
 function MiniPlayer() {
   const location = useLocation();
   const history = useHistory();
-  const classes = useStyles();
   const player = useRef();
   const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
     useContext(SearchContext);
@@ -31,7 +30,7 @@ function MiniPlayer() {
       player.current.loadVideoById(videoId);
       player.current.playVideo();
       setPlayingState(true);
-    }, 1500);
+    }, 1000);
   }
 
   function playNextSong() {
@@ -86,16 +85,21 @@ function MiniPlayer() {
       history.push('/playerPage');
     }
   }
+
   return (
-    // Checks if we are on playerPage and if so renders out playerPage DOM
-    <>
-      {location.pathname === '/playerPage' ? (
+    // Checks if we are on playerPage and if so it renders out playerPage DOM
+    currentSong ? (
+      location.pathname === '/playerPage' ? (
         <div style={{ width: '200px', height: '200px' }}>
           <Player onLoad={onPlayerLoad} />
           <img
-            src={currentSong.thumbnail}
+            src={currentSong.thumbnails[1].url}
             alt="Song tumbnail"
-            style={{ width: '120px', height: '120px', borderRadius: '50%' }}
+            style={{
+              width: '120px',
+              height: '120px',
+              borderRadius: '50%',
+            }}
           />
           <h1>{currentSong.name}</h1>
           <button>
@@ -124,16 +128,24 @@ function MiniPlayer() {
       ) : (
         <AppBar
           position="fixed"
-          className={`miniPlayerClick ${classes.appBar}`}
+          className={`miniPlayerClick`}
           onClick={miniPlayerClickHandler}
+          sx={{
+            top: 'auto',
+            bottom: 0,
+          }}
         >
           <Toolbar className="miniPlayerClick">
             <Player onLoad={onPlayerLoad} />
             <img
               className="miniPlayerClick"
-              src={currentSong.thumbnail}
+              src={currentSong.thumbnails[0].url}
               alt="Song tumbnail"
-              style={{ width: '120px', height: '120px', borderRadius: '50%' }}
+              style={{
+                width: '120px',
+                height: '120px',
+                borderRadius: '50%',
+              }}
             />
             <h1 className="miniPlayerClick">{currentSong.name}</h1>
             <button>
@@ -153,8 +165,8 @@ function MiniPlayer() {
             </button>
           </Toolbar>
         </AppBar>
-      )}
-    </>
+      )
+    ) : null
   );
 }
 

@@ -1,9 +1,10 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
 
-import SearchResults from './SearchResults';
-import Home from './Home';
-import DetailsPage from './DetailsPage';
+import SearchResults from "./SearchResults";
+import Home from "./Home";
+import DetailsPage from "./DetailsPage";
+import QueueViewer from "./QueueViewer";
 
 function Routes() {
   return (
@@ -17,9 +18,9 @@ function Routes() {
       <Route path="/detailsPage">
         <DetailsPage />
       </Route>
-      {/* <Route path="/QueueViewer">
-					<QueueViewer />
-				</Route> */}
+      <Route path="/queueViewer">
+        <QueueViewer />
+      </Route>
     </Switch>
   );
 }
