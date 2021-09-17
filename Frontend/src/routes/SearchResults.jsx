@@ -128,9 +128,6 @@ function SearchResults() {
         justifyContent="center"
         alignItems="center"
         maxwidth="xs"
-        style={{
-          background: '#FFEED3',
-        }}
         onClick={resultsClickHandler}
       >
         {searchResults
