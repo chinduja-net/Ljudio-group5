@@ -1,28 +1,23 @@
-import React, { useRef, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { nanoid } from 'nanoid';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { InputBase, InputAdornment, Box } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
-import style from '../styles/searchBar.module.css';
-
-import { SearchContext } from '../context/SongProvider';
+import { SearchContext } from "../context/SongProvider";
 
 function SearchBar() {
   const { setSearchResults } = useContext(SearchContext);
   const history = useHistory();
-
-  /**
-   * Looks at the current value in the input field and
-   * update the value so that we can use it further up in the code
-   */
-  let searchInput = useRef(null);
+  const [searchInput, setSearchInput] = useState("");
 
   async function fetchApi() {
     const response = await fetch(
-      `https://yt-music-api.herokuapp.com/api/yt/search/${searchInput.current.value}`,
+      `https://yt-music-api.herokuapp.com/api/yt/search/${searchInput}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -34,7 +29,7 @@ function SearchBar() {
 
     searchResult.content.forEach((obj) => {
       // Destructure the searchResult to get our desired properties we want to use
-      if (obj.type === 'song') {
+      if (obj.type === "song") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -46,7 +41,7 @@ function SearchBar() {
           videoId: obj.videoId,
         });
       }
-      if (obj.type === 'album') {
+      if (obj.type === "album") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -56,7 +51,7 @@ function SearchBar() {
           browseId: obj.browseId,
         });
       }
-      if (obj.type === 'artist') {
+      if (obj.type === "artist") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -75,13 +70,13 @@ function SearchBar() {
     setSearchResults(filteredResults);
 
     // Redirect to the searchResults page if we are not on the home page
-    if (location.pathname === '/') {
-      history.push('/searchResults');
+    if (location.pathname === "/") {
+      history.push("/searchResults");
     }
   }
 
   return (
-    <>
+    <Box display="flex" justifyContent="center" alignItems="center">
       <form
         onSubmit={(e) => {
           // Todo: something
@@ -89,16 +84,27 @@ function SearchBar() {
           fetchApi();
         }}
       >
-        <input
-          id={style.search_input}
+        <InputBase
+          startAdornment={
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          }
+          style={{
+            fontSize: 16,
+            background: "#E8EEF3",
+            borderRadius: 10,
+            textAlign: "center",
+            letterSpacing: -0.5,
+            width: 300,
+            marginTop: 30,
+          }}
           type="text"
-          // Saves a reference for the target element so that it can be used globally in the component
-          ref={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search for artists/album/song"
         />
-        <button type="submit">Search</button>
       </form>
-    </>
+    </Box>
   );
 }
 
