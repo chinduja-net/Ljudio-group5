@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import MiniPlayer from "./components/MiniPlayer";
+import YoutubePlayer from "./components/YoutubePlayer";
 
 import Routes from "./routes/Index";
 
@@ -10,7 +10,7 @@ function App() {
     <>
       <Router>
         <Routes />
-        <MiniPlayer />
+        <YoutubePlayer/>
       </Router>
     </>
   );
