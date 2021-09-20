@@ -12,8 +12,8 @@ function Player({ onLoad }) {
   // gets called automatically when YouTube player loads
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('yt-player', {
-      height: '0',
-      width: '0',
+      height: '400',
+      width: '300',
       playerVars: { autoplay: 0 },
       events: {
         onStateChange: onPlayerStateChange,
@@ -26,7 +26,10 @@ function Player({ onLoad }) {
   // this function triggers when we change song in player
   // can be used to update things, like counters
   function onPlayerStateChange(event) {
-    if (event.data != YT.PlayerState.PLAYING) return;
+    if (event.data != YT.PlayerState.ENDED) return;
+    if (event.data === 0) {
+      alert('onPlayerStageChange Works!');
+    }
   }
 
   return <div id="yt-player"></div>;
