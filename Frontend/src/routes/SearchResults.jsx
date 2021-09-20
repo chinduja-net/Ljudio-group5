@@ -121,7 +121,6 @@ function SearchResults() {
 
   return (
     <div id="root">
-      <h5>SearchResults</h5>
       <SearchBar />
       <Grid
         container
@@ -129,9 +128,6 @@ function SearchResults() {
         justifyContent="center"
         alignItems="center"
         maxwidth="xs"
-        style={{
-          background: '#FFEED3',
-        }}
         onClick={resultsClickHandler}
       >
         {searchResults
