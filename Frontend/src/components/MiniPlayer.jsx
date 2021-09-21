@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import Player from '../components/Player';
 import { SearchContext } from '../context/SongProvider';
 
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -15,69 +14,69 @@ import ListIcon from '@mui/icons-material/List';
 function MiniPlayer() {
   const location = useLocation();
   const history = useHistory();
-  const player = useRef();
-  const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
+  // const player = useRef();
+  const { currentSong, ytPlayer } =
     useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
-  const [playingState, setPlayingState] = useState(true);
+  // const [playingState, setPlayingState] = useState(true);
   const [audioState, setAudioState] = useState(true);
 
-  function onPlayerLoad(ytPlayer) {
-    player.current = ytPlayer;
-    setTimeout(() => {
-      let videoId = currentSong.videoId;
-      player.current.loadVideoById(videoId);
-      player.current.playVideo();
-      setPlayingState(true);
-    }, 1000);
-  }
+  // function onPlayerLoad(ytPlayer) {
+  //   player.current = ytPlayer;
+  //   setTimeout(() => {
+  //     let videoId = currentSong.videoId;
+  //     player.current.loadVideoById(videoId);
+  //     player.current.playVideo();
+  //     setPlayingState(true);
+  //   }, 1000);
+  // }
 
-  function playNextSong() {
-    // Plays next song from queueSongs
-    console.log('log of queued songs inside playNext func', queueSongs);
-    if (queueSongs[0]) {
-      let videoId = queueSongs[0].videoId;
-      player.current.loadVideoById(videoId);
-      player.current.playVideo();
-      setPlayingState(true);
-      // updates
-      setCurrentSong(queueSongs[0]);
-      shiftQueue();
-    }
-  }
+  // function playNextSong() {
+  //   // Plays next song from queueSongs
+  //   console.log('log of queued songs inside playNext func', queueSongs);
+  //   if (queueSongs[0]) {
+  //     let videoId = queueSongs[0].videoId;
+  //     player.current.loadVideoById(videoId);
+  //     player.current.playVideo();
+  //     setPlayingState(true);
+  //     // updates
+  //     setCurrentSong(queueSongs[0]);
+  //     shiftQueue();
+  //   }
+  // }
 
-  function pauseVid() {
-    player.current.pauseVideo();
-    setPlayingState(false);
-  }
+  // function pauseVid() {
+  //   player.current.pauseVideo();
+  //   setPlayingState(false);
+  // }
 
-  function playVid() {
-    player.current.playVideo();
-    setPlayingState(true);
-  }
+  // function playVid() {
+  //   player.current.playVideo();
+  //   setPlayingState(true);
+  // }
 
-  function muteAudio() {
-    player.current.mute();
-    setAudioState(false);
-  }
+  // function muteAudio() {
+  //   player.current.mute();
+  //   setAudioState(false);
+  // }
 
-  function unmuteAudio() {
-    player.current.unMute();
-    setAudioState(true);
-  }
+  // function unmuteAudio() {
+  //   player.current.unMute();
+  //   setAudioState(true);
+  // }
 
-  // Calls 2 functions depending on if playingState is true / false.
-  // Toggles between playing and pauseing player
-  function toggleVidBtn() {
-    playingState ? pauseVid() : playVid();
-    console.log('player state', playingState);
-  }
+  // // Calls 2 functions depending on if playingState is true / false.
+  // // Toggles between playing and pauseing player
+  // function toggleVidBtn() {
+  //   playingState ? pauseVid() : playVid();
+  //   console.log('player state', playingState);
+  // }
 
-  function toggleAudio() {
-    audioState ? muteAudio() : unmuteAudio();
-    console.log('audio state', audioState);
-  }
+  // function toggleAudio() {
+  //   audioState ? muteAudio() : unmuteAudio();
+  //   console.log('audio state', audioState);
+  // }
 
   // Checks if user clicked ON miniplayer
   function miniPlayerClickHandler(e) {
@@ -91,7 +90,7 @@ function MiniPlayer() {
     currentSong ? (
       location.pathname === '/playerPage' ? (
         <div style={{ width: '200px', height: '200px' }}>
-          <Player onLoad={onPlayerLoad} />
+          {/* <Player onLoad={onPlayerLoad} /> */}
           <img
             src={currentSong.thumbnails[1].url}
             alt="Song tumbnail"
@@ -106,15 +105,15 @@ function MiniPlayer() {
             <SkipPreviousIcon />
           </button>
 
-          <button onClick={toggleVidBtn}>
+          <button onClick={ytPlayer.toggleVidBtn}>
             {playingState ? <PauseIcon /> : <PlayArrowIcon />}
           </button>
 
-          <button onClick={playNextSong}>
+          <button onClick={ytPlayer.playNextSong}>
             <SkipNextIcon />
           </button>
 
-          <button onClick={toggleAudio}>
+          <button onClick={ytPlayer.toggleAudio}>
             {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
           </button>
           <button
@@ -136,7 +135,7 @@ function MiniPlayer() {
           }}
         >
           <Toolbar className="miniPlayerClick">
-            <Player onLoad={onPlayerLoad} />
+            {/* <Player onLoad={onPlayerLoad} /> */}
             <img
               className="miniPlayerClick"
               src={currentSong.thumbnails[0].url}
@@ -152,15 +151,15 @@ function MiniPlayer() {
               <SkipPreviousIcon />
             </button>
 
-            <button onClick={toggleVidBtn}>
+            <button onClick={ytPlayer.toggleVidBtn}>
               {playingState ? <PauseIcon /> : <PlayArrowIcon />}
             </button>
 
-            <button onClick={playNextSong}>
+            <button onClick={ytPlayer.playNextSong}>
               <SkipNextIcon />
             </button>
 
-            <button onClick={toggleAudio}>
+            <button onClick={ytPlayer.toggleAudio}>
               {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
             </button>
           </Toolbar>
