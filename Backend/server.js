@@ -14,6 +14,9 @@ app.get('/api/users', (req, res) => {
 // Login to account
 
 // Get all playlists from account
+app.get('/api/playlists', (req, res) => {
+  res.json(db.getAllPlaylists());
+});
 
 // Create a playlist
 
