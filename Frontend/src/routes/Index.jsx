@@ -6,6 +6,7 @@ import Home from "./Home";
 import DetailsPage from "./DetailsPage";
 import QueueViewer from "./QueueViewer";
 import SignUp from "../components/signUp";
+import LogIn from "../components/LogIn";
 
 function Routes() {
   return (
@@ -15,6 +16,9 @@ function Routes() {
       </Route>
       <Route path = "/signup">
         <SignUp />
+      </Route>
+      <Route path = "/login">
+        <LogIn />
       </Route>
       <Route path="/searchResults">
         <SearchResults />
