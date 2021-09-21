@@ -11,13 +11,29 @@ app.get('/api/users', (req, res) => {
 
 // Create Account
 
+app.post('/api/signup', (req, res) => {
+  let account = req.body;
+  console.log(account);
+  let insert = db.createAccount(account);
+  account.id = insert.lastInsertRowid;
+
+  res.json(account);
+});
+
 // Login to account
+app.post('/api/login', (req, res) => {
+  console.log('login..');
+});
 
 // Get all playlists from account
+app.get('/api/playlists', (req, res) => {
+  res.json(db.getAllPlaylists());
+});
 
 // Create a playlist
 
 // Remove a playlist
 
-//* Share a playlist
+//Share a playlist
+
 app.listen(4000, () => console.log('Server started on Port 4000'));
