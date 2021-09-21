@@ -24,9 +24,8 @@ module.exports = {
 
   createAccount(account){
 
-    const query = `INSERT INTO users(userName, password) VALUES(:userName,:password)`
-    return run(query, account)
-
+    const query = "INSERT INTO users(userName, password) VALUES(:userName, :password)"
+    return run(query,account)
     
   }
 };
