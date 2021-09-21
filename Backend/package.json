@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "better-sqlite3": "^7.4.3",
     "express": "^4.17.1",
-    "bcrypt": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
     "nanoid": "^3.1.25"
   },
   "devDependencies": {},
