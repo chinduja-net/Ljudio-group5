@@ -4,6 +4,8 @@ import { nanoid } from 'nanoid';
 import { InputBase, InputAdornment, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
+
+
 import { SearchContext } from '../context/SongProvider';
 
 function SearchBar() {
@@ -77,6 +79,8 @@ function SearchBar() {
   }
 
   return (
+    <>
+    
     <Box display="flex" justifyContent="center" alignItems="center">
       <form
         onSubmit={(e) => {
@@ -106,6 +110,7 @@ function SearchBar() {
         />
       </form>
     </Box>
+    </>
   );
 }
 
