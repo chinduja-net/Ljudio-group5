@@ -22,8 +22,7 @@ function DetailsPage() {
 
 	return (
 		<>
-			{
-      songDetail.name ? (
+			{songDetail.name ? (
 				<Box
 					display="flex"
 					justifyContent="center"
@@ -58,12 +57,13 @@ function DetailsPage() {
 			) : (
 				<div>
 					<Typography variant="h6">
-						You need to search for something first, go back to the home page.
+						You need to search for something first, go back to the home
+						page.
 					</Typography>
 				</div>
-			)
-		}
-		</>	)
+			)}
+		</>
+	)
 }
 
 export default DetailsPage
