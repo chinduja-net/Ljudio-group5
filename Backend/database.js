@@ -2,9 +2,6 @@ const sqlite = require('better-sqlite3');
 
 const conn = sqlite('database.db');
 
-const { nanoid } = require('nanoid');
-const jwt = require('jsonwebtoken');
-
 function all(query, params = {}) {
   const stmt = conn.prepare(query);
   return stmt.all(params);
@@ -31,8 +28,11 @@ module.exports = {
       ORDER BY userName`);
     return playlists;
   },
+
+  // Create Account
   createAccount(account) {
-    const query = `INSERT INTO users(userName, password) VALUES(:userName,:password)`;
+    const query =
+      'INSERT INTO users(userName, password) VALUES(:userName, :password)';
     return run(query, account);
   },
 };
