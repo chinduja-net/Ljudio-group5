@@ -3,12 +3,6 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('../Frontend'))
-
-const { nanoid } = require('nanoid');
-const { createAccount } = require('./database.js');
-
-
 
 // Get all users
 app.get('/api/users', (req, res) => {
@@ -18,23 +12,23 @@ app.get('/api/users', (req, res) => {
 // Create Account
 
 app.post('/api/signup', (req, res) => {
-
   let account = req.body;
+  console.log(account);
   let insert = db.createAccount(account);
   account.id = insert.lastInsertRowid;
-  res.json(account)
 
-
-})
+  res.json(account);
+});
 
 // Login to account
 app.post('/api/login', (req, res) => {
-
-  console.log('login..')
-
-})
+  console.log('login..');
+});
 
 // Get all playlists from account
+app.get('/api/playlists', (req, res) => {
+  res.json(db.getAllPlaylists());
+});
 
 // Create a playlist
 

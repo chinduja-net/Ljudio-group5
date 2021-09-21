@@ -1,18 +1,16 @@
-GET http://localhost:4000/api/users HTTP/1.1
+### Gets all users
+GET http://localhost:4000/api/users
 
-###
-POST http://localhost:4000/api/signup HTTP/1.1
+### Gets all playlists
+GET http://localhost:4000/api/playlists
+
+### Creates account
+POST http://localhost:4000/api/signup
 Content-Type: application/json
+
 {
-	"userName":"diksha",
-	"password":"pwd"
+	"userName":"Lars",
+	"password":"Lars"
 }
 
 ###
-POST http://localhost:4000/api/login HTTP/1.1
-Content-Type: application/json
-{
-    "userName":"Bob",
-    "password":"Bob"
-}
-
