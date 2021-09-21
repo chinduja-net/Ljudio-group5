@@ -20,9 +20,8 @@ app.get('/api/users', (req, res) => {
 app.post('/api/signup', (req, res) => {
 
   let account = req.body;
-   let insert = db.createAccount(account);
-   account.id = insert.lastInsertRowid;
-
+  let insert = db.createAccount(account);
+  account.id = insert.lastInsertRowid;
   res.json(account)
 
 

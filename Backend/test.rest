@@ -4,7 +4,7 @@ GET http://localhost:4000/api/users HTTP/1.1
 POST http://localhost:4000/api/signup HTTP/1.1
 Content-Type: application/json
 {
-	"userName":"Sara",
+	"userName":"diksha",
 	"password":"pwd"
 }
 
