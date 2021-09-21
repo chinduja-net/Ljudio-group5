@@ -1,10 +1,10 @@
-import React from "react";
-import { useState } from "react";
-import { createAccountFetch } from "../services/authService";
+import React from 'react';
+import { useState } from 'react';
+import { createAccountFetch } from '../services/authService';
 
 function SignUp() {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,8 +21,7 @@ function SignUp() {
       const data = await createAccountFetch(obj);
 
       if (data) {
-        sessionStorage.setItem("token", data.token);
-        console.log(token);
+        console.log(data);
       }
     } catch (error) {
       console.log(error);
