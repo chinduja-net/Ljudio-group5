@@ -10,13 +10,12 @@ import PauseIcon from '@mui/icons-material/Pause';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { AppBar, Toolbar } from '@mui/material';
-import ListIcon from '@mui/icons-material/List';
 
 function MiniPlayer() {
   const location = useLocation();
   const history = useHistory();
   const player = useRef();
-  const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
+  const { currentSong, queueSongs, shiftQueue, setCurrentSong, ytPlayerState } =
     useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
@@ -67,13 +66,6 @@ function MiniPlayer() {
     setAudioState(true);
   }
 
-  // Calls 2 functions depending on if playingState is true / false.
-  // Toggles between playing and pauseing player
-  function toggleVidBtn() {
-    playingState ? pauseVid() : playVid();
-    console.log('player state', playingState);
-  }
-
   function toggleAudio() {
     audioState ? muteAudio() : unmuteAudio();
     console.log('audio state', audioState);
@@ -89,43 +81,6 @@ function MiniPlayer() {
   return (
     // Checks if we are on playerPage and if so it renders out playerPage DOM
     currentSong ? (
-      location.pathname === '/playerPage' ? (
-        <div style={{ width: '200px', height: '200px' }}>
-          <Player onLoad={onPlayerLoad} />
-          <img
-            src={currentSong.thumbnails[1].url}
-            alt="Song tumbnail"
-            style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
-            }}
-          />
-          <h1>{currentSong.name}</h1>
-          <button>
-            <SkipPreviousIcon />
-          </button>
-
-          <button onClick={toggleVidBtn}>
-            {playingState ? <PauseIcon /> : <PlayArrowIcon />}
-          </button>
-
-          <button onClick={playNextSong}>
-            <SkipNextIcon />
-          </button>
-
-          <button onClick={toggleAudio}>
-            {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
-          </button>
-          <button
-            onClick={() => {
-              history.push('/queueViewer');
-            }}
-          >
-            <ListIcon />
-          </button>
-        </div>
-      ) : (
         <AppBar
           position="fixed"
           className={`miniPlayerClick`}
@@ -152,9 +107,9 @@ function MiniPlayer() {
               <SkipPreviousIcon />
             </button>
 
-            <button onClick={toggleVidBtn}>
-              {playingState ? <PauseIcon /> : <PlayArrowIcon />}
-            </button>
+            {/* <button onClick={toggleVidBtn}>
+              {ytPlayerState ? <PauseIcon /> : <PlayArrowIcon />}
+            </button> */}
 
             <button onClick={playNextSong}>
               <SkipNextIcon />
@@ -165,9 +120,7 @@ function MiniPlayer() {
             </button>
           </Toolbar>
         </AppBar>
-      )
-    ) : null
-  );
+      ) : null)
 }
 
 export default MiniPlayer;
