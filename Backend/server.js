@@ -22,7 +22,10 @@ app.post('/api/signup', (req, res) => {
 
 // Login to account
 app.post('/api/login', (req, res) => {
-  console.log('login..');
+  let loginCredentials = req.body;
+  let checkCredential = db.checkCredentials(loginCredentials);
+  console.log(checkCredential);
+  res.json(checkCredential);
 });
 
 // Get all playlists from account

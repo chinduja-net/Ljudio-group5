@@ -1,12 +1,10 @@
-import React from "react";
-import { useState } from "react";
-import { loginFetch } from "../services/authService";
-
+import React from 'react';
+import { useState } from 'react';
+import { loginFetch } from '../services/authService';
 
 function LogIn() {
-
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,27 +12,24 @@ function LogIn() {
     login(userName, password);
   };
 
-  async function login(userName, password){
-
+  async function login(userName, password) {
     const obj = {
-        userName,
-        password
-    }
-    try{
-        const data = await loginFetch(obj);
-        if(data){
-            sessionStorage.setItem("token", data.token)
-        }
-    }catch(error){
+      userName,
+      password,
+    };
 
-        console.log(error)
-
+    let data = await loginFetch(obj);
+    if (data.length === 0) {
+      console.log('Wrong Credentials');
+    } else {
+      sessionStorage.setItem('token', data.token);
+      console.log('Logged in!');
     }
   }
 
-    return (
-        <>
-         <h1>LOGIN</h1>
+  return (
+    <>
+      <h1>LOGIN</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="text">UserName</label>
         <input
@@ -52,13 +47,8 @@ function LogIn() {
 
         <button>LOGIN</button>
       </form>
-
-
-
-            
-        </>
-    )
+    </>
+  );
 }
 
-export default LogIn
-
+export default LogIn;

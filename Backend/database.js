@@ -35,4 +35,10 @@ module.exports = {
       'INSERT INTO users(userName, password) VALUES(:userName, :password)';
     return run(query, account);
   },
+
+  checkCredentials(loginCredentials) {
+    let query = `SELECT userName, password FROM  users WHERE userName = :userName AND :password = :password`;
+
+    return all(query, loginCredentials);
+  },
 };

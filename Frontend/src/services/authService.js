@@ -20,6 +20,9 @@ export async function loginFetch(body) {
     },
   });
   const data = await response.json();
-
-  return data;
+  if (data) {
+    return data;
+  } else {
+    return console.log('false credantials', false);
+  }
 }
