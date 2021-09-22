@@ -9,8 +9,16 @@ POST http://localhost:4000/api/signup
 Content-Type: application/json
 
 {
-	"userName":"Lars",
-	"password":"Lars"
+	"userName":"Agil",
+	"password":"pwd123"
 }
 
-###
+### login user
+
+POST http://localhost:4000/api/login 
+Content-Type: application/json
+
+{
+	"userName":"Bob",
+	"password":"Bob"
+}

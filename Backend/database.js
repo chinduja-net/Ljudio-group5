@@ -32,7 +32,16 @@ module.exports = {
   // Create Account
   createAccount(account) {
     const query =
-      'INSERT INTO users(userName, password) VALUES(:userName, :password)';
+      'INSERT INTO users(userName, password) VALUES(:userName,:password)';
     return run(query, account);
   },
+
+  //login Account
+  checkCredentials(){
+    let query = all(`SELECT userName, password FROM  users WHERE userName = :userName AND password = :password`)
+    return query
+    
+    
+
+  }
 };

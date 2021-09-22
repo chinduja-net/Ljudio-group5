@@ -21,8 +21,7 @@ function SignUp() {
       const data = await createAccountFetch(obj);
 
       if (data) {
-        sessionStorage.setItem("token", data.token);
-        console.log(token);
+            console.log(data);
       }
     } catch (error) {
       console.log(error);
