@@ -22,10 +22,9 @@ app.post('/api/signup', (req, res) => {
 // Login to account
 app.post('/api/login', (req, res) => {
   let loginCredentials = req.body;
-  console.log("loginCredentials", loginCredentials)
-  console.log(loginCredentials.userName)
+    
   let checkCredential = db.checkCredentials(loginCredentials)
-  console.log("checkCredential",checkCredential)
+  
   res.json(checkCredential)
 });
 

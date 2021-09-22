@@ -37,11 +37,8 @@ module.exports = {
   },
 
   //login Account
-  checkCredentials(){
-    let query = all(`SELECT userName, password FROM  users WHERE userName = :userName AND password = :password`)
-    return query
-    
-    
-
+  checkCredentials(loginCredentials) {
+    let query = (`SELECT userName, password FROM  users WHERE  (userName = :userName AND password = :password)`)
+    return all(query, loginCredentials)
   }
 };
