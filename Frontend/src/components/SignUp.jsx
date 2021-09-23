@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { createAccountFetch } from "../services/authService";
+import { useHistory } from "react-router";
 
 function SignUp() {
+  const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +23,9 @@ function SignUp() {
       const data = await createAccountFetch(obj);
 
       if (data) {
+
             console.log(data);
+            history.push('/Home');
       }
     } catch (error) {
       console.log(error);
