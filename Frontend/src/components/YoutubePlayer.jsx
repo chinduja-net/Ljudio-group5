@@ -3,31 +3,6 @@ import YouTube from "react-youtube"
 
 import { SearchContext } from "../context/SongProvider"
 
-// Calls 2 functions depending on if playingState is true / false.
-// Toggles between playing and pausing the player
-// export function toggleVidBtn(event) {
-// 	const e = event.target
-// 	console.log("player state", ytPlayerState)
-// 	ytPlayerState === 1
-// 		? e.pauseVideo()
-// 		: ytPlayerState === 2
-// 		? e.playVideo()
-// 		: null
-// }
-
-// export function playNextSong(event) {
-// 	// If any songs are queued load the first one's videoId and feed it to the player
-// 	if (queueSongs) {
-// 		let videoId = queueSongs[0].videoId
-// 		event.target.loadVideoById(videoId)
-// 		event.target.playVideo()
-
-// 		// update the queue in the react context
-// 		setCurrentSong(queueSongs[0])
-// 		shiftQueue()
-// 	}
-// }
-
 function YoutubePlayer() {
 	const {
 		currentSong,
@@ -36,6 +11,8 @@ function YoutubePlayer() {
 		setCurrentSong,
 		ytPlayerState,
 		setYtPlayerState,
+		ytPlayer,
+		setYtPlayer,
 	} = useContext(SearchContext)
 
 	const opts = {
@@ -45,13 +22,49 @@ function YoutubePlayer() {
 
 	// Call this on mount
 	function _onReady(event) {
+		const player = event.target
+
+		function pauseVid() {
+			player.pauseVideo()
+		}
+
+		function playVid() {
+			player.playVideo()
+		}
+
+		// Calls 2 functions depending on if playingState is true / false.
+		// Toggles between playing and pausing the player
+		function toggleVidBtn(event) {
+			const e = event.target
+			console.log("player state", ytPlayerState)
+			ytPlayerState === 1
+				? pauseVid(ytPlayer)
+				: ytPlayerState === 2
+				? playVid(ytPlayer)
+				: null
+		}
+
+		function playNextSong(event) {
+			// If any songs are queued load the first one's videoId and feed it to the player
+			if (queueSongs) {
+				let videoId = queueSongs[0].videoId
+				event.target.loadVideoById(videoId)
+				event.target.playVideo()
+
+				// update the queue in the react context
+				setCurrentSong(queueSongs[0])
+				shiftQueue()
+			}
+		}
+
 		// Autoplay player on mount
-		event.target.playVideo()
+		setYtPlayer({ event, toggleVidBtn, playNextSong })
+		player.playVideo(ytPlayerState)
 	}
 
 	// Autoplay next song in queue if it exists
 	function _onEnd(event) {
-		queueSongs ? playNextSong(event) : null
+		queueSongs ? playNextSong(event, queueSongs, setCurrentSong) : null
 	}
 
 	function _onStateChange(event) {
