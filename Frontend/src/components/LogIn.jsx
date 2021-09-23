@@ -27,7 +27,7 @@ function LogIn() {
 
   async function isLoggedin() {
     const token = getToken();
-    const response = await fetch("/api/loggedin", {
+    const response = await fetch("/api/login", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -35,7 +35,7 @@ function LogIn() {
     const data = await response.json();
     await saveToken(data.token);
     console.log(data);
-}
+} 
 
   async function login(userName, password) {
     const obj = {
@@ -48,9 +48,11 @@ function LogIn() {
         console.log("Wrong Credentials");
         history.push("/signup");
       } else {
-        
-            isLoggedin()
+
+          isLoggedin()
           console.log("Logged In!");
+          //history.push("/");
+
         }
       
     } catch (error) {

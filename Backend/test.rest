@@ -19,8 +19,8 @@ POST http://localhost:4000/api/login
 Content-Type: application/json
 
 {
-	"userName":"Bob",
-	"password":"Bob"
+	"userName":"Lars",
+	"password":"Lars"
 }
 
 ###login status

@@ -24,7 +24,7 @@ export async function loginFetch(body){
         
     })
     const data = await response.json();
-
+    console.log("login data",data)
     return data
 
 

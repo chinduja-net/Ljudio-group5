@@ -1,9 +1,10 @@
 const db = require('./database.js');
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const app = express();
-
 app.use(express.json());
+
+const jwt = require('jsonwebtoken');
+const { nanoid } = require('nanoid');
 
 // Get all users
 app.get('/api/users', (req, res) => {
@@ -17,29 +18,28 @@ app.post('/api/signup', (req, res) => {
   console.log(account);
   let insert = db.createAccount(account);
   account.id = insert.lastInsertRowid;
+  account.uid = nanoid()
   res.json(account);
 });
 
 // Login to account
 app.post('/api/login', (req, res) => {
   let loginCredentials = req.body;
-
+  
   let checkCredential = db.checkCredentials(loginCredentials);
-
-  const token = jwt.sign({ id: checkCredential.id }, 'a1b1c1', {
-    expiresIn: 600 //Går ut om 10 minuter 
-  });
-
-  if (checkCredential) {
+  
+    const token = jwt.sign({ userName : checkCredential.userName }, 'a1b1c1', {
+      expiresIn: 600 //Går ut om 10 minuter 
+    });
     checkCredential.token = token;
-    console.log(checkCredential);
-  }
+
+  console.log(checkCredential);
   res.json(checkCredential)
 
 });
 
 // Login status
-app.get('/api/loggedin', (req,res) => {
+app.get('/api/loggedin', (req, res) => {
 
   const token = req.header('Authorization').replace('Bearer ', '');
 
@@ -54,11 +54,9 @@ app.get('/api/loggedin', (req,res) => {
       result.loggedIn = true;
     }
   }
-
   res.json(result);
 
 })
-
 
 
 // Get all playlists from account
