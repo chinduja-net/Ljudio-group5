@@ -50,7 +50,7 @@ function YoutubePlayer() {
 				: null
 		}
 
-		function playNextSong() {
+		function playNextSong(queueSongs) {
 			// If any songs are queued load the first one's videoId and feed it to the player
 			if (queueSongs.length) {
 				let videoId = queueSongs[0].videoId
@@ -88,14 +88,6 @@ function YoutubePlayer() {
 		 * 5 video cued
 		 */
 		setYtPlayerState(state) // playing
-	// 	switch (state) {
-	// 		case -1:
-	// 			setYtPlayerState(state)
-	// 			break;
-		
-	// 		default:
-	// 			console.warn("");
-	// 	}
 	}
 
 	return (
