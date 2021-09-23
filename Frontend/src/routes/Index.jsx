@@ -8,6 +8,7 @@ import QueueViewer from "./QueueViewer";
 import SignUp from "../components/signUp";
 import LogIn from "../components/LogIn";
 
+
 function Routes() {
   return (
     <Switch>
@@ -17,7 +18,7 @@ function Routes() {
       <Route path = "/signup">
         <SignUp />
       </Route>
-      <Route path = "/login">
+        <Route path = "/login">
         <LogIn />
       </Route>
       <Route path="/searchResults">
