@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { useState } from "react";
 import { createAccountFetch } from "../services/authService";
@@ -7,6 +8,15 @@ function SignUp() {
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+=======
+import React from 'react';
+import { useState } from 'react';
+import { createAccountFetch } from '../services/authService';
+
+function SignUp() {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+>>>>>>> backendStructuring
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,9 +33,13 @@ function SignUp() {
       const data = await createAccountFetch(obj);
 
       if (data) {
+<<<<<<< HEAD
 
             console.log(data);
             history.push('/Home');
+=======
+        console.log(data);
+>>>>>>> backendStructuring
       }
     } catch (error) {
       console.log(error);

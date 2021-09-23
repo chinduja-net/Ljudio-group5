@@ -10,7 +10,7 @@ export async function createAccountFetch(body) {
     )
     const data = await response.json();
 
-    return  data;
+  return data;
 }
 
 export async function loginFetch(body){
