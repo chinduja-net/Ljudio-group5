@@ -16,11 +16,16 @@ function MiniPlayer() {
   const location = useLocation();
   const history = useHistory();
   const player = useRef();
-  const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
-    useContext(SearchContext);
+  const {
+    currentSong,
+    queueSongs,
+    shiftQueue,
+    setCurrentSong,
+    playingState,
+    setPlayingState,
+  } = useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
-  const [playingState, setPlayingState] = useState(true);
   const [audioState, setAudioState] = useState(true);
 
   function onPlayerLoad(ytPlayer) {
@@ -39,10 +44,10 @@ function MiniPlayer() {
     if (queueSongs[0]) {
       let videoId = queueSongs[0].videoId;
       player.current.loadVideoById(videoId);
+      setCurrentSong(queueSongs[0]);
       player.current.playVideo();
       setPlayingState(true);
       // updates
-      setCurrentSong(queueSongs[0]);
       shiftQueue();
     }
   }
