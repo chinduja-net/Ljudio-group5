@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react"
+import React, { useRef, useContext, useState, useEffect } from "react"
 import { useLocation, useHistory } from "react-router-dom"
 import Player from "../components/Player"
 import { SearchContext } from "../context/SongProvider"
@@ -21,43 +21,46 @@ function PlayerPage() {
 		shiftQueue,
 		setCurrentSong,
 		ytPlayerState,
+		ytPlayer,
 	} = useContext(SearchContext)
+
+	useEffect(() => {}, [queueSongs])
 
 	// 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
 	const [playingState, setPlayingState] = useState(true)
 	const [audioState, setAudioState] = useState(true)
 
-	function playNextSong() {
-		// Plays next song from queueSongs
-		console.log("log of queued songs inside playNext func", queueSongs)
-		if (queueSongs[0]) {
-			let videoId = queueSongs[0].videoId
-			player.current.loadVideoById(videoId)
-			player.current.playVideo()
-			setPlayingState(true)
-			// updates
-			setCurrentSong(queueSongs[0])
-			shiftQueue()
-		}
-	}
+	// function playNextSong() {
+	// 	// Plays next song from queueSongs
+	// 	console.log("log of queued songs inside playNext func", queueSongs)
+	// 	if (queueSongs[0]) {
+	// 		let videoId = queueSongs[0].videoId
+	// 		player.current.loadVideoById(videoId)
+	// 		player.current.playVideo()
+	// 		setPlayingState(true)
+	// 		// updates
+	// 		setCurrentSong(queueSongs[0])
+	// 		shiftQueue()
+	// 	}
+	// }
 
-	function pauseVid() {
-		player.current.pauseVideo()
-		setPlayingState(false)
-	}
+	// function pauseVid() {
+	// 	player.current.pauseVideo()
+	// 	setPlayingState(false)
+	// }
 
-	function playVid() {
-		player.current.playVideo()
-		setPlayingState(true)
-	}
+	// function playVid() {
+	// 	player.current.playVideo()
+	// 	setPlayingState(true)
+	// }
 
 	function muteAudio() {
-		player.current.mute()
+		ytPlayer.player.current.mute()
 		setAudioState(false)
 	}
 
 	function unmuteAudio() {
-		player.current.unMute()
+		ytPlayer.player.current.unMute()
 		setAudioState(true)
 	}
 
@@ -89,11 +92,17 @@ function PlayerPage() {
 				<SkipPreviousIcon />
 			</button>
 
-			{/* <button onClick={toggleVidBtn}>
-				{playingState ? <PauseIcon /> : <PlayArrowIcon />}
-			</button> */}
+			<button onClick={() => ytPlayer.toggleVidBtn()}>
+				{ytPlayerState === 1 ? (
+					<PauseIcon />
+				) : ytPlayerState === 2 ? (
+					<PlayArrowIcon />
+				) : (
+					<PlayArrowIcon />
+				)}
+			</button>
 
-			<button onClick={playNextSong}>
+			<button onClick={() => ytPlayer.playNextSong(queueSongs)}>
 				<SkipNextIcon />
 			</button>
 

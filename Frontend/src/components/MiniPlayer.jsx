@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react"
+import React, { useRef, useContext, useState, useEffect } from "react"
 import { useLocation, useHistory } from "react-router-dom"
 import Player from "../components/Player"
 import { SearchContext } from "../context/SongProvider"
@@ -23,6 +23,8 @@ function MiniPlayer() {
 		ytPlayerState,
 		ytPlayer,
 	} = useContext(SearchContext)
+
+	useEffect(() => {}, [queueSongs])
 
 	// 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
 	const [playingState, setPlayingState] = useState(true)
@@ -103,11 +105,17 @@ function MiniPlayer() {
 						<SkipPreviousIcon />
 					</button>
 
-					<button onClick={ytPlayer.toggleVidBtn}>
-						{ytPlayerState ? <PauseIcon /> : <PlayArrowIcon />}
+					<button onClick={() => ytPlayer.toggleVidBtn()}>
+						{ytPlayerState === 1 ? (
+							<PauseIcon />
+						) : ytPlayerState === 2 ? (
+							<PlayArrowIcon />
+						) : (
+							<PlayArrowIcon />
+						)}
 					</button>
 
-					<button onClick={ytPlayer.playNextSong}>
+					<button onClick={() => ytPlayer.playNextSong(queueSongs)}>
 						<SkipNextIcon />
 					</button>
 
