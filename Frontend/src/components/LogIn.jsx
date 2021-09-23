@@ -21,21 +21,6 @@ function LogIn() {
     });
   }
 
-  function getToken() {
-    return sessionStorage.getItem("auth");
-  }
-
-  async function isLoggedin() {
-    const token = getToken();
-    const response = await fetch("/api/login", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    await saveToken(data.token);
-    console.log(data);
-} 
 
   async function login(userName, password) {
     const obj = {
@@ -44,17 +29,12 @@ function LogIn() {
     };
     try {
       const data = await loginFetch(obj);
-      if (data.length === 0) {
+      if ((data.success = false)) {
         console.log("Wrong Credentials");
         history.push("/signup");
       } else {
-
-          isLoggedin()
-          console.log("Logged In!");
-          //history.push("/");
-
-        }
-      
+        await saveToken(data.token);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -85,3 +65,27 @@ function LogIn() {
 }
 
 export default LogIn;
+
+
+//To verify if the user is logged in
+//can be used to give access to make playlists etc...
+
+/*
+function getToken() {
+    return sessionStorage.getItem("auth");
+  }
+ async function isLoggedIn() {
+    const token = getToken();
+    const response = await fetch('http://localhost:3000/api/staff/loggedin', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+  
+     if (!data.loggedIn) {
+      location.href = 'http://localhost:3000/login.html';
+    } 
+    }
+  
+  isLoggedIn() */

@@ -15,28 +15,33 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/signup', (req, res) => {
   let account = req.body;
+  account.uid = nanoid();
   console.log(account);
   let insert = db.createAccount(account);
   account.id = insert.lastInsertRowid;
-  account.uid = nanoid()
   res.json(account);
 });
 
 // Login to account
 app.post('/api/login', (req, res) => {
+
   let loginCredentials = req.body;
-  
+  let result = { success: false , token : null };
   let checkCredential = db.checkCredentials(loginCredentials);
-  
-    const token = jwt.sign({ userName : checkCredential.userName }, 'a1b1c1', {
+  console.log(checkCredential);
+  if (checkCredential.length != 0) {
+    const token = jwt.sign({ uid: checkCredential.uid }, 'a1b1c1', {
       expiresIn: 600 //Går ut om 10 minuter 
     });
-    checkCredential.token = token;
+    result.success = true;
+    result.token = token;
+    console.log("JWT Token Sign", token);
 
-  console.log(checkCredential);
-  res.json(checkCredential)
+  }
+  res.json(result)
 
 });
+
 
 // Login status
 app.get('/api/loggedin', (req, res) => {

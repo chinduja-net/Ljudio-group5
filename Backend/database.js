@@ -32,7 +32,7 @@ module.exports = {
   // Create Account
   createAccount(account) {
     const query =
-      'INSERT INTO users(userName, password) VALUES(:userName,:password)';
+      'INSERT INTO users(userName, password, uid) VALUES(:userName,:password,:uid)';
     return run(query, account);
   },
 
