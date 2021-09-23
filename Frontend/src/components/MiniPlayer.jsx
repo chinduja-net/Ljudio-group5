@@ -54,6 +54,51 @@ function MiniPlayer() {
 	//   }
 	// }
 
+	function playNextSong() {
+		// setQueueSongs(queueSongs)
+		// If any songs are queued load the first one's videoId and feed it to the player
+		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
+		if (queueSongs.length) {
+			// let videoId = queueSongs[0].videoId
+			let song = shiftQueue()
+			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
+			console.log("ytPlayer", ytPlayer)
+			ytPlayer.player.loadVideoById(song.videoId)
+			ytPlayer.player.playVideo()
+			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
+
+			// update the queue in the react context
+			setCurrentSong(song)
+			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
+		}
+		// else {
+		// 	console.log("queueSongs are nullish")
+		// }
+	}
+
+	/** COPY OF playNextSong
+	function playNextSong() {
+		// setQueueSongs(queueSongs)
+		// If any songs are queued load the first one's videoId and feed it to the player
+		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
+		if (queueSongs.length) {
+			let videoId = queueSongs[0].videoId
+			ytPlayer.player.loadVideoById(videoId)
+			ytPlayer.player.playVideo()
+
+			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
+			// update the queue in the react context
+			setCurrentSong(queueSongs[0])
+			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
+			shiftQueue()
+			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
+		}
+		// else {
+		// 	console.log("queueSongs are nullish")
+		// }
+	}
+  */
+
 	function muteAudio() {
 		ytPlayer.player.mute()
 		setAudioState(false)
@@ -89,7 +134,6 @@ function MiniPlayer() {
 				}}
 			>
 				<Toolbar className="miniPlayerClick">
-					{/* <Player onLoad={onPlayerLoad} /> */}
 					<img
 						className="miniPlayerClick"
 						src={currentSong.thumbnails[0].url}
@@ -115,12 +159,12 @@ function MiniPlayer() {
 						)}
 					</button>
 
-					<button onClick={() => ytPlayer.playNextSong(queueSongs)}>
+					<button onClick={() => playNextSong()}>
 						<SkipNextIcon />
 					</button>
 
 					<button onClick={toggleAudio}>
-						{audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
+						{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
 					</button>
 				</Toolbar>
 			</AppBar>

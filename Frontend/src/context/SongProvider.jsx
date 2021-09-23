@@ -22,9 +22,10 @@ export default function SongProvider(props) {
 	}
 
 	function shiftQueue() {
-		const newArr = queueSongs
-		newArr.shift()
+		const newArr = [...queueSongs]
+		const shifted = newArr.shift()
 		setQueueSongs(newArr)
+		return shifted
 	}
 
 	return (
@@ -47,6 +48,7 @@ export default function SongProvider(props) {
 				setYtPlayerState,
 				ytPlayer,
 				setYtPlayer,
+				setQueueSongs
 			}}
 		>
 			{props.children}

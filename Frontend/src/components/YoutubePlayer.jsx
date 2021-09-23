@@ -7,6 +7,7 @@ function YoutubePlayer() {
 	const {
 		currentSong,
 		queueSongs,
+		setQueueSongs,
 		shiftQueue,
 		setCurrentSong,
 		ytPlayerState,
@@ -15,11 +16,13 @@ function YoutubePlayer() {
 		setYtPlayer,
 	} = useContext(SearchContext)
 
-	useEffect(() => {}, [ytPlayerState, queueSongs])
+	useEffect(() => {
+		console.log("queueSongs updated.", queueSongs)
+	}, [ytPlayerState, queueSongs])
 
 	const opts = {
-		height: "390",
-		width: "640",
+		height: "100",
+		width: "200",
 		playerVars: {
 			autoplay: 1,
 		},
@@ -43,38 +46,20 @@ function YoutubePlayer() {
 			let state = player.getPlayerState()
 			console.log("player state", state)
 
-			state === 1
-				? pauseVid(ytPlayer)
-				: state === 2
-				? playVid(ytPlayer)
-				: null
+			state === 1 ? pauseVid() : state === 2 ? playVid() : null
 		}
 
-		function playNextSong(queueSongs) {
-			// If any songs are queued load the first one's videoId and feed it to the player
-			if (queueSongs.length) {
-				let videoId = queueSongs[0].videoId
-				player.loadVideoById(videoId)
-				player.playVideo()
-
-				// update the queue in the react context
-				setCurrentSong(queueSongs[0])
-				shiftQueue()
-			} else {
-				console.log("queueSongs are nullish")
-			}
-		}
-
-		// Autoplay player on mount
-		setYtPlayer({ event, toggleVidBtn, playNextSong })
-		player.playVideo(ytPlayerState)
+		setYtPlayer({
+			player,
+			toggleVidBtn,
+		})
 	}
 
 	// Autoplay next song in queue if it exists
 	function _onEnd(event) {
-		queueSongs
-			? ytPlayer.playNextSong(event, queueSongs, setCurrentSong)
-			: null
+		// queueSongs
+		// 	? ytPlayer.playNextSong(event, queueSongs, setCurrentSong)
+		// 	: null
 	}
 
 	function _onStateChange(event) {
@@ -89,7 +74,29 @@ function YoutubePlayer() {
 		 */
 		setYtPlayerState(state) // playing
 	}
+	/** 
+	function playNextSong() {
+		// setQueueSongs(queueSongs)
+		// If any songs are queued load the first one's videoId and feed it to the player
+		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
+		if (queueSongs.length) {
+			// let videoId = queueSongs[0].videoId
+			let song = shiftQueue()
+			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
 
+			ytPlayer.player.loadVideoById(song.videoId)
+			// ytPlayer.player.playVideo()
+			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
+
+			// update the queue in the react context
+			setCurrentSong(song)
+			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
+		}
+		// else {
+		// 	console.log("queueSongs are nullish")
+		// }
+	}
+*/
 	return (
 		<YouTube
 			videoId={currentSong && currentSong.videoId}

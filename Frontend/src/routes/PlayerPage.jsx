@@ -44,6 +44,28 @@ function PlayerPage() {
 	// 	}
 	// }
 
+	function playNextSong() {
+		// setQueueSongs(queueSongs)
+		// If any songs are queued load the first one's videoId and feed it to the player
+		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
+		if (queueSongs.length) {
+			// let videoId = queueSongs[0].videoId
+			let song = shiftQueue()
+			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
+			console.log("ytPlayer", ytPlayer)
+			ytPlayer.player.loadVideoById(song.videoId)
+			ytPlayer.player.playVideo()
+			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
+
+			// update the queue in the react context
+			setCurrentSong(song)
+			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
+		}
+		// else {
+		// 	console.log("queueSongs are nullish")
+		// }
+	}
+
 	// function pauseVid() {
 	// 	player.current.pauseVideo()
 	// 	setPlayingState(false)
@@ -55,25 +77,18 @@ function PlayerPage() {
 	// }
 
 	function muteAudio() {
-		ytPlayer.player.current.mute()
+		ytPlayer.player.mute()
 		setAudioState(false)
 	}
 
 	function unmuteAudio() {
-		ytPlayer.player.current.unMute()
+		ytPlayer.player.unMute()
 		setAudioState(true)
 	}
 
 	function toggleAudio() {
 		audioState ? muteAudio() : unmuteAudio()
 		console.log("audio state", audioState)
-	}
-
-	// Checks if user clicked ON miniplayer
-	function miniPlayerClickHandler(e) {
-		if (e.target.classList.contains("miniPlayerClick")) {
-			history.push("/playerPage")
-		}
 	}
 
 	return currentSong ? (
@@ -102,12 +117,12 @@ function PlayerPage() {
 				)}
 			</button>
 
-			<button onClick={() => ytPlayer.playNextSong(queueSongs)}>
+			<button onClick={() => playNextSong()}>
 				<SkipNextIcon />
 			</button>
 
 			<button onClick={toggleAudio}>
-				{audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
+				{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
 			</button>
 			<button
 				onClick={() => {
