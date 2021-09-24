@@ -27,20 +27,29 @@ function YoutubePlayer() {
 	function _onReady(event) {
 		const player = event.target
 
+		function playVid() {
+			player.playVideo()
+		}
+
 		function pauseVid() {
 			player.pauseVideo()
 		}
 
-		function playVid() {
+		function replayVid() {
 			player.playVideo()
 		}
 
 		// Toggles between playing and pausing the player
 		function toggleVidBtn() {
 			let state = player.getPlayerState()
-			console.log("player state", state)
 
-			state === 1 ? pauseVid() : state === 2 ? playVid() : null
+			state === 0 
+				? replayVid()
+				: state === 1
+				? pauseVid()
+				: state === 2
+				? playVid()
+				: null
 		}
 
 		// Send YTPlayer to a state variable for global access.
