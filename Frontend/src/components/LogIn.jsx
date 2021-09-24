@@ -124,7 +124,7 @@ function getToken() {
   }
  async function isLoggedIn() {
     const token = getToken();
-    const response = await fetch('http://localhost:3000/api/staff/loggedin', {
+    const response = await fetch('http://localhost:3000/api/user/loggedin', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -132,7 +132,7 @@ function getToken() {
     const data = await response.json();
   
      if (!data.loggedIn) {
-      location.href = 'http://localhost:3000/login.html';
+      location.href = 'http://localhost:3000/api/login';
     } 
     }
   

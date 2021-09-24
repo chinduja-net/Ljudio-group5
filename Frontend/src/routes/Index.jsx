@@ -5,9 +5,7 @@ import SearchResults from "./SearchResults";
 import Home from "./Home";
 import DetailsPage from "./DetailsPage";
 import QueueViewer from "./QueueViewer";
-import SignUp from "../components/signUp";
-import LogIn from "../components/LogIn";
-
+import SearchBar from "../components/SearchBar";
 
 function Routes() {
   return (
@@ -15,11 +13,8 @@ function Routes() {
       <Route path="/" exact>
         <Home />
       </Route>
-      <Route path = "/signup">
-        <SignUp />
-      </Route>
-        <Route path = "/login">
-        <LogIn />
+      <Route path = "/searchBar">
+        <SearchBar />
       </Route>
       <Route path="/searchResults">
         <SearchResults />
