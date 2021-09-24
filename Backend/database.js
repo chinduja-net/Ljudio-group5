@@ -15,7 +15,7 @@ function run(query, params = {}) {
 
 // A quick get all users for testing purposes
 function getAllUsers() {
-  let users = all(`SELECT userName, password FROM users`);
+  let users = all(`SELECT userName, password, id, uid FROM users`);
   return users;
 }
 

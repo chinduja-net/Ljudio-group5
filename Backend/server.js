@@ -15,11 +15,11 @@ app.get('/api/users', (req, res) => {
 });
 
 //get user by id
-app.get('/api/user/:id', (req,res) => {
+/* app.get('/api/user/:id', (req,res) => {
   let id = +(req.params.id)
   console.log(id);
   res.json(db.getUserById(id))
-})
+}) */
 // Create Account
 app.post('/api/signup', async (req, res) => {
   let account = req.body;
