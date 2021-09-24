@@ -15,8 +15,14 @@ function run(query, params = {}) {
 module.exports = {
   // A quick get all users for testing purposes
   getAllUsers() {
-    let users = all(`SELECT userName, password FROM users`);
+    let users = all(`SELECT userName, password,id, uid FROM users`);
     return users;
+  },
+
+  //get one user by Id
+  getUserById(id){
+    let user = all(`SELECT id FROM users WHERE users.id = :id`);
+    return all(user, id);
   },
 
   // Get all playlist

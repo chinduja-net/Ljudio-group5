@@ -27,5 +27,25 @@ export async function loginFetch(body){
     console.log("login data",data)
     return data
 
-
 }
+
+function getToken() {
+    return sessionStorage.getItem("auth");
+  }
+
+ export async function isLoggedIn() {
+    const token = getToken();
+    const response = await fetch('/api/loggedin', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+      
+     if (!data.loggedIn) {
+      console.log("user not logged In!!")
+    } 
+    return data
+    }
+  
+

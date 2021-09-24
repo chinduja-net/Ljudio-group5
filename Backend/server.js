@@ -11,6 +11,12 @@ app.get('/api/users', (req, res) => {
   res.json(db.getAllUsers());
 });
 
+//get user by id
+app.get('/api/user/:id', (req,res) => {
+  let id = +(req.params.id)
+  console.log(id);
+  res.json(db.getUserById(id))
+})
 // Create Account
 
 app.post('/api/signup', (req, res) => {

@@ -49,6 +49,7 @@ export default function Login() {
         history.push("/signup");
       } else {
         await saveToken(data.token);
+        history.push('/playLists')
       }
     } catch (error) {
       console.log(error);
@@ -115,25 +116,4 @@ export default function Login() {
   );
 }
 
- //To verify if the user is logged in
-//can be used to give access to make playlists etc...
-
-/*
-function getToken() {
-    return sessionStorage.getItem("auth");
-  }
- async function isLoggedIn() {
-    const token = getToken();
-    const response = await fetch('http://localhost:3000/api/user/loggedin', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    const data = await response.json();
-  
-     if (!data.loggedIn) {
-      location.href = 'http://localhost:3000/api/login';
-    } 
-    }
-  
-  isLoggedIn() */
+ 
