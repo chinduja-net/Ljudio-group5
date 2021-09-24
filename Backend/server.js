@@ -15,7 +15,6 @@ app.get('/api/users', (req, res) => {
 });
 
 // Create Account
-
 app.post('/api/signup', async (req, res) => {
   let account = req.body;
   account.uid = nanoid();
