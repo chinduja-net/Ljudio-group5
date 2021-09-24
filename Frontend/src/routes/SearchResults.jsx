@@ -95,7 +95,7 @@ function SearchResults() {
       );
 
       setCurrentSong(clickedValueSong);
-      history.push('/playerPage');
+      // history.push('/playerPage');
     }
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
