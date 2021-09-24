@@ -28,34 +28,6 @@ export default function SongProvider(props) {
     return shifted;
   }
 
-<<<<<<< HEAD
-	return (
-		<SearchContext.Provider
-			value={{
-				searchResults,
-				setSearchResults,
-				currentSong,
-				setCurrentSong,
-				currentAlbum,
-				setCurrentAlbum,
-				currentArtist,
-				setCurrentArtist,
-				songDetail,
-				setSongDetail,
-				queueSongs,
-				addObjToArray,
-				shiftQueue,
-				ytPlayerState,
-				setYtPlayerState,
-				ytPlayer,
-				setYtPlayer,
-				setQueueSongs
-			}}
-		>
-			{props.children}
-		</SearchContext.Provider>
-	)
-=======
   return (
     <SearchContext.Provider
       value={{
@@ -82,5 +54,4 @@ export default function SongProvider(props) {
       {props.children}
     </SearchContext.Provider>
   );
->>>>>>> backendStructuring
 }
