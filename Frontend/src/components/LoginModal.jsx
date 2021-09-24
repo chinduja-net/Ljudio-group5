@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { styled, Box } from '@mui/system';
-import ModalUnstyled from '@mui/core/ModalUnstyled';
+import { styled, Box } from '@mui/system/';
+import ModalUnstyled from '@mui/core/ModalUnstyled/';
 
 import Login from './LogIn';
 const StyledModal = styled(ModalUnstyled)`
@@ -51,7 +51,7 @@ export default function LoginModal() {
         BackdropComponent={Backdrop}
       >
         <Box sx={style}>
-          <Login/>
+          <Login />
         </Box>
       </StyledModal>
     </div>

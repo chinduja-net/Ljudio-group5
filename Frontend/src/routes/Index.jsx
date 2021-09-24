@@ -7,6 +7,7 @@ import DetailsPage from './DetailsPage';
 import QueueViewer from './QueueViewer';
 import SearchBar from '../components/SearchBar';
 import PlayLists from '../components/PlayLists';
+import PlayerPage from '../routes/PlayerPage';
 
 function Routes() {
   return (
@@ -29,7 +30,7 @@ function Routes() {
       <Route path="/queueViewer">
         <QueueViewer />
       </Route>
-      <Route path="/playerPage">
+      <Route path="/PlayerPage">
         <PlayerPage />
       </Route>
     </Switch>
