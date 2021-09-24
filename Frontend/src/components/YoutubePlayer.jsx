@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import YouTube from "react-youtube"
 
 import { SearchContext } from "../context/SongProvider"
@@ -7,7 +7,6 @@ function YoutubePlayer() {
 	const {
 		currentSong,
 		queueSongs,
-		setQueueSongs,
 		shiftQueue,
 		setCurrentSong,
 		ytPlayerState,
@@ -15,10 +14,6 @@ function YoutubePlayer() {
 		ytPlayer,
 		setYtPlayer,
 	} = useContext(SearchContext)
-
-	useEffect(() => {
-		console.log("queueSongs updated.", queueSongs)
-	}, [ytPlayerState, queueSongs])
 
 	const opts = {
 		height: "100",
@@ -40,7 +35,6 @@ function YoutubePlayer() {
 			player.playVideo()
 		}
 
-		// Calls 2 functions depending on if playingState is true / false.
 		// Toggles between playing and pausing the player
 		function toggleVidBtn() {
 			let state = player.getPlayerState()
@@ -49,19 +43,29 @@ function YoutubePlayer() {
 			state === 1 ? pauseVid() : state === 2 ? playVid() : null
 		}
 
+		// Send YTPlayer to a state variable for global access.
 		setYtPlayer({
 			player,
 			toggleVidBtn,
 		})
 	}
 
-	// Autoplay next song in queue if it exists
-	function _onEnd(event) {
-		// queueSongs
-		// 	? ytPlayer.playNextSong(event, queueSongs, setCurrentSong)
-		// 	: null
+	function autoPlayNextInQueue() {
+		// Get first song from queue and update the queue
+		let song = shiftQueue()
+		// TODO: add current song to previously played
+
+		ytPlayer.player.loadVideoById(song.videoId)
+		ytPlayer.player.playVideo()
+		setCurrentSong(song)
 	}
 
+	// Runs after song in player ends
+	function _onEnd(event) {
+		if (queueSongs.length) autoPlayNextInQueue()
+	}
+
+	// Runs after player state (iframe api) changes
 	function _onStateChange(event) {
 		let state = event.target.getPlayerState()
 		/**
@@ -74,29 +78,7 @@ function YoutubePlayer() {
 		 */
 		setYtPlayerState(state) // playing
 	}
-	/** 
-	function playNextSong() {
-		// setQueueSongs(queueSongs)
-		// If any songs are queued load the first one's videoId and feed it to the player
-		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
-		if (queueSongs.length) {
-			// let videoId = queueSongs[0].videoId
-			let song = shiftQueue()
-			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
 
-			ytPlayer.player.loadVideoById(song.videoId)
-			// ytPlayer.player.playVideo()
-			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
-
-			// update the queue in the react context
-			setCurrentSong(song)
-			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
-		}
-		// else {
-		// 	console.log("queueSongs are nullish")
-		// }
-	}
-*/
 	return (
 		<YouTube
 			videoId={currentSong && currentSong.videoId}

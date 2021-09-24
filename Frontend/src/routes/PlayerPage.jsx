@@ -1,6 +1,5 @@
-import React, { useRef, useContext, useState, useEffect } from "react"
-import { useLocation, useHistory } from "react-router-dom"
-import Player from "../components/Player"
+import React, { useContext, useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import { SearchContext } from "../context/SongProvider"
 
 import SkipNextIcon from "@mui/icons-material/SkipNext"
@@ -14,7 +13,6 @@ import ListIcon from "@mui/icons-material/List"
 
 function PlayerPage() {
 	const history = useHistory()
-	const location = useLocation()
 	const {
 		currentSong,
 		queueSongs,
@@ -24,57 +22,19 @@ function PlayerPage() {
 		ytPlayer,
 	} = useContext(SearchContext)
 
-	useEffect(() => {}, [queueSongs])
-
-	// 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
-	const [playingState, setPlayingState] = useState(true)
 	const [audioState, setAudioState] = useState(true)
 
-	// function playNextSong() {
-	// 	// Plays next song from queueSongs
-	// 	console.log("log of queued songs inside playNext func", queueSongs)
-	// 	if (queueSongs[0]) {
-	// 		let videoId = queueSongs[0].videoId
-	// 		player.current.loadVideoById(videoId)
-	// 		player.current.playVideo()
-	// 		setPlayingState(true)
-	// 		// updates
-	// 		setCurrentSong(queueSongs[0])
-	// 		shiftQueue()
-	// 	}
-	// }
-
 	function playNextSong() {
-		// setQueueSongs(queueSongs)
 		// If any songs are queued load the first one's videoId and feed it to the player
-		console.log("1 Console log playNextSong in YTplayer.jsx", queueSongs)
 		if (queueSongs.length) {
-			// let videoId = queueSongs[0].videoId
+			// Get first song from queue and update the queue
 			let song = shiftQueue()
-			console.log("2 Console log playNextSong in YTplayer.jsx", queueSongs)
-			console.log("ytPlayer", ytPlayer)
+
 			ytPlayer.player.loadVideoById(song.videoId)
 			ytPlayer.player.playVideo()
-			console.log("3 Console log playNextSong in YTplayer.jsx", queueSongs)
-
-			// update the queue in the react context
 			setCurrentSong(song)
-			console.log("4 Console log playNextSong in YTplayer.jsx", queueSongs)
 		}
-		// else {
-		// 	console.log("queueSongs are nullish")
-		// }
 	}
-
-	// function pauseVid() {
-	// 	player.current.pauseVideo()
-	// 	setPlayingState(false)
-	// }
-
-	// function playVid() {
-	// 	player.current.playVideo()
-	// 	setPlayingState(true)
-	// }
 
 	function muteAudio() {
 		ytPlayer.player.mute()
@@ -91,6 +51,7 @@ function PlayerPage() {
 		console.log("audio state", audioState)
 	}
 
+	// Only renders the miniplayer if a currentSong is in the player
 	return currentSong ? (
 		<div style={{ width: "200px", height: "200px" }}>
 			<img
@@ -108,6 +69,10 @@ function PlayerPage() {
 			</button>
 
 			<button onClick={() => ytPlayer.toggleVidBtn()}>
+				{/* 
+					Toggle play button icon based on player state
+					1 = playing, 2 = paused
+				*/}
 				{ytPlayerState === 1 ? (
 					<PauseIcon />
 				) : ytPlayerState === 2 ? (
@@ -124,6 +89,7 @@ function PlayerPage() {
 			<button onClick={toggleAudio}>
 				{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
 			</button>
+
 			<button
 				onClick={() => {
 					history.push("/queueViewer")
