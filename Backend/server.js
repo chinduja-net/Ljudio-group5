@@ -6,6 +6,9 @@ app.use(express.json());
 const jwt = require('jsonwebtoken');
 const { nanoid } = require('nanoid');
 
+const { hashPassword, comparePassword } = require('./utility/utils');
+const { getUserLoginInfo } = require('./database');
+
 // Get all users
 app.get('/api/users', (req, res) => {
   res.json(db.getAllUsers());
@@ -13,39 +16,46 @@ app.get('/api/users', (req, res) => {
 
 // Create Account
 
-app.post('/api/signup', (req, res) => {
+app.post('/api/signup', async (req, res) => {
   let account = req.body;
   account.uid = nanoid();
-  console.log(account);
+  console.log('Account info before hashing', account);
+  account.password = await hashPassword(account.password);
+  console.log('Account info after hashing', account);
   let insert = db.createAccount(account);
   account.id = insert.lastInsertRowid;
   res.json(account);
 });
 
 // Login to account
-app.post('/api/login', (req, res) => {
-
+app.post('/api/login', async (req, res) => {
   let loginCredentials = req.body;
-  let result = { success: false , token : null };
-  let checkCredential = db.checkCredentials(loginCredentials);
-  console.log(checkCredential);
-  if (checkCredential.length != 0) {
-    const token = jwt.sign({ uid: checkCredential.uid }, 'a1b1c1', {
-      expiresIn: 600 //Går ut om 10 minuter 
-    });
+  const user = getUserLoginInfo(loginCredentials);
+  console.log('Log user object', user);
+  // Break out password prop of userObj
+  let userHashPass = user[0].password;
+  console.log(userHashPass);
+  let compareHashPass = await comparePassword(
+    loginCredentials.password,
+    userHashPass
+  );
+  console.log(compareHashPass);
+  let result = { success: false, token: null };
+  if (compareHashPass) {
     result.success = true;
-    result.token = token;
-    console.log("JWT Token Sign", token);
-
   }
-  res.json(result)
-
+  if (result.success) {
+    const token = jwt.sign({ uid: user.uid }, 'a1b1c1', {
+      expiresIn: 600, //Går ut om 10 minuter
+    });
+    result.token = token;
+    console.log('JWT Token Sign', token);
+  }
+  res.json(result);
 });
-
 
 // Login status
 app.get('/api/loggedin', (req, res) => {
-
   const token = req.header('Authorization').replace('Bearer ', '');
 
   let result = { loggedIn: false };
@@ -60,9 +70,7 @@ app.get('/api/loggedin', (req, res) => {
     }
   }
   res.json(result);
-
-})
-
+});
 
 // Get all playlists from account
 app.get('/api/playlists', (req, res) => {

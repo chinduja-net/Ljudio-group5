@@ -1,4 +1,5 @@
 const sqlite = require('better-sqlite3');
+const { comparePassword } = require('./utility/utils');
 
 const conn = sqlite('database.db');
 
@@ -12,33 +13,43 @@ function run(query, params = {}) {
   return stmt.run(params);
 }
 
-module.exports = {
-  // A quick get all users for testing purposes
-  getAllUsers() {
-    let users = all(`SELECT userName, password FROM users`);
-    return users;
-  },
+// A quick get all users for testing purposes
+function getAllUsers() {
+  let users = all(`SELECT userName, password FROM users`);
+  return users;
+}
 
-  // Get all playlist
-  getAllPlaylists() {
-    let playlists = all(`SELECT userName,playlistName
+// Get all playlist
+function getAllPlaylists() {
+  let playlists = all(`SELECT userName,playlistName
       FROM playlists, users, playlist_track_user
       WHERE playlists.id = playlist_track_user.playlistId
       AND users.id = playlist_track_user.userId
       ORDER BY userName`);
-    return playlists;
-  },
+  return playlists;
+}
 
-  // Create Account
-  createAccount(account) {
-    const query =
-      'INSERT INTO users(userName, password, uid) VALUES(:userName,:password,:uid)';
-    return run(query, account);
-  },
+// Create Account
+function createAccount(account) {
+  const query =
+    'INSERT INTO users(userName, password, uid) VALUES(:userName,:password,:uid)';
+  return run(query, account);
+}
 
-  //login Account
-  checkCredentials(loginCredentials) {
-    let query = (`SELECT userName, password FROM  users WHERE  (userName = :userName AND password = :password)`)
-    return all(query, loginCredentials)
-  }
-};
+//login Account
+// function checkCredentials(loginCredentials) {
+//   let query = `SELECT userName, password FROM  users WHERE  (userName = :userName AND password = :password)`;
+//   return all(query, loginCredentials);
+// }
+
+//login Account
+function getUserLoginInfo(loginCredentials) {
+  let query = `SELECT userName, password FROM  users WHERE  (userName = :userName)`;
+  return all(query, loginCredentials);
+}
+
+exports.getAllUsers = getAllUsers;
+exports.getAllPlaylists = getAllPlaylists;
+exports.createAccount = createAccount;
+//exports.checkCredentials = checkCredentials;
+exports.getUserLoginInfo = getUserLoginInfo;
