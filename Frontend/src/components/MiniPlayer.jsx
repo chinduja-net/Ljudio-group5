@@ -1,23 +1,29 @@
-import React, { useRef, useContext, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import Player from '../components/Player';
-import { SearchContext } from '../context/SongProvider';
+import React, { useRef, useContext, useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import Player from "../components/Player";
+import { SearchContext } from "../context/SongProvider";
 
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { AppBar, Toolbar } from '@mui/material';
-import ListIcon from '@mui/icons-material/List';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { AppBar, Toolbar } from "@mui/material";
+import ListIcon from "@mui/icons-material/List";
 
 function MiniPlayer() {
   const location = useLocation();
   const history = useHistory();
   const player = useRef();
-  const { currentSong, queueSongs, shiftQueue, setCurrentSong } =
-    useContext(SearchContext);
+  const {
+    currentSong,
+    queueSongs,
+    shiftQueue,
+    setCurrentSong,
+    popPlayedSongs,
+    playedSongs,
+  } = useContext(SearchContext);
 
   // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
   const [playingState, setPlayingState] = useState(true);
@@ -35,7 +41,7 @@ function MiniPlayer() {
 
   function playNextSong() {
     // Plays next song from queueSongs
-    console.log('log of queued songs inside playNext func', queueSongs);
+    console.log("log of queued songs inside playNext func", queueSongs);
     if (queueSongs[0]) {
       let videoId = queueSongs[0].videoId;
       player.current.loadVideoById(videoId);
@@ -44,6 +50,18 @@ function MiniPlayer() {
       // updates
       setCurrentSong(queueSongs[0]);
       shiftQueue();
+    }
+  }
+
+  function playPrevSong() {
+    //plays last song in playedSongs array and pops last element
+    if (playedSongs) {
+      let videoId = playedSongs.at(-1).videoId;
+      player.current.loadVideoById(videoId);
+      player.current.playVideo();
+      setPlayingState(true);
+      setCurrentSong(playedSongs.at(-1));
+      popPlayedSongs();
     }
   }
 
@@ -71,34 +89,34 @@ function MiniPlayer() {
   // Toggles between playing and pauseing player
   function toggleVidBtn() {
     playingState ? pauseVid() : playVid();
-    console.log('player state', playingState);
+    console.log("player state", playingState);
   }
 
   function toggleAudio() {
     audioState ? muteAudio() : unmuteAudio();
-    console.log('audio state', audioState);
+    console.log("audio state", audioState);
   }
 
   // Checks if user clicked ON miniplayer
   function miniPlayerClickHandler(e) {
-    if (e.target.classList.contains('miniPlayerClick')) {
-      history.push('/playerPage');
+    if (e.target.classList.contains("miniPlayerClick")) {
+      history.push("/playerPage");
     }
   }
 
   return (
     // Checks if we are on playerPage and if so it renders out playerPage DOM
     currentSong ? (
-      location.pathname === '/playerPage' ? (
-        <div style={{ width: '200px', height: '200px' }}>
+      location.pathname === "/playerPage" ? (
+        <div style={{ width: "200px", height: "200px" }}>
           <Player onLoad={onPlayerLoad} />
           <img
             src={currentSong.thumbnails[1].url}
             alt="Song tumbnail"
             style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
             }}
           />
           <h1>{currentSong.name}</h1>
@@ -119,7 +137,7 @@ function MiniPlayer() {
           </button>
           <button
             onClick={() => {
-              history.push('/queueViewer');
+              history.push("/queueViewer");
             }}
           >
             <ListIcon />
@@ -131,7 +149,7 @@ function MiniPlayer() {
           className={`miniPlayerClick`}
           onClick={miniPlayerClickHandler}
           sx={{
-            top: 'auto',
+            top: "auto",
             bottom: 0,
           }}
         >
@@ -142,13 +160,13 @@ function MiniPlayer() {
               src={currentSong.thumbnails[0].url}
               alt="Song tumbnail"
               style={{
-                width: '120px',
-                height: '120px',
-                borderRadius: '50%',
+                width: "120px",
+                height: "120px",
+                borderRadius: "50%",
               }}
             />
             <h1 className="miniPlayerClick">{currentSong.name}</h1>
-            <button>
+            <button onClick={playPrevSong}>
               <SkipPreviousIcon />
             </button>
 
