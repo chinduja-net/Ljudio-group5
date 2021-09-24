@@ -1,25 +1,17 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import SearchResults from "./SearchResults";
-import Home from "./Home";
-import DetailsPage from "./DetailsPage";
-import QueueViewer from "./QueueViewer";
-import SignUp from "../components/signUp";
-import LogIn from "../components/LogIn";
-
+import SearchResults from './SearchResults';
+import Home from './Home';
+import DetailsPage from './DetailsPage';
+import QueueViewer from './QueueViewer';
+import PlayerPage from './PlayerPage';
 
 function Routes() {
   return (
     <Switch>
       <Route path="/" exact>
         <Home />
-      </Route>
-      <Route path = "/signup">
-        <SignUp />
-      </Route>
-        <Route path = "/login">
-        <LogIn />
       </Route>
       <Route path="/searchResults">
         <SearchResults />
@@ -29,6 +21,9 @@ function Routes() {
       </Route>
       <Route path="/queueViewer">
         <QueueViewer />
+      </Route>
+      <Route path="/playerPage">
+        <PlayerPage />
       </Route>
     </Switch>
   );
