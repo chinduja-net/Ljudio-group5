@@ -17,33 +17,46 @@ function BottomNavLinks() {
 	const history = useHistory()
 	const location = useLocation()
 
+	// Run once on mount to set initial linkTagsValue for proper rendering in the nav
 	useEffect(() => {
-    
-    // ! Infinite loop here. Look into react router dom history.listen() or similar alternatives
-    // // Home page
-		// if (location.pathname === "/") {
-		// 	setLinkTagsValue(0)
-		// }
-		// if (linkTagsValue === 0) {
-		// 	history.push("/")
-		// }
+		if (location.pathname === "/") {
+			setLinkTagsValue(0)
+		} else if (location.pathname === "/searchResults") {
+			setLinkTagsValue(1)
+		} else if (location.pathname === "/playlists") {
+			setLinkTagsValue(2)
+		}
+	}, [])
 
-    // // Searchresults page
-		// if (location.pathname === "/searchResults") {
-		// 	setLinkTagsValue(1)
-		// }
-		// if (linkTagsValue === 1) {
-		// 	history.push("/searchResults")
-		// }
+	// Run every time linkTagsValue change and history changes
+	// Why? - To update pages across the app with the proper link tag value
+	useEffect(() => {
+		// ! This is poorly optimized, it runs some of the selections several times / Joel
+		// Change url based on click value from bottom nav
+		if (linkTagsValue === 0 && location.pathname !== "/") {
+			history.push("/")
+		} else if (
+			linkTagsValue === 1 &&
+			location.pathname !== "/searchResults"
+		) {
+			history.push("/searchResults")
+		} else if (linkTagsValue === 2 && location.pathname !== "/playlists") {
+			history.push("/playlists")
+		}
 
-    // // Library page
-		// if (location.pathname === "/library") {
-		// 	setLinkTagsValue(2)
-		// }
-		// if (linkTagsValue === 2) {
-		// 	history.push("/library")
-		// }
-	}, [linkTagsValue])
+		// Change the state value that handles the highlighting of the nav tags
+		history.listen((location) => {
+			if (location.pathname === "/") {
+				setLinkTagsValue(0)
+			}
+			if (location.pathname === "/searchResults") {
+				setLinkTagsValue(1)
+			}
+			if (location.pathname === "/playlists") {
+				setLinkTagsValue(2)
+			}
+		})
+	}, [linkTagsValue, history])
 
 	return (
 		<Box sx={{ pb: 7 }} ref={ref}>
@@ -56,8 +69,52 @@ function BottomNavLinks() {
 					showLabels
 					value={linkTagsValue}
 					onChange={(event, newValue) => {
-						console.log("new", newValue)
 						setLinkTagsValue(newValue)
+
+						// historyOld.listen()
+						// onRouteChanged()
+
+						// Home page
+						// if (newValue === 0) {
+						// 	if (location.pathname === "/" && linkTagsValue !== 0) {
+						// 		setLinkTagsValue(0)
+						// 	}
+						// 	if (linkTagsValue === 0 && location.pathname !== "/") {
+						// 		history.push("/")
+						// 	}
+						// }
+
+						// // Searchresults page
+						// if (newValue === 1) {
+						// 	if (
+						// 		location.pathname === "/searchResults" &&
+						// 		linkTagsValue !== 1
+						// 	) {
+						// 		setLinkTagsValue(1)
+						// 	}
+						// 	if (
+						// 		linkTagsValue === 1 &&
+						// 		location.pathname !== "/searchResults"
+						// 	) {
+						// 		history.push("/searchResults")
+						// 	}
+						// }
+
+						// // Library page
+						// if (newValue === 2) {
+						// 	if (
+						// 		location.pathname === "/library" &&
+						// 		linkTagsValue !== 2
+						// 	) {
+						// 		setLinkTagsValue(2)
+						// 	}
+						// 	if (
+						// 		linkTagsValue === 2 &&
+						// 		location.pathname !== "/library"
+						// 	) {
+						// 		history.push("/library")
+						// 	}
+						// }
 					}}
 				>
 					<BottomNavigationAction
@@ -84,7 +141,7 @@ function BottomNavLinks() {
 						// 		color: "rgba(0, 0, 0, 0.6);",
 						// 	},
 						// }}
-						label="Library"
+						label="Playlists"
 						icon={<LibraryMusicIcon />}
 					/>
 				</BottomNavigation>

@@ -10,8 +10,8 @@ export default function SongProvider(props) {
 	const [songDetail, setSongDetail] = useState({})
 	const [queueSongs, setQueueSongs] = useState([])
 	// This state handles the highlighting of the icons
-  // 0 = Home page, 1 = searchResults, 2 = library
-	const [linkTagsValue, setLinkTagsValue] = useState(0)
+	// 0 = Home page, 1 = searchResults, 2 = playlists
+	const [linkTagsValue, setLinkTagsValue] = useState()
 
 	// ? next in queue view
 	// ? next from: playlist/album view
