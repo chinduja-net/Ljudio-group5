@@ -39,7 +39,7 @@ export default function SignUp() {
       if (data) {
 
             console.log(data);
-            history.push('/Home');
+            history.push('/');
       }
     } catch (error) {
       console.log(error);

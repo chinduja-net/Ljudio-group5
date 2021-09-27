@@ -1,14 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 
-import { isLoggedIn } from '../services/authService';
+import CreatePlaylistForm from './CreatePlaylistForm';
 
 function PlayLists() {
+  const history = useHistory();
+
   function createPlayList() {
-    isLoggedIn();
+    history.push('/createPlaylistForm');
   }
-
-  async function showPlaylists() {}
-
   return (
     <div>
       <button onClick={createPlayList}>Create Playlist</button>

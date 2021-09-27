@@ -41,11 +41,12 @@ function getToken() {
       }
     });
     const data = await response.json();
-      
-     if (!data.loggedIn) {
+    console.log(data);
+    return await data
+    /*  if (!data.loggedIn) {
       console.log("user not logged In!!")
-    } 
-    return data
+    }  */
+    
     }
   
 
