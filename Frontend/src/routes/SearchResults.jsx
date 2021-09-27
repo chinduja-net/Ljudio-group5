@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from "react";
+import { useHistory, useLocation} from "react-router-dom";
 
-import { Grid, Button } from '@mui/material';
+import { Grid, Button } from "@mui/material";
 
-import { SearchContext } from '../context/SongProvider';
-import SearchBar from '../components/SearchBar';
+import { SearchContext } from "../context/SongProvider";
+import SearchBar from "../components/SearchBar";
+
 
 function SearchResults() {
   const {
@@ -13,10 +14,13 @@ function SearchResults() {
     setCurrentAlbum,
     setCurrentArtist,
     setSongDetail,
+    setPlayList,
+    playList
+    
   } = useContext(SearchContext);
 
   const history = useHistory();
-
+  
   function renderSong(object) {
     return (
       <Grid
@@ -27,7 +31,7 @@ function SearchResults() {
         <img
           data-render-song={JSON.stringify(object)}
           src={object.thumbnails[0].url}
-          alt={'song thumbnail'}
+          alt={"song thumbnail"}
         />
         <div data-render-song={JSON.stringify(object)}>
           <h4 data-render-song={JSON.stringify(object)}>{object.name}</h4>
@@ -36,7 +40,12 @@ function SearchResults() {
         <Button variant="contained" type="click" onClick={showSongDetails}>
           song details
         </Button>
-      </Grid>
+        <Button type="click" onClick={addToPlaylist}>
+          Add to playlist
+        </Button>
+       
+        
+        </Grid>
     );
   }
 
@@ -47,7 +56,7 @@ function SearchResults() {
         <img
           data-render-artist={JSON.stringify(object)}
           src={object.thumbnails[0].url}
-          alt={'artist thumbnail'}
+          alt={"artist thumbnail"}
         />
         <h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
       </Grid>
@@ -59,7 +68,7 @@ function SearchResults() {
         <img
           data-render-album={JSON.stringify(object)}
           src={object.thumbnails[0].url}
-          alt={'album cover'}
+          alt={"album cover"}
         />
         <h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
         <p data-render-album={JSON.stringify(object)}>{object.artist}</p>
@@ -67,21 +76,42 @@ function SearchResults() {
     );
   }
 
+  function addToPlaylist(e) {
+    if (
+      e.currentTarget.parentElement.attributes.getNamedItem(
+        "data-render-details"
+      ) !== null
+    ) {
+      let addToListSong = JSON.parse(
+        e.currentTarget.parentElement.attributes.getNamedItem(
+          "data-render-details"
+        ).value
+      );
+    setPlayList([...playList,addToListSong]);
+    console.log("playList",playList)
+    
+  
+    }
+  }
+  function playListView(){
+    history.push('/playListView')
+  }
+
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
-        'data-render-details'
+        "data-render-details"
       ) !== null
     ) {
       let clickedDetailSong = JSON.parse(
         e.currentTarget.parentElement.attributes.getNamedItem(
-          'data-render-details'
+          "data-render-details"
         ).value
       );
 
       setSongDetail(clickedDetailSong);
-      history.push('/detailsPage');
+      history.push("/detailsPage");
     }
   }
 
@@ -89,9 +119,9 @@ function SearchResults() {
    * Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
    */
   function resultsClickHandler(e) {
-    if (e.target.attributes.getNamedItem('data-render-song') !== null) {
+    if (e.target.attributes.getNamedItem("data-render-song") !== null) {
       let clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem('data-render-song').value
+        e.target.attributes.getNamedItem("data-render-song").value
       );
 
       setCurrentSong(clickedValueSong);
@@ -100,9 +130,9 @@ function SearchResults() {
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ARTIST
-    if (e.target.attributes.getNamedItem('data-render-artist') !== null) {
+    if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
       let clickedValueArtist = JSON.parse(
-        e.target.attributes.getNamedItem('data-render-artist').value
+        e.target.attributes.getNamedItem("data-render-artist").value
       );
 
       setCurrentArtist(clickedValueArtist);
@@ -110,9 +140,9 @@ function SearchResults() {
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ALBUM
-    if (e.target.attributes.getNamedItem('data-render-album') !== null) {
+    if (e.target.attributes.getNamedItem("data-render-album") !== null) {
       let clickedValueAlbum = JSON.parse(
-        e.target.attributes.getNamedItem('data-render-album').value
+        e.target.attributes.getNamedItem("data-render-album").value
       );
 
       setCurrentAlbum(clickedValueAlbum);
@@ -132,16 +162,19 @@ function SearchResults() {
       >
         {searchResults
           ? searchResults.map((obj) => {
-              return obj.type === 'song'
+              return obj.type === "song"
                 ? renderSong(obj)
-                : obj.type === 'artist'
+                : obj.type === "artist"
                 ? renderArtist(obj)
-                : obj.type === 'album'
+                : obj.type === "album"
                 ? renderAlbum(obj)
                 : null;
             })
           : null}
       </Grid>
+      <Button type="click" onClick={playListView}>
+          view playlist
+        </Button>
     </div>
   );
 }
