@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const SearchContext = createContext();
 
@@ -14,10 +14,31 @@ export default function SongProvider(props) {
   const [playedSongs, setPlayedSongs] = useState([]);
   const [playList, setPlayList] = useState([]);
 
+  useEffect(() => {
+    getLocalQueued();
+  }, []);
+
+  useEffect(() => {
+    saveQueToLocal();
+  }, [queueSongs]);
   // ? next in queue view
   // ? next from: playlist/album view
 
   // ? next/ previous buttons
+
+  function saveQueToLocal() {
+    localStorage.setItem("queued", JSON.stringify(queueSongs));
+  }
+
+  function getLocalQueued() {
+    if (localStorage.getItem("queued") === null) {
+      localStorage.setItem("queued", JSON.stringify([]));
+    } else {
+      let queuedLocal = JSON.parse(localStorage.getItem("queued"));
+      setQueueSongs(queuedLocal);
+      setCurrentSong(queuedLocal[0]);
+    }
+  }
 
   function addObjToArray(newObj) {
     setQueueSongs([...queueSongs, newObj]);
