@@ -34,7 +34,7 @@ function CreatePlaylistForm() {
           <input
             name="playlistname"
             type="text"
-            onChange={(e) => setPlaylistName(e.target.value)}
+            onChange ={(e) => setPlaylistName(e.target.value)}
           />
           <label htmlFor="playlistname">Give your playlist a name</label>
         </form>

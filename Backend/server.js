@@ -97,6 +97,7 @@ app.post('/api/createPlaylist', async (req, res) => {
   let playlist = req.body;
   let insert = createPlaylist(playlist);
   playlist.id = insert.lastInsertRowid;
+  
   res.json(playlist);
 });
 
