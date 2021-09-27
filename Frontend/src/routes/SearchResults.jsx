@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Grid, Button } from "@mui/material";
 
@@ -15,6 +15,8 @@ function SearchResults() {
     setSongDetail,
     setPlayedSongs,
     playedSongs,
+    setPlayList,
+    playList,
   } = useContext(SearchContext);
 
   const history = useHistory();
@@ -37,6 +39,9 @@ function SearchResults() {
         </div>
         <Button variant="contained" type="click" onClick={showSongDetails}>
           song details
+        </Button>
+        <Button type="click" onClick={addToPlaylist}>
+          Add to playlist
         </Button>
       </Grid>
     );
@@ -67,6 +72,25 @@ function SearchResults() {
         <p data-render-album={JSON.stringify(object)}>{object.artist}</p>
       </Grid>
     );
+  }
+
+  function addToPlaylist(e) {
+    if (
+      e.currentTarget.parentElement.attributes.getNamedItem(
+        "data-render-details"
+      ) !== null
+    ) {
+      let addToListSong = JSON.parse(
+        e.currentTarget.parentElement.attributes.getNamedItem(
+          "data-render-details"
+        ).value
+      );
+      setPlayList([...playList, addToListSong]);
+      console.log("playList", playList);
+    }
+  }
+  function playListView() {
+    history.push("/playListView");
   }
 
   //Displays the details of the song in a new page or route
@@ -145,6 +169,9 @@ function SearchResults() {
             })
           : null}
       </Grid>
+      <Button type="click" onClick={playListView}>
+        view playlist
+      </Button>
     </div>
   );
 }
