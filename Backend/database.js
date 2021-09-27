@@ -49,7 +49,7 @@ function createAccount(account) {
 
 //login Account
 function getUserLoginInfo(loginCredentials) {
-  let query = `SELECT userName, password FROM  users WHERE  (userName = :userName)`;
+  let query = `SELECT id,userName, password FROM  users WHERE  (userName = :userName)`;
   return all(query, loginCredentials);
 }
 
@@ -59,9 +59,16 @@ function createPlaylist(playlist) {
   return run(query, playlist);
 }
 
+function createPlaylistUserConnection(relationData) {
+  let query = `INSERT INTO playlist_track_user (playlistId, userId)
+  VALUES (:playlistId, :userId)`;
+  return run(query, relationData);
+}
+
 exports.getAllUsers = getAllUsers;
 exports.getAllPlaylists = getAllPlaylists;
 exports.createAccount = createAccount;
 exports.getUserLoginInfo = getUserLoginInfo;
 exports.getUserPlaylistsById = getUserPlaylistsById;
 exports.createPlaylist = createPlaylist;
+exports.createPlaylistUserConnection = createPlaylistUserConnection;
