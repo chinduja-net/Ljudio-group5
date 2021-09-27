@@ -13,6 +13,7 @@ const {
   getUserPlaylistsById,
   getAllUsers,
   getAllPlaylists,
+  createPlaylist,
 } = require('./database');
 
 // Get all users
@@ -92,6 +93,12 @@ app.get('/api/playlists', (req, res) => {
 });
 
 // Create a playlist
+app.post('/api/createPlaylist', async (req, res) => {
+  let playlist = req.body;
+  let insert = createPlaylist(playlist);
+  playlist.id = insert.lastInsertRowid;
+  res.json(playlist);
+});
 
 // Remove a playlist
 

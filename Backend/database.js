@@ -53,8 +53,15 @@ function getUserLoginInfo(loginCredentials) {
   return all(query, loginCredentials);
 }
 
+function createPlaylist(playlist) {
+  let query = `INSERT INTO playlists (playlistName)
+  VALUES (:playlistName)`;
+  return run(query, playlist);
+}
+
 exports.getAllUsers = getAllUsers;
 exports.getAllPlaylists = getAllPlaylists;
 exports.createAccount = createAccount;
 exports.getUserLoginInfo = getUserLoginInfo;
 exports.getUserPlaylistsById = getUserPlaylistsById;
+exports.createPlaylist = createPlaylist;
