@@ -19,6 +19,17 @@ function getAllUsers() {
   return users;
 }
 
+// Get user playlist based on userId
+function getUserPlaylistsById(id) {
+  let query = `SELECT userName, playlistName, songName
+  FROM users, songs, playlists, playlist_track_user
+  WHERE users.id = :id
+  AND playlist_track_user.userId = users.id
+  AND  playlist_track_user.playlistId = playlists.id
+  AND  playlist_track_user.songId = songs.id `;
+  return all(query, id);
+}
+
 // Get all playlist
 function getAllPlaylists() {
   let playlists = all(`SELECT userName,playlistName
@@ -31,16 +42,10 @@ function getAllPlaylists() {
 
 // Create Account
 function createAccount(account) {
-  const query =
+  let query =
     'INSERT INTO users(userName, password, uid) VALUES(:userName,:password,:uid)';
   return run(query, account);
 }
-
-//login Account
-// function checkCredentials(loginCredentials) {
-//   let query = `SELECT userName, password FROM  users WHERE  (userName = :userName AND password = :password)`;
-//   return all(query, loginCredentials);
-// }
 
 //login Account
 function getUserLoginInfo(loginCredentials) {
@@ -48,8 +53,15 @@ function getUserLoginInfo(loginCredentials) {
   return all(query, loginCredentials);
 }
 
+function createPlaylist(playlist) {
+  let query = `INSERT INTO playlists (playlistName)
+  VALUES (:playlistName)`;
+  return run(query, playlist);
+}
+
 exports.getAllUsers = getAllUsers;
 exports.getAllPlaylists = getAllPlaylists;
 exports.createAccount = createAccount;
-//exports.checkCredentials = checkCredentials;
 exports.getUserLoginInfo = getUserLoginInfo;
+exports.getUserPlaylistsById = getUserPlaylistsById;
+exports.createPlaylist = createPlaylist;

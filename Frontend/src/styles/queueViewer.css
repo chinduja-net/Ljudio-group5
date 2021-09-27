@@ -1,0 +1,63 @@
+
+
+.songs {
+  list-style: none;
+  padding-left: 0;
+}
+
+.songs li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: solid 2px #d0d0d0;
+  border-radius: .2em;
+  padding: .5em .8em .5em .5em;
+  margin: 1em;
+ 
+}
+
+.songs p {
+  
+  font-weight: bold;
+  margin: 0 5px; 
+}
+
+.songs-thumb {
+  display: flex;
+  flex-direction: row;
+  width: 2em;
+  height: 2em;
+  
+
+}
+
+.songs-thumb img {
+
+  width: 100%;
+  height: auto;
+}
+
+button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+
+}
+
+.top-container {
+  margin: 1em;
+}
+.np-container {
+  margin: 1em
+}
+.niq-container {
+  margin: 1em;
+  display : flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

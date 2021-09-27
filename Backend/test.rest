@@ -2,7 +2,12 @@
 GET http://localhost:4000/api/users
 
 ### Get one user
-GET http://localhost:4000/api/user/5
+GET http://localhost:4000/api/userById
+Content-Type: application/json
+
+{
+	"id": 3
+}
 
 ### Gets all playlists
 GET http://localhost:4000/api/playlists
@@ -17,7 +22,6 @@ Content-Type: application/json
 }
 
 ### login user
-
 POST http://localhost:4000/api/login 
 Content-Type: application/json
 

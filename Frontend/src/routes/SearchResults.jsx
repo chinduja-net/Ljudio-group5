@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { useHistory, useLocation} from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Grid, Button } from "@mui/material";
 
 import { SearchContext } from "../context/SongProvider";
 import SearchBar from "../components/SearchBar";
-
 
 function SearchResults() {
   const {
@@ -14,13 +13,14 @@ function SearchResults() {
     setCurrentAlbum,
     setCurrentArtist,
     setSongDetail,
+    setPlayedSongs,
+    playedSongs,
     setPlayList,
-    playList
-    
+    playList,
   } = useContext(SearchContext);
 
   const history = useHistory();
-  
+
   function renderSong(object) {
     return (
       <Grid
@@ -43,9 +43,7 @@ function SearchResults() {
         <Button type="click" onClick={addToPlaylist}>
           Add to playlist
         </Button>
-       
-        
-        </Grid>
+      </Grid>
     );
   }
 
@@ -87,14 +85,12 @@ function SearchResults() {
           "data-render-details"
         ).value
       );
-    setPlayList([...playList,addToListSong]);
-    console.log("playList",playList)
-    
-  
+      setPlayList([...playList, addToListSong]);
+      console.log("playList", playList);
     }
   }
-  function playListView(){
-    history.push('/playListView')
+  function playListView() {
+    history.push("/playListView");
   }
 
   //Displays the details of the song in a new page or route
@@ -125,7 +121,8 @@ function SearchResults() {
       );
 
       setCurrentSong(clickedValueSong);
-      // history.push('/playerPage');
+      setPlayedSongs([...playedSongs, clickedValueSong]);
+      history.push("/playerPage");
     }
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
@@ -173,8 +170,8 @@ function SearchResults() {
           : null}
       </Grid>
       <Button type="click" onClick={playListView}>
-          view playlist
-        </Button>
+        view playlist
+      </Button>
     </div>
   );
 }

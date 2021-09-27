@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SearchContext } from '../context/SongProvider';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { SearchContext } from "../context/SongProvider";
 
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { AppBar, Toolbar } from '@mui/material';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { AppBar, Toolbar } from "@mui/material";
 
 function MiniPlayer() {
   const history = useHistory();
@@ -19,6 +19,8 @@ function MiniPlayer() {
     setCurrentSong,
     ytPlayerState,
     ytPlayer,
+    popPlayedSongs,
+    playedSongs,
   } = useContext(SearchContext);
 
   const [audioState, setAudioState] = useState(true);
@@ -35,6 +37,17 @@ function MiniPlayer() {
     }
   }
 
+  function playPrevSong() {
+    //plays last song in playedSongs array and pops last element
+    if (playedSongs.length) {
+      let song = popPlayedSongs();
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+
+      setCurrentSong(song);
+    }
+  }
+
   function muteAudio() {
     ytPlayer.player.mute();
     setAudioState(false);
@@ -47,13 +60,13 @@ function MiniPlayer() {
 
   function toggleAudio() {
     audioState ? muteAudio() : unmuteAudio();
-    console.log('audio state', audioState);
+    console.log("audio state", audioState);
   }
 
   // Checks if user clicked ON miniplayer
   function miniPlayerClickHandler(e) {
-    if (e.target.classList.contains('miniPlayerClick')) {
-      history.push('/playerPage');
+    if (e.target.classList.contains("miniPlayerClick")) {
+      history.push("/playerPage");
     }
   }
 
@@ -65,7 +78,7 @@ function MiniPlayer() {
         className={`miniPlayerClick`}
         onClick={miniPlayerClickHandler}
         sx={{
-          top: 'auto',
+          top: "auto",
           bottom: 0,
         }}
       >
@@ -75,13 +88,13 @@ function MiniPlayer() {
             src={currentSong.thumbnails[0].url}
             alt="Song tumbnail"
             style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
             }}
           />
           <h1 className="miniPlayerClick">{currentSong.name}</h1>
-          <button>
+          <button onClick={() => playPrevSong()}>
             <SkipPreviousIcon />
           </button>
 

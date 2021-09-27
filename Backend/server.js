@@ -7,19 +7,28 @@ const jwt = require('jsonwebtoken');
 const { nanoid } = require('nanoid');
 
 const { hashPassword, comparePassword } = require('./utility/utils');
-const { getUserLoginInfo } = require('./database');
+const {
+  getUserLoginInfo,
+  createAccount,
+  getUserPlaylistsById,
+  getAllUsers,
+  getAllPlaylists,
+  createPlaylist,
+} = require('./database');
 
 // Get all users
 app.get('/api/users', (req, res) => {
-  res.json(db.getAllUsers());
+  res.json(getAllUsers());
 });
 
 //get user by id
-/* app.get('/api/user/:id', (req,res) => {
-  let id = +(req.params.id)
+app.get('/api/userById', (req, res) => {
+  let id = req.body;
   console.log(id);
-  res.json(db.getUserById(id))
-}) */
+  let userPlaylists = getUserPlaylistsById(id);
+  res.json(userPlaylists);
+});
+
 // Create Account
 app.post('/api/signup', async (req, res) => {
   let account = req.body;
@@ -27,7 +36,7 @@ app.post('/api/signup', async (req, res) => {
   console.log('Account info before hashing', account);
   account.password = await hashPassword(account.password);
   console.log('Account info after hashing', account);
-  let insert = db.createAccount(account);
+  let insert = createAccount(account);
   account.id = insert.lastInsertRowid;
   res.json(account);
 });
@@ -79,10 +88,17 @@ app.get('/api/loggedin', (req, res) => {
 
 // Get all playlists from account
 app.get('/api/playlists', (req, res) => {
-  res.json(db.getAllPlaylists());
+  let allPlaylists = getAllPlaylists();
+  res.json(allPlaylists);
 });
 
 // Create a playlist
+app.post('/api/createPlaylist', async (req, res) => {
+  let playlist = req.body;
+  let insert = createPlaylist(playlist);
+  playlist.id = insert.lastInsertRowid;
+  res.json(playlist);
+});
 
 // Remove a playlist
 
