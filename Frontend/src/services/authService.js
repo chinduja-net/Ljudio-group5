@@ -12,10 +12,12 @@ export async function createAccountFetch(body) {
 }
 
 export async function createPlaylistFetch(body) {
+  const token = getToken();
   const res = await fetch('/api/createPlaylist', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   });

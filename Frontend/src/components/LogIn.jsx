@@ -8,34 +8,29 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from "react";
-import { loginFetch } from "../services/authService";
-import { useHistory } from "react-router";
-
+import { useState } from 'react';
+import { loginFetch } from '../services/authService';
+import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
 export default function Login() {
-
   const history = useHistory();
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     login(userName, password);
-    
   };
 
   function saveToken(token) {
     return new Promise((resolve, reject) => {
-      sessionStorage.setItem("auth", token);
+      sessionStorage.setItem('auth', token);
 
-      resolve("Done");
+      resolve('Done');
     });
   }
-
 
   async function login(userName, password) {
     const obj = {
@@ -45,17 +40,16 @@ export default function Login() {
     try {
       const data = await loginFetch(obj);
       if ((data.success = false)) {
-        console.log("Wrong Credentials");
-        history.push("/signup");
+        console.log('Wrong Credentials');
+        history.push('/signup');
       } else {
         await saveToken(data.token);
-        history.push('/playLists')
+        history.push('/playLists');
       }
     } catch (error) {
       console.log(error);
     }
   }
-  
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,19 +66,23 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
-                            
               <Grid item xs={12}>
                 <TextField
-                   autoComplete="Uname"
-                   name="UserName"
-                   required
-                   fullWidth
-                   id="UserName"
-                   label="UserName"
-                   autoFocus
-                   onChange={(e) => setUserName(e.target.value)}
+                  autoComplete="Uname"
+                  name="UserName"
+                  required
+                  fullWidth
+                  id="UserName"
+                  label="UserName"
+                  autoFocus
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -99,7 +97,7 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
-              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -110,10 +108,7 @@ export default function Login() {
             </Button>
           </Box>
         </Box>
-        
       </Container>
     </ThemeProvider>
   );
 }
-
- 
