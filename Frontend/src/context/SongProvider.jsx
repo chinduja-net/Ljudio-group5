@@ -9,6 +9,8 @@ export default function SongProvider(props) {
   const [currentArtist, setCurrentArtist] = useState();
   const [songDetail, setSongDetail] = useState({});
   const [queueSongs, setQueueSongs] = useState([]);
+  const [ytPlayerState, setYtPlayerState] = useState(-1); // -1 state is unstarted in youtube's api
+  const [ytPlayer, setYtPlayer] = useState();
   const [playedSongs, setPlayedSongs] = useState([]);
 
   // ? next in queue view
@@ -31,18 +33,18 @@ export default function SongProvider(props) {
   }
 
   function shiftQueue() {
-    const newArr = queueSongs;
-    const shiftedSong = newArr.shift();
+    const newArr = [...queueSongs];
+    const shifted = newArr.shift();
     setQueueSongs(newArr);
-
-    setPlayedSongs([...playedSongs, shiftedSong]);
-    console.log(playedSongs);
+    setPlayedSongs([...playedSongs, shifted]);
+    return shifted;
   }
 
   function popPlayedSongs() {
     const newArr = playedSongs;
-    newArr.pop();
+    const popped = newArr.pop();
     setPlayedSongs(newArr);
+    return popped;
   }
 
   return (
@@ -61,9 +63,14 @@ export default function SongProvider(props) {
         queueSongs,
         addObjToArray,
         shiftQueue,
+        ytPlayerState,
+        setYtPlayerState,
+        ytPlayer,
+        setYtPlayer,
+        setQueueSongs,
         clearQueueSongs,
         changeQueueSongs,
-        setQueueSongs,
+
         popPlayedSongs,
         playedSongs,
         setPlayedSongs,

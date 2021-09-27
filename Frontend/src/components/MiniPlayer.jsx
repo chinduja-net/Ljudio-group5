@@ -1,6 +1,5 @@
-import React, { useRef, useContext, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import Player from "../components/Player";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { SearchContext } from "../context/SongProvider";
 
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -10,86 +9,53 @@ import PauseIcon from "@mui/icons-material/Pause";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { AppBar, Toolbar } from "@mui/material";
-import ListIcon from "@mui/icons-material/List";
 
 function MiniPlayer() {
-  const location = useLocation();
   const history = useHistory();
-  const player = useRef();
   const {
     currentSong,
     queueSongs,
     shiftQueue,
     setCurrentSong,
+    ytPlayerState,
+    ytPlayer,
     popPlayedSongs,
     playedSongs,
   } = useContext(SearchContext);
 
-  // 2 states, 1 checking for if its playing or paused and the other checks for audio / no audio
-  const [playingState, setPlayingState] = useState(true);
   const [audioState, setAudioState] = useState(true);
 
-  function onPlayerLoad(ytPlayer) {
-    player.current = ytPlayer;
-    setTimeout(() => {
-      let videoId = currentSong.videoId;
-      player.current.loadVideoById(videoId);
-      player.current.playVideo();
-      setPlayingState(true);
-    }, 1000);
-  }
-
   function playNextSong() {
-    // Plays next song from queueSongs
-    console.log("log of queued songs inside playNext func", queueSongs);
-    if (queueSongs[0]) {
-      let videoId = queueSongs[0].videoId;
-      player.current.loadVideoById(videoId);
-      player.current.playVideo();
-      setPlayingState(true);
-      // updates
-      setCurrentSong(queueSongs[0]);
-      shiftQueue();
+    // If any songs are queued load the first one's videoId and feed it to the player
+    if (queueSongs.length) {
+      // Get first song from queue and update the queue
+      let song = shiftQueue();
+
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+      setCurrentSong(song);
     }
   }
 
   function playPrevSong() {
     //plays last song in playedSongs array and pops last element
-    if (playedSongs) {
-      let videoId = playedSongs.at(-1).videoId;
-      player.current.loadVideoById(videoId);
-      player.current.playVideo();
-      setPlayingState(true);
-      setCurrentSong(playedSongs.at(-1));
-      popPlayedSongs();
+    if (playedSongs.length) {
+      let song = popPlayedSongs();
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+
+      setCurrentSong(song);
     }
   }
 
-  function pauseVid() {
-    player.current.pauseVideo();
-    setPlayingState(false);
-  }
-
-  function playVid() {
-    player.current.playVideo();
-    setPlayingState(true);
-  }
-
   function muteAudio() {
-    player.current.mute();
+    ytPlayer.player.mute();
     setAudioState(false);
   }
 
   function unmuteAudio() {
-    player.current.unMute();
+    ytPlayer.player.unMute();
     setAudioState(true);
-  }
-
-  // Calls 2 functions depending on if playingState is true / false.
-  // Toggles between playing and pauseing player
-  function toggleVidBtn() {
-    playingState ? pauseVid() : playVid();
-    console.log("player state", playingState);
   }
 
   function toggleAudio() {
@@ -105,13 +71,21 @@ function MiniPlayer() {
   }
 
   return (
-    // Checks if we are on playerPage and if so it renders out playerPage DOM
+    // Only renders the miniplayer if a currentSong is in the player
     currentSong ? (
-      location.pathname === "/playerPage" ? (
-        <div style={{ width: "200px", height: "200px" }}>
-          <Player onLoad={onPlayerLoad} />
+      <AppBar
+        position="fixed"
+        className={`miniPlayerClick`}
+        onClick={miniPlayerClickHandler}
+        sx={{
+          top: "auto",
+          bottom: 0,
+        }}
+      >
+        <Toolbar className="miniPlayerClick">
           <img
-            src={currentSong.thumbnails[1].url}
+            className="miniPlayerClick"
+            src={currentSong.thumbnails[0].url}
             alt="Song tumbnail"
             style={{
               width: "120px",
@@ -119,71 +93,34 @@ function MiniPlayer() {
               borderRadius: "50%",
             }}
           />
-          <h1>{currentSong.name}</h1>
-          <button>
+          <h1 className="miniPlayerClick">{currentSong.name}</h1>
+          <button onClick={() => playPrevSong()}>
             <SkipPreviousIcon />
           </button>
 
-          <button onClick={toggleVidBtn}>
-            {playingState ? <PauseIcon /> : <PlayArrowIcon />}
+          <button onClick={() => ytPlayer.toggleVidBtn()}>
+            {/* 
+							Toggle play button icon based on player state
+							1 = playing, 2 = paused
+						*/}
+            {ytPlayerState === 1 ? (
+              <PauseIcon />
+            ) : ytPlayerState === 2 ? (
+              <PlayArrowIcon />
+            ) : (
+              <PlayArrowIcon />
+            )}
           </button>
 
-          <button onClick={playNextSong}>
+          <button onClick={() => playNextSong()}>
             <SkipNextIcon />
           </button>
 
           <button onClick={toggleAudio}>
-            {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            {audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
           </button>
-          <button
-            onClick={() => {
-              history.push("/queueViewer");
-            }}
-          >
-            <ListIcon />
-          </button>
-        </div>
-      ) : (
-        <AppBar
-          position="fixed"
-          className={`miniPlayerClick`}
-          onClick={miniPlayerClickHandler}
-          sx={{
-            top: "auto",
-            bottom: 0,
-          }}
-        >
-          <Toolbar className="miniPlayerClick">
-            <Player onLoad={onPlayerLoad} />
-            <img
-              className="miniPlayerClick"
-              src={currentSong.thumbnails[0].url}
-              alt="Song tumbnail"
-              style={{
-                width: "120px",
-                height: "120px",
-                borderRadius: "50%",
-              }}
-            />
-            <h1 className="miniPlayerClick">{currentSong.name}</h1>
-            <button onClick={playPrevSong}>
-              <SkipPreviousIcon />
-            </button>
-
-            <button onClick={toggleVidBtn}>
-              {playingState ? <PauseIcon /> : <PlayArrowIcon />}
-            </button>
-
-            <button onClick={playNextSong}>
-              <SkipNextIcon />
-            </button>
-
-            <button onClick={toggleAudio}>
-              {audioState ? <VolumeOffIcon /> : <VolumeUpIcon />}
-            </button>
-          </Toolbar>
-        </AppBar>
-      )
+        </Toolbar>
+      </AppBar>
     ) : null
   );
 }
