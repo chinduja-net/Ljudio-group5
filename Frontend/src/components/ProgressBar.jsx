@@ -31,22 +31,30 @@ const TinyText = styled(Typography)({
 function ProgressBar() {
 	const { ytPlayer } = useContext(SearchContext)
 	const theme = useTheme()
-	const [duration, setDuration] = useState(0)
 	const [position, setPosition] = useState(0)
-
-	function formatDuration(value) {
-		const minute = Math.floor(value / 60)
-		const secondLeft = value - minute * 60
-		return `${minute}:${secondLeft < 9 ? `0${secondLeft}` : secondLeft}`
-	}
+	const [duration, setDuration] = useState(0)
+	const [currentTime, setCurrentTime] = useState(0)
 
 	useEffect(() => {
 		setDuration(ytPlayer.player.playerInfo.duration)
 		console.log(ytPlayer.player)
-	}, [])
 
-	// * change timestamp of audio player ytPlayer
-	// player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
+		// Checks if the player exists and it's onReady event has fired, which means the player is ready
+	}, [ytPlayer?.player.playerInfo.duration, ytPlayer?.player?.G.onReady])
+
+	function formatDuration(secondsValue) {
+		const minutes = Math.floor(secondsValue / 60)
+		const seconds = Math.floor(secondsValue % 60)
+		const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+		const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+		return `${returnedMinutes}:${returnedSeconds}`
+	}
+
+	function changeRange(value){
+		setPosition(value)
+		ytPlayer.player.playerInfo.currentTime = value
+		ytPlayer.player.seekTo(value)
+	}
 
 	return (
 		//   <div>
@@ -65,7 +73,15 @@ function ProgressBar() {
 					min={0}
 					step={1}
 					max={duration}
-					onChange={(_, value) => setPosition(value)}
+					onChange={(_, value) => changeRange(value)} // _ means ignore this
+					onClick={(e, value) => {
+						// Pseudo
+						// Save value
+						// change time in player
+							// console.log(ytPlayer.player.playerInfo)
+						// * change timestamp of audio player ytPlayer
+						// player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
+					}}
 					sx={{
 						color:
 							theme.palette.mode === "dark"
@@ -105,7 +121,12 @@ function ProgressBar() {
 					}}
 				>
 					<TinyText>{formatDuration(position)}</TinyText>
-					<TinyText>-{formatDuration(duration - position)}</TinyText>
+					<TinyText>
+						-
+						{duration &&
+							!isNaN(duration) &&
+							formatDuration(duration - position)}
+					</TinyText>
 				</Box>
 			</Widget>
 		</div>
