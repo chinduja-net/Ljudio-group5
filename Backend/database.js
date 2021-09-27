@@ -19,6 +19,7 @@ function getAllUsers() {
   return users;
 }
 
+// Get user playlist based on userId
 function getUserPlaylistsById(id) {
   let query = `SELECT userName, playlistName, songName
   FROM users, songs, playlists, playlist_track_user

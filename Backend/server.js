@@ -27,6 +27,7 @@ app.get('/api/userById', (req, res) => {
   let userPlaylists = getUserPlaylistsById(id);
   res.json(userPlaylists);
 });
+
 // Create Account
 app.post('/api/signup', async (req, res) => {
   let account = req.body;
@@ -86,7 +87,8 @@ app.get('/api/loggedin', (req, res) => {
 
 // Get all playlists from account
 app.get('/api/playlists', (req, res) => {
-  res.json(getAllPlaylists());
+  let allPlaylists = getAllPlaylists();
+  res.json(allPlaylists);
 });
 
 // Create a playlist
