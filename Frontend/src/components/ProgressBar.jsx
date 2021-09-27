@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react"
 import { SearchContext } from "../context/SongProvider"
 
 import { styled, useTheme } from "@mui/material/styles"
-import Box from "@mui/material/Box"
+import { Box } from "@mui/system"
 import Slider from "@mui/material/Slider"
 import Typography from "@mui/material/Typography"
 
@@ -50,10 +50,10 @@ function ProgressBar() {
 		return `${returnedMinutes}:${returnedSeconds}`
 	}
 
-	function changeRange(value){
-		setPosition(value)
-		ytPlayer.player.playerInfo.currentTime = value
+	function changeRange(value) {
+		// ytPlayer.player.playerInfo.currentTime = position
 		ytPlayer.player.seekTo(value)
+		setPosition(value)
 	}
 
 	return (
@@ -67,7 +67,6 @@ function ProgressBar() {
 		<div>
 			<Widget>
 				<Slider
-					aria-label="time-indicator"
 					size="small"
 					value={position}
 					min={0}
@@ -78,7 +77,7 @@ function ProgressBar() {
 						// Pseudo
 						// Save value
 						// change time in player
-							// console.log(ytPlayer.player.playerInfo)
+						// console.log(ytPlayer.player.playerInfo)
 						// * change timestamp of audio player ytPlayer
 						// player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
 					}}
