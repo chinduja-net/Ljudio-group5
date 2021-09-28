@@ -7,6 +7,7 @@ import Button from "@mui/material/Button"
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded"
 import Typography from "@mui/material/Typography"
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded"
+import ShuffleIcon from "@mui/icons-material/Shuffle"
 
 import { SearchContext } from "../context/SongProvider"
 
@@ -84,7 +85,7 @@ function QueueViewer() {
 				</Typography>
 				<div>
 					<Button variant="outlined" onClick={shuffleSongs}>
-						Shuffle
+						<ShuffleIcon />
 					</Button>
 					<Button variant="outlined" onClick={clearQueueSongs}>
 						Clear Queue
