@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-
-import CreatePlaylistForm from './CreatePlaylistForm';
+import { showUserPlaylistsFetch } from '../services/authService';
 
 function PlayLists() {
   const history = useHistory();
@@ -9,10 +8,15 @@ function PlayLists() {
   function createPlayList() {
     history.push('/createPlaylistForm');
   }
+
+  async function showUserPlaylists() {
+    showUserPlaylistsFetch();
+  }
+
   return (
     <div>
       <button onClick={createPlayList}>Create Playlist</button>
-      <button onClick={showPlaylists}>Show Playlists</button>
+      <button onClick={showUserPlaylists}>Show Playlists</button>
     </div>
   );
 }

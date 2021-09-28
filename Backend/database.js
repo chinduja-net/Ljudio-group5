@@ -20,14 +20,14 @@ function getAllUsers() {
 }
 
 // Get user playlist based on userId
-function getUserPlaylistsById(id) {
-  let query = `SELECT userName, playlistName
+function getUserPlaylistsById(userIdObj) {
+  let query = `SELECT playlistName
   FROM users, playlists, playlist_track_user
-  WHERE users.id = :id
+  WHERE users.id = :userId
   AND playlist_track_user.userId = users.id
   AND playlist_track_user.playlistId = playlists.id
   GROUP BY playlistName`;
-  return all(query, id);
+  return all(query, userIdObj);
 }
 
 // Get all playlist
