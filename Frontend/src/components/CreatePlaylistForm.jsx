@@ -20,7 +20,7 @@ function CreatePlaylistForm() {
       const data = await createPlaylistFetch(obj);
       if (data) {
         console.log(data);
-        history.push('/PlayListViewer');
+        history.push('/');
       }
     } catch (error) {
       console.log(error);
