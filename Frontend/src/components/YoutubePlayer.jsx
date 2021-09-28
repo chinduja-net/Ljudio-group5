@@ -43,7 +43,7 @@ function YoutubePlayer() {
 		function toggleVidBtn() {
 			let state = player.getPlayerState()
 
-			state === 0 
+			state === 0
 				? replayVid()
 				: state === 1
 				? pauseVid()
@@ -62,6 +62,7 @@ function YoutubePlayer() {
 	function autoPlayNextInQueue() {
 		// Get first song from queue and update the queue
 		let song = shiftQueue()
+		
 		// TODO: add current song to previously played
 
 		ytPlayer.player.loadVideoById(song.videoId)

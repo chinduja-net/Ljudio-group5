@@ -33,14 +33,16 @@ function ProgressBar() {
 	const theme = useTheme()
 	const [position, setPosition] = useState(0)
 	const [duration, setDuration] = useState(0)
-	const [currentTime, setCurrentTime] = useState(0)
 
 	useEffect(() => {
 		setDuration(ytPlayer.player.playerInfo.duration)
-		console.log(ytPlayer.player)
 
 		// Checks if the player exists and it's onReady event has fired, which means the player is ready
-	}, [ytPlayer?.player.playerInfo.duration, ytPlayer?.player?.G.onReady])
+	}, [ytPlayer?.player?.playerInfo.duration, ytPlayer?.player?.G.onReady])
+
+	useEffect(() => {
+		setPosition(ytPlayer.player.getCurrentTime())
+	}, [ytPlayer.player.getCurrentTime()])
 
 	function formatDuration(secondsValue) {
 		const minutes = Math.floor(secondsValue / 60)
@@ -51,19 +53,11 @@ function ProgressBar() {
 	}
 
 	function changeRange(value) {
-		// ytPlayer.player.playerInfo.currentTime = position
 		ytPlayer.player.seekTo(value)
 		setPosition(value)
 	}
 
 	return (
-		//   <div>
-		//   {/* Slider */}
-		//   <div>
-		//     {/* currentTime */}
-		//     {/* currentSong.duration */}
-		//   </div>
-		// </div>
 		<div>
 			<Widget>
 				<Slider
@@ -72,15 +66,7 @@ function ProgressBar() {
 					min={0}
 					step={1}
 					max={duration}
-					onChange={(_, value) => changeRange(value)} // _ means ignore this
-					onClick={(e, value) => {
-						// Pseudo
-						// Save value
-						// change time in player
-						// console.log(ytPlayer.player.playerInfo)
-						// * change timestamp of audio player ytPlayer
-						// player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
-					}}
+					onChange={(_, value) => changeRange(value)}
 					sx={{
 						color:
 							theme.palette.mode === "dark"
@@ -121,10 +107,7 @@ function ProgressBar() {
 				>
 					<TinyText>{formatDuration(position)}</TinyText>
 					<TinyText>
-						-
-						{duration &&
-							!isNaN(duration) &&
-							formatDuration(duration - position)}
+						-{duration && formatDuration(duration - position)}
 					</TinyText>
 				</Box>
 			</Widget>
