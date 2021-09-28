@@ -20,14 +20,14 @@ function getAllUsers() {
 }
 
 // Get user playlist based on userId
-function getUserPlaylistsById(id) {
-  let query = `SELECT userName, playlistName, songName
-  FROM users, songs, playlists, playlist_track_user
-  WHERE users.id = :id
+function getUserPlaylistsById(userIdObj) {
+  let query = `SELECT playlistName
+  FROM users, playlists, playlist_track_user
+  WHERE users.id = :userId
   AND playlist_track_user.userId = users.id
-  AND  playlist_track_user.playlistId = playlists.id
-  AND  playlist_track_user.songId = songs.id `;
-  return all(query, id);
+  AND playlist_track_user.playlistId = playlists.id
+  GROUP BY playlistName`;
+  return all(query, userIdObj);
 }
 
 // Get all playlist
@@ -36,6 +36,7 @@ function getAllPlaylists() {
       FROM playlists, users, playlist_track_user
       WHERE playlists.id = playlist_track_user.playlistId
       AND users.id = playlist_track_user.userId
+      GROUP BY playlistName
       ORDER BY userName`);
   return playlists;
 }
@@ -53,12 +54,14 @@ function getUserLoginInfo(loginCredentials) {
   return all(query, loginCredentials);
 }
 
+// Creates playlist into playlists table
 function createPlaylist(playlist) {
   let query = `INSERT INTO playlists (playlistName)
   VALUES (:playlistName)`;
   return run(query, playlist);
 }
 
+// Creates the connection between the user currently logged and a created playlist.
 function createPlaylistUserConnection(relationData) {
   let query = `INSERT INTO playlist_track_user (playlistId, userId)
   VALUES (:playlistId, :userId)`;
