@@ -12,6 +12,7 @@ export default function SongProvider(props) {
   const [ytPlayerState, setYtPlayerState] = useState(-1); // -1 state is unstarted in youtube's api
   const [ytPlayer, setYtPlayer] = useState();
   const [playList,setPlayList] = useState([]);
+  
 
   // ? next in queue view
   // ? next from: playlist/album view
@@ -21,7 +22,10 @@ export default function SongProvider(props) {
   function addObjToArray(newObj) {
     setQueueSongs([...queueSongs, newObj]);
   }
+function addPlaylistToQueue(){
 
+  setQueueSongs([...playList])
+}
  
   function shiftQueue() {
     const newArr = [...queueSongs];
@@ -53,6 +57,8 @@ export default function SongProvider(props) {
         setQueueSongs,
         playList,
         setPlayList
+        
+
       }}
     >
       {props.children}
