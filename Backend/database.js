@@ -53,12 +53,14 @@ function getUserLoginInfo(loginCredentials) {
   return all(query, loginCredentials);
 }
 
+// Creates playlist into playlists table
 function createPlaylist(playlist) {
   let query = `INSERT INTO playlists (playlistName)
   VALUES (:playlistName)`;
   return run(query, playlist);
 }
 
+// Creates the connection between the user currently logged and a created playlist.
 function createPlaylistUserConnection(relationData) {
   let query = `INSERT INTO playlist_track_user (playlistId, userId)
   VALUES (:playlistId, :userId)`;
