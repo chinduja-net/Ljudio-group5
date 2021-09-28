@@ -8,11 +8,13 @@ function YoutubePlayer() {
 		currentSong,
 		queueSongs,
 		shiftQueue,
+		shiftPlayList,
 		setCurrentSong,
 		ytPlayerState,
 		setYtPlayerState,
 		ytPlayer,
 		setYtPlayer,
+		playList,
 	} = useContext(SearchContext)
 
 	const opts = {
@@ -43,7 +45,7 @@ function YoutubePlayer() {
 		function toggleVidBtn() {
 			let state = player.getPlayerState()
 
-			state === 0 
+			state === 0
 				? replayVid()
 				: state === 1
 				? pauseVid()
@@ -62,7 +64,15 @@ function YoutubePlayer() {
 	function autoPlayNextInQueue() {
 		// Get first song from queue and update the queue
 		let song = shiftQueue()
-		// TODO: add current song to previously played
+
+		ytPlayer.player.loadVideoById(song.videoId)
+		ytPlayer.player.playVideo()
+		setCurrentSong(song)
+	}
+
+	function autoPlayNextInPlayList() {
+		// Get first song from playList and update it
+		let song = shiftPlayList()
 
 		ytPlayer.player.loadVideoById(song.videoId)
 		ytPlayer.player.playVideo()
@@ -71,7 +81,12 @@ function YoutubePlayer() {
 
 	// Runs after song in player ends
 	function _onEnd(event) {
-		if (queueSongs.length) autoPlayNextInQueue()
+		console.log("ON END PLAY LIST", playList)
+		if (queueSongs.length) {
+			autoPlayNextInQueue()
+		} else if (playList.length) {
+			autoPlayNextInPlayList()
+		}
 	}
 
 	// Runs after player state (iframe api) changes

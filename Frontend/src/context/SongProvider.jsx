@@ -9,10 +9,12 @@ export default function SongProvider(props) {
 	const [currentArtist, setCurrentArtist] = useState()
 	const [songDetail, setSongDetail] = useState({})
 	const [queueSongs, setQueueSongs] = useState([])
-	const [ytPlayerState, setYtPlayerState] = useState(-1) // -1 state is unstarted in youtube's api
+	const [ytPlayerState, setYtPlayerState] = useState(-1) // -1 state means unstarted in youtube's api
 	const [ytPlayer, setYtPlayer] = useState()
 	const [playedSongs, setPlayedSongs] = useState([])
 	const [playList, setPlayList] = useState([])
+	const [savedQueueAndPlayList, setSavedQueueAndPlayList] = useState([])
+	const [freshPlayList, setFreshPlayList] = useState([])
 
 	useEffect(() => {
 		getLocalQueued()
@@ -62,6 +64,14 @@ export default function SongProvider(props) {
 		return shifted
 	}
 
+	function shiftPlayList() {
+		const newArr = [...playList]
+		const shifted = newArr.shift()
+		setPlayList(newArr)
+		setPlayedSongs([...playedSongs, shifted])
+		return shifted
+	}
+
 	function popPlayedSongs() {
 		const newArr = playedSongs
 		const popped = newArr.pop()
@@ -89,13 +99,53 @@ export default function SongProvider(props) {
 		return array
 	}
 
+	// Returns an array with the values that match the updated version of queueSongs
+	// whenever the user wants to un-shuffle the queue
+	// TLDR: if the user shuffles, finishes playing a song and then wants the old queue back
+	// But without the song they have played already.
+	function intersection(arr1, arr2) {
+		return arr1.filter((x) => arr2.includes(x))
+	}
+
+	function unShuffle() {
+		let freshQueueSongs = [...queueSongs]
+		let newFreshPlayList = [...freshPlayList]
+
+		let oldQueueSongs = savedQueueAndPlayList[0]
+		let oldPlayList = savedQueueAndPlayList[1]
+
+		// compare old state to the (potentially) updated one
+		const newQueueSongs = intersection(oldQueueSongs, freshQueueSongs)
+		const newPlayList = intersection(oldPlayList, newFreshPlayList)
+
+		setQueueSongs(newQueueSongs)
+		localStorage.setItem("queued", JSON.stringify(newQueueSongs))
+		setPlayList(newPlayList)
+		// localStorage.setItem("playlist", JSON.stringify(newPlayList)) // Add this line whenever the playList gets added to localStorage
+		setSavedQueueAndPlayList({})
+	}
+
 	function shuffleSongs() {
-		// ! This doesn't make sure either queueSongs or playList have the correct structure on the data in their objects
-		// It won't be a problem unless a user adds their own item to the queueSongs in the localStorage and writes wrong syntax;
-		// it's a problem since react tries to render items to the DOM and may not get the data it wants to render.
-		const newArr = [...queueSongs, ...playList]
-		setQueueSongs(shuffle(newArr))
-		setPlayList([])
+		if (!savedQueueAndPlayList[0] && !savedQueueAndPlayList[1]) {
+			console.log("not saved")
+			setSavedQueueAndPlayList([queueSongs, playList])
+
+			// ! This doesn't make sure either queueSongs or playList have the correct structure on the data in their objects
+			// It won't be a problem unless a user adds their own item to the queueSongs in the localStorage and writes wrong syntax;
+			// it's a problem since react tries to render items to the DOM and may not get the data it wants to render.
+			const newArr = [...queueSongs, ...playList]
+			setQueueSongs(shuffle(newArr))
+
+			// Save a copy of the playlist to use in the un-shuffle method
+			setFreshPlayList(playList)
+			setPlayList([])
+		} else if (savedQueueAndPlayList[0] || savedQueueAndPlayList[1]) {
+			console.log("saved")
+			// Reset the queue
+			unShuffle()
+			// setQueueSongs(savedQueueAndPlayList[0])
+			// setPlayList(savedQueueAndPlayList[1])
+		}
 	}
 
 	return (
@@ -114,6 +164,7 @@ export default function SongProvider(props) {
 				queueSongs,
 				addObjToArray,
 				shiftQueue,
+				shiftPlayList,
 				ytPlayerState,
 				setYtPlayerState,
 				ytPlayer,
@@ -127,6 +178,8 @@ export default function SongProvider(props) {
 				playedSongs,
 				setPlayedSongs,
 				shuffleSongs,
+				savedQueueAndPlayList,
+				setSavedQueueAndPlayList,
 			}}
 		>
 			{props.children}

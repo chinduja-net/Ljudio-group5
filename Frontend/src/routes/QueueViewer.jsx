@@ -21,7 +21,9 @@ function QueueViewer() {
 		changeQueueSongs,
 		setQueueSongs,
 		shuffleSongs,
-		setPlayList,
+		playList,
+		savedQueueAndPlayList,
+		setSavedQueueAndPlayList,
 	} = useContext(SearchContext)
 
 	// checks "droparea" , orders and stores it in a new arr passed into setQueue, runs when item is dropped in list
@@ -37,6 +39,10 @@ function QueueViewer() {
 			changeQueueSongs(items)
 		}, 1000)
 	}
+
+	// function handleShuffleSongs() {
+
+	// }
 
 	return (
 		<>
@@ -145,6 +151,35 @@ function QueueViewer() {
 						: null}
 				</Droppable>
 			</DragDropContext>
+			<div>
+				<ul>
+					{playList
+						? playList.map(({ id, name, thumbnails, artist }) => {
+								return (
+									<li key={id}>
+										<div className="songs-thumb">
+											<img
+												src={thumbnails[0].url}
+												alt={`${name} THumb`}
+											/>
+										</div>
+										<Typography
+											variant="subtitle1"
+											gutterBottom
+											component="div"
+										>
+											{name}
+											{artist.browseId}
+										</Typography>
+										<button>
+											<MoreVertRoundedIcon />
+										</button>
+									</li>
+								)
+						  })
+						: null}
+				</ul>
+			</div>
 			{/* <h2>Next from: Playlist</h2>
 			<div className="songListContainer">
 				<div className=""></div>

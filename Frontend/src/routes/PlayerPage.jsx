@@ -17,6 +17,7 @@ function PlayerPage() {
 		currentSong,
 		queueSongs,
 		shiftQueue,
+		shiftPlayList,
 		setCurrentSong,
 		ytPlayerState,
 		ytPlayer,
@@ -25,16 +26,23 @@ function PlayerPage() {
 	const [audioState, setAudioState] = useState(true)
 
 	function playNextSong() {
-		// If any songs are queued load the first one's videoId and feed it to the player
-		if (queueSongs.length) {
-			// Get first song from queue and update the queue
-			let song = shiftQueue()
+    // Feed song to player if they exist in either the queue or the next in playlist
+    if (queueSongs.length) {
+      // Get first song from queue and update the queue
+      let song = shiftQueue();
 
-			ytPlayer.player.loadVideoById(song.videoId)
-			ytPlayer.player.playVideo()
-			setCurrentSong(song)
-		}
-	}
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+      setCurrentSong(song);
+    } else if(playList.length) {
+      // Get first song from playList and update it
+      let song = shiftPlayList()
+  
+      ytPlayer.player.loadVideoById(song.videoId)
+      ytPlayer.player.playVideo()
+      setCurrentSong(song)
+    }
+  }
 
 	function muteAudio() {
 		ytPlayer.player.mute()
