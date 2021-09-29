@@ -27,7 +27,7 @@ function PlayListViewer() {
     <>
       <h2>PlayListViewer</h2>
       
-        {/* {playList.map((obj, index) => {
+         {playList.map((obj, index) => {
         return (
           // Adds id and index so if the same song is added several times the key prop still works
             <div key={`${obj.id} ${index}`}>
@@ -38,7 +38,7 @@ function PlayListViewer() {
           </div>
           
         );
-      })} */}
+      })} 
     </>
   );
 }

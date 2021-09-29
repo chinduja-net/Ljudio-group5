@@ -6,6 +6,7 @@ import { Grid, Button } from "@mui/material";
 import { SearchContext } from "../context/SongProvider";
 import SearchBar from "../components/SearchBar";
 
+
 function SearchResults() {
   const {
     searchResults,
@@ -16,7 +17,8 @@ function SearchResults() {
     setPlayedSongs,
     playedSongs,
     setPlayList,
-    playList,
+    playList
+  
   } = useContext(SearchContext);
 
   const history = useHistory();
@@ -40,10 +42,7 @@ function SearchResults() {
         <Button variant="contained" type="click" onClick={showSongDetails}>
           song details
         </Button>
-        {/* <Button type="click" onClick={addToPlaylist}>
-          Add to playlist
-        </Button> */}
-      </Grid>
+        </Grid>
     );
   }
 
@@ -92,6 +91,7 @@ function SearchResults() {
   /* function playListView() {
     history.push("/playListView");
   }
+  */
 
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
@@ -111,9 +111,9 @@ function SearchResults() {
     }
   }
 
-  /**
-   * Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
-   */
+  
+  //Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
+  
   function resultsClickHandler(e) {
     if (e.target.attributes.getNamedItem("data-render-song") !== null) {
       let clickedValueSong = JSON.parse(

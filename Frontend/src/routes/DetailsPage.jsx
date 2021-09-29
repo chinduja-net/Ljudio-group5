@@ -19,7 +19,7 @@ function DetailsPage() {
 		history.push("/searchResults")
 	}
 
-	function addToPlaylist(){
+	function addSongToPlaylist(){
 		setPlayList([...playList, songDetail])
 		console.log(playList)
 		history.push("/searchResults")
@@ -52,7 +52,7 @@ function DetailsPage() {
 						</IconButton>
 					</Box>
 					<Box>
-						<IconButton type="click" onClick={addToPlaylist}>
+						<IconButton type="click" onClick={addSongToPlaylist}>
 							<PlaylistAddOutlinedIcon fontSize="large" />
 						</IconButton>
 					</Box>
