@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-//import "../styles/queueViewer.css";
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import '../styles/queueViewer.css';
 
-import Button from "@mui/material/Button";
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import Typography from "@mui/material/Typography";
-import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import Button from '@mui/material/Button';
+import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import Typography from '@mui/material/Typography';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
-import { SearchContext } from "../context/SongProvider";
+import { SearchContext } from '../context/SongProvider';
 
 function QueueViewer() {
   const history = useHistory();
@@ -19,11 +20,13 @@ function QueueViewer() {
     clearQueueSongs,
     changeQueueSongs,
     setQueueSongs,
+    shuffleSongs,
+    playList,
   } = useContext(SearchContext);
 
   // checks "droparea" , orders and stores it in a new arr passed into setQueue, runs when item is dropped in list
   function handleOnDragEnd(result) {
-    if (!result.destination) return; //
+    if (!result.destination) return;
 
     const items = Array.from(queueSongs);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -69,9 +72,14 @@ function QueueViewer() {
         <Typography variant="h6" gutterBottom component="div">
           Next in queue:
         </Typography>
-        <Button variant="outlined" onClick={clearQueueSongs}>
-          Clear Queue
-        </Button>
+        <div>
+          <Button variant="outlined" onClick={shuffleSongs}>
+            <ShuffleIcon />
+          </Button>
+          <Button variant="outlined" onClick={clearQueueSongs}>
+            Clear Queue
+          </Button>
+        </div>
       </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="songs">
@@ -85,7 +93,11 @@ function QueueViewer() {
                 >
                   {queueSongs.map(({ id, name, thumbnails, artist }, index) => {
                     return (
-                      <Draggable key={id} draggableId={id} index={index}>
+                      <Draggable
+                        key={`${id}${index}`}
+                        draggableId={id}
+                        index={index}
+                      >
                         {(provided) => (
                           <li
                             ref={provided.innerRef}
@@ -120,10 +132,36 @@ function QueueViewer() {
             : null}
         </Droppable>
       </DragDropContext>
-      {/* <h2>Next from: Playlist</h2>
-			<div className="songListContainer">
-				<div className=""></div>
-			</div>*/}
+      <div>
+        <h2>Next from: Playlist</h2>
+        <div className="songListContainer">
+          <div className=""></div>
+        </div>
+        <ul>
+          {playList
+            ? playList.map(({ id, name, thumbnails, artist }, index) => {
+                return (
+                  <li key={`${id}${index}${index}`}>
+                    <div className="songs-thumb">
+                      <img src={thumbnails[0].url} alt={`${name} THumb`} />
+                    </div>
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      component="div"
+                    >
+                      {name}
+                      {artist.browseId}
+                    </Typography>
+                    <button>
+                      <MoreVertRoundedIcon />
+                    </button>
+                  </li>
+                );
+              })
+            : null}
+        </ul>
+      </div>
     </>
   );
 }

@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { Grid, Button } from "@mui/material";
@@ -175,5 +174,3 @@ function SearchResults() {
     </div>
   );
 }
-
-export default SearchResults;
