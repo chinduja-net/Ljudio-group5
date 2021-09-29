@@ -2,11 +2,11 @@
 GET http://localhost:4000/api/users
 
 ### Get one user
-GET http://localhost:4000/api/userById
+GET http://localhost:4000/api/playlistsByUserId
 Content-Type: application/json
 
 {
-	"id": 3
+	"id": 17
 }
 
 ### Gets all playlists

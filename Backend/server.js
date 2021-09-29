@@ -14,6 +14,7 @@ const {
   getAllUsers,
   getAllPlaylists,
   createPlaylist,
+  createPlaylistUserConnection,
 } = require('./database');
 
 // Get all users
@@ -21,11 +22,18 @@ app.get('/api/users', (req, res) => {
   res.json(getAllUsers());
 });
 
-//get user by id
-app.get('/api/userById', (req, res) => {
-  let id = req.body;
-  console.log(id);
-  let userPlaylists = getUserPlaylistsById(id);
+// Get all of current users playlists
+//*(songs not included)
+app.get('/api/playlistsByUserId', async (req, res) => {
+  const token = req.headers.authorization;
+  console.log('token header log', token);
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  console.log('decoded token header', decoded);
+  console.log('user id from token', decoded.id);
+  let userIdObj = { userId: decoded.id };
+  let userPlaylists = getUserPlaylistsById(userIdObj);
+  console.log(userPlaylists);
   res.json(userPlaylists);
 });
 
@@ -48,22 +56,22 @@ app.post('/api/login', async (req, res) => {
   console.log('Log user object', user);
   // Break out password prop of userObj
   let userHashPass = user[0].password;
-  console.log(userHashPass);
   let compareHashPass = await comparePassword(
     loginCredentials.password,
     userHashPass
   );
-  console.log(compareHashPass);
   let result = { success: false, token: null };
   if (compareHashPass) {
     result.success = true;
   }
   if (result.success) {
-    const token = jwt.sign({ uid: user.uid }, 'a1b1c1', {
+    const token = jwt.sign({ id: user[0].id, uid: user[0].uid }, 'a1b1c1', {
       expiresIn: 600, //Går ut om 10 minuter
     });
     result.token = token;
-    console.log('JWT Token Sign', token);
+    console.log('Signed JWT', token);
+    let decoded = jwt.decode(token);
+    console.log('decoded JWT', decoded);
   }
   res.json(result);
 });
@@ -94,13 +102,23 @@ app.get('/api/playlists', (req, res) => {
 
 // Create a playlist
 app.post('/api/createPlaylist', async (req, res) => {
+  const token = req.headers.authorization;
+  console.log('token header log', token);
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  console.log('decoded token header', decoded);
+  console.log('user id from token', decoded.id);
   let playlist = req.body;
   let insert = createPlaylist(playlist);
   playlist.id = insert.lastInsertRowid;
+  let relationData = { playlistId: playlist.id, userId: decoded.id };
+  createPlaylistUserConnection(relationData);
   res.json(playlist);
 });
 
 // Remove a playlist
+
+// Add song to playlist
 
 //Share a playlist
 
