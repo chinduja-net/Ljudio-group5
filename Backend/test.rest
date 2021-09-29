@@ -31,7 +31,7 @@ GET  http://localhost:4000/api/loggedin
 
 ### Add songs to playlist
 POST http://localhost:4000/api/addSongToPlaylist HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTYzMjkyMTM5OSwiZXhwIjoxNjMyOTIxOTk5fQ.O8ugDQ4M40_mWqnuSxc7HwBQ4sKvvL7zFeiyIUB17zc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMjk0NzczMiwiZXhwIjoxNjMzMDM0MTMyfQ.zcxnStl1vgTwxy5bniM2kLRu_jokOLaeSrR-B6jqM1c
 Content-Type: application/json
 
 {
@@ -51,8 +51,8 @@ Content-Type: application/json
 }
 
 ### Get songs inside a specific playlist
-GET http://localhost:4000/api/getSongsInPlaylist HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTYzMjkyMTM5OSwiZXhwIjoxNjMyOTIxOTk5fQ.O8ugDQ4M40_mWqnuSxc7HwBQ4sKvvL7zFeiyIUB17zc
+POST http://localhost:4000/api/getSongsInPlaylist HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMjk0NzczMiwiZXhwIjoxNjMzMDM0MTMyfQ.zcxnStl1vgTwxy5bniM2kLRu_jokOLaeSrR-B6jqM1c
 Content-Type: application/json
 
 {

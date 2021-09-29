@@ -43,7 +43,9 @@ export default function LoginModal() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleOpen} size = "small">SIGN IN</Button>
+      <Button variant="outlined" onClick={handleOpen} size="small">
+        SIGN IN
+      </Button>
       <StyledModal
         open={open}
         onClose={handleClose}

@@ -8,24 +8,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from "react";
-import { createAccountFetch } from "../services/authService";
-import { useHistory } from "react-router";
-
+import { useState } from 'react';
+import { createAccountFetch } from '../services/authService';
+import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
 export default function SignUp() {
-
   const history = useHistory();
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createAccount(userName, password);
-    
   };
 
   async function createAccount(userName, password) {
@@ -35,9 +31,8 @@ export default function SignUp() {
     };
     try {
       const data = await createAccountFetch(obj);
-      console.log(data)
+      console.log(data);
       history.push('/');
-      
     } catch (error) {
       console.log(error);
     }
@@ -55,19 +50,28 @@ export default function SignUp() {
             justifyContent: 'center',
           }}
         >
-         
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{  mt: 2, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{
+              mt: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Grid container spacing={1}>
-                            
               <Grid item xs={12}>
                 <TextField
-                   autoComplete="Uname"
-                   name="UserName"
-                   required
-                   id="UserName"
-                   label="UserName"
-                   autoFocus
-                   onChange={(e) => setUserName(e.target.value)}
+                  autoComplete="Uname"
+                  name="UserName"
+                  required
+                  id="UserName"
+                  label="UserName"
+                  autoFocus
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -81,17 +85,12 @@ export default function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
-              </Grid>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            </Grid>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Create Account
             </Button>
           </Box>
         </Box>
-        
       </Container>
     </ThemeProvider>
   );
