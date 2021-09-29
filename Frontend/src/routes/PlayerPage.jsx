@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { SearchContext } from "../context/SongProvider"
+import ProgressBar from "../components/ProgressBar"
 
 import SkipNextIcon from "@mui/icons-material/SkipNext"
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious"
@@ -17,6 +18,7 @@ function PlayerPage() {
 		currentSong,
 		queueSongs,
 		shiftQueue,
+		shiftPlayList,
 		setCurrentSong,
 		ytPlayerState,
 		ytPlayer,
@@ -25,16 +27,23 @@ function PlayerPage() {
 	const [audioState, setAudioState] = useState(true)
 
 	function playNextSong() {
-		// If any songs are queued load the first one's videoId and feed it to the player
-		if (queueSongs.length) {
-			// Get first song from queue and update the queue
-			let song = shiftQueue()
+    // Feed song to player if they exist in either the queue or the next in playlist
+    if (queueSongs.length) {
+      // Get first song from queue and update the queue
+      let song = shiftQueue();
 
-			ytPlayer.player.loadVideoById(song.videoId)
-			ytPlayer.player.playVideo()
-			setCurrentSong(song)
-		}
-	}
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+      setCurrentSong(song);
+    } else if(playList.length) {
+      // Get first song from playList and update it
+      let song = shiftPlayList()
+  
+      ytPlayer.player.loadVideoById(song.videoId)
+      ytPlayer.player.playVideo()
+      setCurrentSong(song)
+    }
+  }
 
 	function muteAudio() {
 		ytPlayer.player.mute()
@@ -63,40 +72,51 @@ function PlayerPage() {
 					borderRadius: "50%",
 				}}
 			/>
-			<h1>{currentSong.name}</h1>
-			<button>
-				<SkipPreviousIcon />
-			</button>
+			<div>
+				<div>
+					<h1>{currentSong.name}</h1>
+					<h2>{currentSong.artist.name}</h2>
+				</div>
+				{/* Go to details page button */}
+			</div>
 
-			<button onClick={() => ytPlayer.toggleVidBtn()}>
-				{/* 
+			<ProgressBar />
+
+			<div>
+				<button onClick={toggleAudio}>
+					{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
+				</button>
+
+				<button>
+					<SkipPreviousIcon />
+				</button>
+
+				<button onClick={() => ytPlayer.toggleVidBtn()}>
+					{/* 
 					Toggle play button icon based on player state
 					1 = playing, 2 = paused
 				*/}
-				{ytPlayerState === 1 ? (
-					<PauseIcon />
-				) : ytPlayerState === 2 ? (
-					<PlayArrowIcon />
-				) : (
-					<PlayArrowIcon />
-				)}
-			</button>
+					{ytPlayerState === 1 ? (
+						<PauseIcon />
+					) : ytPlayerState === 2 ? (
+						<PlayArrowIcon />
+					) : (
+						<PlayArrowIcon />
+					)}
+				</button>
 
-			<button onClick={() => playNextSong()}>
-				<SkipNextIcon />
-			</button>
+				<button onClick={() => playNextSong()}>
+					<SkipNextIcon />
+				</button>
 
-			<button onClick={toggleAudio}>
-				{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
-			</button>
-
-			<button
-				onClick={() => {
-					history.push("/queueViewer")
-				}}
-			>
-				<ListIcon />
-			</button>
+				<button
+					onClick={() => {
+						history.push("/queueViewer")
+					}}
+				>
+					<ListIcon />
+				</button>
+			</div>
 		</div>
 	) : (
 		<div>
