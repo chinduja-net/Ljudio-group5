@@ -127,7 +127,6 @@ export default function SongProvider(props) {
 
 	function shuffleSongs() {
 		if (!savedQueueAndPlayList[0] && !savedQueueAndPlayList[1]) {
-			console.log("not saved")
 			setSavedQueueAndPlayList([queueSongs, playList])
 
 			// ! This doesn't make sure either queueSongs or playList have the correct structure on the data in their objects
@@ -140,11 +139,8 @@ export default function SongProvider(props) {
 			setFreshPlayList(playList)
 			setPlayList([])
 		} else if (savedQueueAndPlayList[0] || savedQueueAndPlayList[1]) {
-			console.log("saved")
 			// Reset the queue
 			unShuffle()
-			// setQueueSongs(savedQueueAndPlayList[0])
-			// setPlayList(savedQueueAndPlayList[1])
 		}
 	}
 

@@ -10,7 +10,6 @@ function YoutubePlayer() {
 		shiftQueue,
 		shiftPlayList,
 		setCurrentSong,
-		ytPlayerState,
 		setYtPlayerState,
 		ytPlayer,
 		setYtPlayer,
@@ -81,7 +80,6 @@ function YoutubePlayer() {
 
 	// Runs after song in player ends
 	function _onEnd(event) {
-		console.log("ON END PLAY LIST", playList)
 		if (queueSongs.length) {
 			autoPlayNextInQueue()
 		} else if (playList.length) {
