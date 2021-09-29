@@ -1,52 +1,65 @@
-import React from 'react';
-import { useState } from 'react';
-import { useHistory } from 'react-router';
-import { createPlaylistFetch, isLoggedIn } from '../services/authService';
+import React, { useState, useContext } from "react"
+import {
+	showUserPlaylistsFetch,
+	createPlaylistFetch,
+	isLoggedIn,
+} from "../services/authService"
 
-function CreatePlaylistForm() {
-  const [playlistName, setPlaylistName] = useState('');
-  const history = useHistory();
+import { SearchContext } from "../context/SongProvider"
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createPlaylist(playlistName);
-  };
+function CreatePlaylistForm({setRenderCreateButton}) {
+	const { setPlaylistsState } = useContext(SearchContext)
+	const [playlistName, setPlaylistName] = useState("")
 
-  async function createPlaylist(playlistName) {
-    const obj = {
-      playlistName,
-    };
-    try {
-      const data = await createPlaylistFetch(obj);
-      if (data) {
-        console.log(data);
-        history.push('/');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		createPlaylist(playlistName)
+	}
 
-  return (
-    <div>
-      {isLoggedIn() ? (
-        <form action="submit" onSubmit={handleSubmit}>
-          <input
-            name="playlistname"
-            type="text"
-            onChange ={(e) => setPlaylistName(e.target.value)}
-          />
-          <label htmlFor="playlistname">Give your playlist a name</label>
-        </form>
-      ) : (
-        <div>
-          <p>
-            you need to login first ! <a href="/">click here</a>
-          </p>
-        </div>
-      )}
-    </div>
-  );
+	async function fetchOnMountIfLoggedIn() {
+		const data = await isLoggedIn()
+		if (data.loggedIn === true) {
+			let playlists = await showUserPlaylistsFetch()
+			setPlaylistsState(playlists)
+		}
+	}
+
+	async function createPlaylist(playlistName) {
+		const obj = {
+			playlistName,
+		}
+		try {
+			const data = await createPlaylistFetch(obj)
+			if (data) {
+				console.log(data)
+				await fetchOnMountIfLoggedIn()
+				setRenderCreateButton(true)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	return (
+		<div>
+			{isLoggedIn() ? (
+				<form action="submit" onSubmit={handleSubmit}>
+					<input
+						name="playlistname"
+						type="text"
+						onChange={(e) => setPlaylistName(e.target.value)}
+					/>
+					<label htmlFor="playlistname">Give your playlist a name</label>
+				</form>
+			) : (
+				<div>
+					<p>
+						you need to login first ! <a href="/">click here</a>
+					</p>
+				</div>
+			)}
+		</div>
+	)
 }
 
-export default CreatePlaylistForm;
+export default CreatePlaylistForm

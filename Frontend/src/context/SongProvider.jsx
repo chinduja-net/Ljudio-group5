@@ -15,6 +15,7 @@ export default function SongProvider(props) {
 	const [playList, setPlayList] = useState([])
 	const [savedQueueAndPlayList, setSavedQueueAndPlayList] = useState([])
 	const [freshPlayList, setFreshPlayList] = useState([])
+	const [playlistsState, setPlaylistsState] = useState([])
 
 	useEffect(() => {
 		getLocalQueued()
@@ -176,6 +177,8 @@ export default function SongProvider(props) {
 				shuffleSongs,
 				savedQueueAndPlayList,
 				setSavedQueueAndPlayList,
+				playlistsState,
+				setPlaylistsState,
 			}}
 		>
 			{props.children}
