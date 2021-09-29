@@ -1,9 +1,7 @@
 import React from "react"
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import QueueIcon from "@mui/icons-material/Queue"
-import ShareIcon from "@mui/icons-material/Share"
 import IconButton from "@mui/material/IconButton"
 import { Box, Typography } from "@mui/material"
 
@@ -45,14 +43,6 @@ function DetailsPage() {
 						<IconButton type="click" onClick={addToQueue}>
 							<QueueIcon fontSize="large" />
 						</IconButton>
-
-						{/* <IconButton>
-						<PlaylistAddIcon fontSize="large" />
-					</IconButton>
-
-					<IconButton>
-						<ShareIcon fontSize="large" />
-					</IconButton> */}
 					</Box>
 				</Box>
 			) : (
