@@ -39,7 +39,7 @@ export async function loginFetch(body) {
   return data;
 }
 
-function getToken() {
+export function getToken() {
   return sessionStorage.getItem('auth');
 }
 
@@ -56,4 +56,17 @@ export async function isLoggedIn() {
   /*  if (!data.loggedIn) {
       console.log("user not logged In!!")
     }  */
+}
+
+export async function showUserPlaylistsFetch() {
+  const token = getToken();
+  const res = await fetch('/api/playlistsByUserId', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  console.log('data log frontend', data);
+  return data;
 }

@@ -22,11 +22,18 @@ app.get('/api/users', (req, res) => {
   res.json(getAllUsers());
 });
 
-//get user by id
-app.get('/api/userById', (req, res) => {
-  let id = req.body;
-  console.log(id);
-  let userPlaylists = getUserPlaylistsById(id);
+// Get all of current users playlists
+//*(songs not included)
+app.get('/api/playlistsByUserId', async (req, res) => {
+  const token = req.headers.authorization;
+  console.log('token header log', token);
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  console.log('decoded token header', decoded);
+  console.log('user id from token', decoded.id);
+  let userIdObj = { userId: decoded.id };
+  let userPlaylists = getUserPlaylistsById(userIdObj);
+  console.log(userPlaylists);
   res.json(userPlaylists);
 });
 

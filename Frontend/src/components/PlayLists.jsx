@@ -4,6 +4,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 import { Button} from '@mui/material';
 
+import { showUserPlaylistsFetch } from '../services/authService';
 
 function PlayLists() {
   const history = useHistory();
@@ -11,7 +12,11 @@ function PlayLists() {
   function createPlayList() {
    history.push('/CreatePlaylistForm')
   }
- 
+
+  async function showUserPlaylists() {
+    showUserPlaylistsFetch();
+  }
+
   return (
     
     <div>
