@@ -9,7 +9,7 @@ import { Box } from "@mui/system"
 
 function Home() {
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="xs">
 			<Box
 				sx={{
 					display: "flex",
@@ -21,14 +21,7 @@ function Home() {
 				<LoginModal />
 			</Box>
 			<SearchBar />
-			<Container maxWidth="sm" sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						marginTop: 5
-					}}>
-				<PlayLists />
-			</Container>
+			<PlayLists />
 		</Container>
 	)
 }

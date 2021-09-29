@@ -26,7 +26,12 @@ function PlayLists() {
 	useEffect(fetchOnMountIfLoggedIn, [])
 
 	return (
-		<Container>
+		<Container maxWidth="xs" sx={{
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			marginTop: 5
+		}}>
 			{renderCreateButton ? (
 				<Button
 					variant="outlined"
