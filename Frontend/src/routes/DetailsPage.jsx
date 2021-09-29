@@ -4,7 +4,8 @@ import { Link, useHistory } from "react-router-dom"
 import QueueIcon from "@mui/icons-material/Queue"
 import IconButton from "@mui/material/IconButton"
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
-import { Box, Typography } from "@mui/material"
+import {Typography } from "@mui/material"
+import Box from '@mui/system/Box';
 
 import { SearchContext } from "../context/SongProvider"
 

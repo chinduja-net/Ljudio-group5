@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { InputBase, InputAdornment, Box } from "@mui/material";
+import { InputBase, InputAdornment} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/system/Box';
 
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
