@@ -1,26 +1,29 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { nanoid } from 'nanoid';
-import { InputBase, InputAdornment, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { InputBase, InputAdornment, Box } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
-import SignupModal from './SignupModal';
-import LoginModal from './LoginModal';
-
-import { SearchContext } from '../context/SongProvider';
+import SignupModal from "./SignupModal";
+import LoginModal from "./LoginModal";
+import CreatePlaylistForm from "./CreatePlaylistForm";
+import PlayLists from "./PlayLists";
+import { SearchContext } from "../context/SongProvider";
 
 function SearchBar() {
   const { setSearchResults } = useContext(SearchContext);
   const history = useHistory();
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   async function fetchApi() {
     const response = await fetch(
       `https://yt-music-api.herokuapp.com/api/yt/search/${searchInput}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -32,7 +35,7 @@ function SearchBar() {
 
     searchResult.content.forEach((obj) => {
       // Destructure the searchResult to get our desired properties we want to use
-      if (obj.type === 'song') {
+      if (obj.type === "song") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -45,7 +48,7 @@ function SearchBar() {
         });
       }
 
-      if (obj.type === 'album') {
+      if (obj.type === "album") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -55,7 +58,7 @@ function SearchBar() {
           browseId: obj.browseId,
         });
       }
-      if (obj.type === 'artist') {
+      if (obj.type === "artist") {
         filteredResults.push({
           id: nanoid(),
           type: obj.type,
@@ -74,45 +77,77 @@ function SearchBar() {
     setSearchResults(filteredResults);
 
     // Redirect to the searchResults page if we are not on the home page
-    if (location.pathname === '/') {
-      history.push('/searchResults');
+    if (location.pathname === "/") {
+      history.push("/searchResults");
     }
   }
 
   return (
-    <>
-    <SignupModal/>
-    <LoginModal />
-    <Box display="flex" justifyContent="center" alignItems="center">
-      <form
-        onSubmit={(e) => {
-          // Todo: something
-          e.preventDefault();
-          fetchApi();
+    <Box sx = {{width: '300'}}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly"
+
         }}
       >
-        <InputBase
-          startAdornment={
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          style={{
-            fontSize: 16,
-            background: '#E8EEF3',
-            borderRadius: 10,
-            textAlign: 'center',
-            letterSpacing: -0.5,
-            width: 300,
-            marginTop: 30,
+        <SignupModal />
+        <LoginModal />
+      </Box>
+
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchApi();
           }}
-          type="text"
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search for artists/album/song"
-        />
-      </form>
+        >
+          <InputBase
+            startAdornment={
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            }
+            style={{
+              fontSize: 16,
+              background: "#E8EEF3",
+              borderRadius: 10,
+              textAlign: "center",
+              letterSpacing: -0.5,
+              width: 300,
+              marginTop: 30,
+            }}
+            type="text"
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search for artists/album/song"
+          />
+        </form>
+        </Box>
+        <Grid container sx = {{width: 300, marginTop: 5}}>
+        <Grid item xs = {12}
+          sx={{
+            width: 200,
+            height: 200,
+            bgcolor: "lightGrey",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            
+          }}
+        >
+          <PlayLists />
+        </Grid>
+
+        </Grid>
+       
+      
     </Box>
-    </>
   );
 }
 

@@ -35,12 +35,9 @@ export default function SignUp() {
     };
     try {
       const data = await createAccountFetch(obj);
-
-      if (data) {
-
-            console.log(data);
-            history.push('/');
-      }
+      console.log(data)
+      history.push('/');
+      
     } catch (error) {
       console.log(error);
     }

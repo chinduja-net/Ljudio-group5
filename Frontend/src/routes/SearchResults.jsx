@@ -40,9 +40,9 @@ function SearchResults() {
         <Button variant="contained" type="click" onClick={showSongDetails}>
           song details
         </Button>
-        <Button type="click" onClick={addToPlaylist}>
+        {/* <Button type="click" onClick={addToPlaylist}>
           Add to playlist
-        </Button>
+        </Button> */}
       </Grid>
     );
   }
@@ -74,7 +74,7 @@ function SearchResults() {
     );
   }
 
-  function addToPlaylist(e) {
+  /* function addToPlaylist(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
         "data-render-details"
@@ -88,10 +88,10 @@ function SearchResults() {
       setPlayList([...playList, addToListSong]);
       console.log("playList", playList);
     }
-  }
-  function playListView() {
+  } */
+  /* function playListView() {
     history.push("/playListView");
-  }
+  } */
 
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
@@ -169,9 +169,9 @@ function SearchResults() {
             })
           : null}
       </Grid>
-      <Button type="click" onClick={playListView}>
+      {/* <Button type="click" onClick={playListView}>
         view playlist
-      </Button>
+      </Button> */}
     </div>
   );
 }

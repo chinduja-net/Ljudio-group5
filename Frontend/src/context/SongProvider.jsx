@@ -23,7 +23,7 @@ export default function SongProvider(props) {
     setQueueSongs([...queueSongs, newObj]);
   }
 
-  function clearQueueSongs() {
+    function clearQueueSongs() {
     setQueueSongs([]);
   }
 
@@ -76,6 +76,7 @@ export default function SongProvider(props) {
         popPlayedSongs,
         playedSongs,
         setPlayedSongs,
+        
       }}
     >
       {props.children}

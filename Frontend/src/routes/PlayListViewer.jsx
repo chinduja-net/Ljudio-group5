@@ -1,16 +1,33 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../context/SongProvider";
 
 function PlayListViewer() {
   const { playList} = useContext(SearchContext);
-  console.log(playList);
+  /* const[userPlaylists, setUserPlaylists] = useState({
+    playlists: []
+  }); */
+  
+  /* useEffect(() => {
+    async function doFetching(){
+      let response = await fetch(`/api/userById/`,{
+
+        method: 'GET'
+
+
+      })
+      let playlists = await response.json();
+      console.log(playlists)
+
+    }doFetching()
+  }, []) */
+ 
 
   return (
     <>
       <h2>PlayListViewer</h2>
       
-        {playList.map((obj, index) => {
+        {/* {playList.map((obj, index) => {
         return (
           // Adds id and index so if the same song is added several times the key prop still works
             <div key={`${obj.id} ${index}`}>
@@ -21,7 +38,7 @@ function PlayListViewer() {
           </div>
           
         );
-      })}
+      })} */}
     </>
   );
 }
