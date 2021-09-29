@@ -23,6 +23,9 @@ function PlayListViewer() {
   }, []) */
 
   // Todo: if state variable exist; render the response data to the DOM
+  // Dataset properties on every element in the DOM except maybe buttons
+  // make a clickHandler just like in PlayLists.jsx
+  // on click JSON.parse dataset obj and set the queue/playlist whatever
  
 
   return (
