@@ -47,7 +47,14 @@ Content-Type: application/json
   {
     "url": "https://lh3.googleusercontent.com/XKjrYSe7PxDycjCcewOEA0q5bi6fjE5N8rNuU1K_Eeold8tOzpw2c4EWpLFic4Qr3SzvH09zLPm1KN5A=w120-h120-l90-rj"
   }
-]}
-	
-	
+]}	
+}
+
+### Get songs inside a specific playlist
+GET http://localhost:4000/api/getSongsInPlaylist HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTYzMjkyMTM5OSwiZXhwIjoxNjMyOTIxOTk5fQ.O8ugDQ4M40_mWqnuSxc7HwBQ4sKvvL7zFeiyIUB17zc
+Content-Type: application/json
+
+{
+	"playlistId": 17
 }

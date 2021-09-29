@@ -17,6 +17,7 @@ const {
   createPlaylistUserConnection,
   addSongToTable,
   addSongToPlaylistAndUser,
+  getSongsInPlaylist,
 } = require('./database');
 
 // Get all users
@@ -139,6 +140,19 @@ app.post('/api/addSongToPlaylist', async (req, res) => {
   console.log('log of relationData', relationData);
   addSongToPlaylistAndUser(relationData);
   res.json(songAndPlaylist);
+});
+
+// Get songs inside playlist
+app.get('/api/getSongsInPlaylist', async (req, res) => {
+  const token = req.headers.authorization;
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  let playlist = req.body;
+  console.log(playlist);
+  let relationData = { playlistId: playlist.playlistId, userId: decoded.id };
+  let result = getSongsInPlaylist(relationData);
+  res.json(result);
+  console.log('log of results', result);
 });
 
 //Share a playlist

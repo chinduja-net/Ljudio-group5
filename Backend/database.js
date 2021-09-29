@@ -81,6 +81,17 @@ function addSongToPlaylistAndUser(relationData) {
   return run(query, relationData);
 }
 
+function getSongsInPlaylist(relationData) {
+  let query = `SELECT playlistName, songName,songVideoId, userName
+  FROM users, songs, playlists, playlist_track_user as ptu
+  WHERE ptu.userId = :userId
+  AND ptu.userId = users.id
+  AND ptu.playlistId = :playlistId
+  AND ptu.playlistId = playlists.id
+  AND ptu.songId = songs.id`;
+  return all(query, relationData);
+}
+
 exports.getAllUsers = getAllUsers;
 exports.getAllPlaylists = getAllPlaylists;
 exports.createAccount = createAccount;
@@ -90,3 +101,4 @@ exports.createPlaylist = createPlaylist;
 exports.createPlaylistUserConnection = createPlaylistUserConnection;
 exports.addSongToTable = addSongToTable;
 exports.addSongToPlaylistAndUser = addSongToPlaylistAndUser;
+exports.getSongsInPlaylist = getSongsInPlaylist;
