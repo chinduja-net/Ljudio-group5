@@ -35,11 +35,10 @@ function PlayLists() {
         Create Playlist
       </Button>
       <Button variant = "outlined" onClick={showUserPlaylists}>Show Playlists</Button>
-
-      {playlistsState.map(({ playlistName }) => {
+      {playlistsState ? playlistsState.map(({ playlistName }) => {
         return <p>{playlistName}</p>;
-      })}
-        
+      }) : null}
+           
     </>
   );
 }
