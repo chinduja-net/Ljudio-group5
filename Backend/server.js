@@ -111,7 +111,8 @@ app.post('/api/createPlaylist', async (req, res) => {
   let playlist = req.body;
   let insert = createPlaylist(playlist);
   playlist.id = insert.lastInsertRowid;
-  
+  let relationData = { playlistId: playlist.id, userId: decoded.id };
+  createPlaylistUserConnection(relationData);
   res.json(playlist);
 });
 
