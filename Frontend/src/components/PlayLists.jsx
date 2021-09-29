@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined"
 
 import { Button, Container, Typography } from "@mui/material"
+import { Box } from "@mui/system"
 
 import { showUserPlaylistsFetch, isLoggedIn } from "../services/authService"
 import { SearchContext } from "../context/SongProvider"
@@ -10,6 +11,8 @@ import CreatePlaylistForm from "./CreatePlaylistForm"
 function PlayLists() {
 	const { playlistsState, setPlaylistsState } = useContext(SearchContext)
 	const [renderCreateButton, setRenderCreateButton] = useState(true)
+
+	useEffect(fetchOnMountIfLoggedIn, [])
 
 	function createPlayList() {
 		setRenderCreateButton(false)
@@ -23,15 +26,31 @@ function PlayLists() {
 		}
 	}
 
-	useEffect(fetchOnMountIfLoggedIn, [])
+	function clickHandler(e) {
+		if (e.target.attributes.getNamedItem("data-playList") !== null) {
+			const clickedValuePlaylist = JSON.parse(
+				e.target.attributes.getNamedItem("data-playList").value,
+			)
+
+			console.log(clickedValuePlaylist)
+			// Fetch data base 
+			// Make state variable in songProvier
+			// set state variable to result from database
+			// history.push to playlistViewer
+			
+		}
+	}
 
 	return (
-		<Container maxWidth="xs" sx={{
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			marginTop: 5
-		}}>
+		<Container
+			maxWidth="xs"
+			sx={{
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "center",
+				marginTop: 5,
+			}}
+		>
 			{renderCreateButton ? (
 				<Button
 					variant="outlined"
@@ -43,13 +62,26 @@ function PlayLists() {
 			) : (
 				<CreatePlaylistForm setRenderCreateButton={setRenderCreateButton} />
 			)}
-			<Container>
+			<Container onClick={clickHandler}>
 				{playlistsState
 					? playlistsState.map(({ playlistName, id }, index) => {
 							return (
-								<Typography key={`${id}${index}`}>
-									{playlistName}
-								</Typography>
+								<Box
+									data-playList={JSON.stringify({
+										playlistName,
+										id,
+									})}
+								>
+									<Typography
+										data-playList={JSON.stringify({
+											playlistName,
+											id,
+										})}
+										key={`${id}${index}`}
+									>
+										{playlistName}
+									</Typography>
+								</Box>
 							)
 					  })
 					: null}
