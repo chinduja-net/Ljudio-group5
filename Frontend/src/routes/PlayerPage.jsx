@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { SearchContext } from "../context/SongProvider"
+import ProgressBar from "../components/ProgressBar"
 
 import SkipNextIcon from "@mui/icons-material/SkipNext"
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious"
@@ -71,40 +72,51 @@ function PlayerPage() {
 					borderRadius: "50%",
 				}}
 			/>
-			<h1>{currentSong.name}</h1>
-			<button>
-				<SkipPreviousIcon />
-			</button>
+			<div>
+				<div>
+					<h1>{currentSong.name}</h1>
+					<h2>{currentSong.artist.name}</h2>
+				</div>
+				{/* Go to details page button */}
+			</div>
 
-			<button onClick={() => ytPlayer.toggleVidBtn()}>
-				{/* 
+			<ProgressBar />
+
+			<div>
+				<button onClick={toggleAudio}>
+					{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
+				</button>
+
+				<button>
+					<SkipPreviousIcon />
+				</button>
+
+				<button onClick={() => ytPlayer.toggleVidBtn()}>
+					{/* 
 					Toggle play button icon based on player state
 					1 = playing, 2 = paused
 				*/}
-				{ytPlayerState === 1 ? (
-					<PauseIcon />
-				) : ytPlayerState === 2 ? (
-					<PlayArrowIcon />
-				) : (
-					<PlayArrowIcon />
-				)}
-			</button>
+					{ytPlayerState === 1 ? (
+						<PauseIcon />
+					) : ytPlayerState === 2 ? (
+						<PlayArrowIcon />
+					) : (
+						<PlayArrowIcon />
+					)}
+				</button>
 
-			<button onClick={() => playNextSong()}>
-				<SkipNextIcon />
-			</button>
+				<button onClick={() => playNextSong()}>
+					<SkipNextIcon />
+				</button>
 
-			<button onClick={toggleAudio}>
-				{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
-			</button>
-
-			<button
-				onClick={() => {
-					history.push("/queueViewer")
-				}}
-			>
-				<ListIcon />
-			</button>
+				<button
+					onClick={() => {
+						history.push("/queueViewer")
+					}}
+				>
+					<ListIcon />
+				</button>
+			</div>
 		</div>
 	) : (
 		<div>
