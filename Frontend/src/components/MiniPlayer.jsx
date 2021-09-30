@@ -66,7 +66,8 @@ function MiniPlayer() {
         onClick={miniPlayerClickHandler}
         sx={{
           top: 'auto',
-          bottom: 0,
+          bottom: 56,
+          zIndex: 98
         }}
       >
         <Toolbar className="miniPlayerClick">
