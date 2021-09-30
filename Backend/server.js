@@ -15,6 +15,9 @@ const {
   getAllPlaylists,
   createPlaylist,
   createPlaylistUserConnection,
+  addSongToTable,
+  addSongToPlaylistAndUser,
+  getSongsInPlaylist,
 } = require('./database');
 
 // Get all users
@@ -66,7 +69,7 @@ app.post('/api/login', async (req, res) => {
   }
   if (result.success) {
     const token = jwt.sign({ id: user[0].id, uid: user[0].uid }, 'a1b1c1', {
-      expiresIn: 600, //Går ut om 10 minuter
+      expiresIn: '24h',
     });
     result.token = token;
     console.log('Signed JWT', token);
@@ -119,6 +122,38 @@ app.post('/api/createPlaylist', async (req, res) => {
 // Remove a playlist
 
 // Add song to playlist
+app.post('/api/addSongToPlaylist', async (req, res) => {
+  let songAndPlaylist = req.body;
+  const token = req.headers.authorization;
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  console.log('song and playlist log', songAndPlaylist);
+  let songInfo = songAndPlaylist.songInfo;
+  console.log('Song info log', songInfo);
+  let insert = addSongToTable(songInfo);
+  songAndPlaylist.songInfo.id = insert.lastInsertRowid;
+  let relationData = {
+    playlistId: songAndPlaylist.playlistId,
+    userId: decoded.id,
+    songId: songAndPlaylist.songInfo.id,
+  };
+  console.log('log of relationData', relationData);
+  addSongToPlaylistAndUser(relationData);
+  res.json(songAndPlaylist);
+});
+
+// Get songs inside playlist
+app.post('/api/getSongsInPlaylist', async (req, res) => {
+  const token = req.headers.authorization;
+  let newToken = token.substring(7, token.length);
+  let decoded = jwt.decode(newToken);
+  let playlist = req.body;
+  // Create object which we use for the dynamic SQL queries
+  let relationData = { playlistId: playlist.playlistId, userId: decoded.id };
+  let result = getSongsInPlaylist(relationData);
+  res.json(result);
+  console.log('log of results', result);
+});
 
 //Share a playlist
 

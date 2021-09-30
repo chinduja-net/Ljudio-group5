@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Box from '@mui/system/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -14,7 +14,7 @@ import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({handleClose}) {
   const history = useHistory();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,7 @@ export default function Login() {
         history.push('/signup');
       } else {
         await saveToken(data.token);
-        history.push('/playLists');
+        handleClose()
       }
     } catch (error) {
       console.log(error);
@@ -53,32 +53,34 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+            sx={{
+              mt: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="Uname"
                   name="UserName"
                   required
-                  fullWidth
                   id="UserName"
                   label="UserName"
                   autoFocus
@@ -88,7 +90,6 @@ export default function Login() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
                   name="password"
                   label="Password"
                   type="password"

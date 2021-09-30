@@ -1,31 +1,28 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/system/Box";
+
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useState } from "react";
 import { createAccountFetch } from "../services/authService";
 import { useHistory } from "react-router";
 
-
 const theme = createTheme();
 
-export default function SignUp() {
-
+export default function SignUp({ handleClose }) {
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     createAccount(userName, password);
-    
   };
 
   async function createAccount(userName, password) {
@@ -35,12 +32,8 @@ export default function SignUp() {
     };
     try {
       const data = await createAccountFetch(obj);
-
-      if (data) {
-
-            console.log(data);
-            history.push('/');
-      }
+      console.log("signup fetch data", data);
+      handleClose();
     } catch (error) {
       console.log(error);
     }
@@ -48,38 +41,43 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-                            
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{
+              mt: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TextField
-                   autoComplete="Uname"
-                   name="UserName"
-                   required
-                   fullWidth
-                   id="UserName"
-                   label="UserName"
-                   autoFocus
-                   onChange={(e) => setUserName(e.target.value)}
+                  autoComplete="Uname"
+                  name="UserName"
+                  required
+                  id="UserName"
+                  label="UserName"
+                  autoFocus
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
@@ -88,18 +86,12 @@ export default function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
-              </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            </Grid>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Create Account
             </Button>
           </Box>
         </Box>
-        
       </Container>
     </ThemeProvider>
   );

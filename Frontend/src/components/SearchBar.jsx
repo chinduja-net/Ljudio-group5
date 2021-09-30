@@ -1,12 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { InputBase, InputAdornment, Box } from '@mui/material';
+import { InputBase, InputAdornment} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-import SignupModal from './SignupModal';
-import LoginModal from './LoginModal';
-
+import Box from '@mui/system/Box';
 import { SearchContext } from '../context/SongProvider';
 
 function SearchBar() {
@@ -38,7 +35,7 @@ function SearchBar() {
           type: obj.type,
           name: obj.name,
           thumbnails: obj.thumbnails,
-          artist: obj.artist.browseId,
+          artist: obj.artist.name,
           album: obj.album.browseId,
           duration: obj.duration,
           videoId: obj.videoId,
@@ -80,39 +77,41 @@ function SearchBar() {
   }
 
   return (
-    <>
-    <SignupModal/>
-    <LoginModal />
-    <Box display="flex" justifyContent="center" alignItems="center">
-      <form
-        onSubmit={(e) => {
-          // Todo: something
-          e.preventDefault();
-          fetchApi();
-        }}
+    <Box sx={{ width: '300' }}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
       >
-        <InputBase
-          startAdornment={
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          style={{
-            fontSize: 16,
-            background: '#E8EEF3',
-            borderRadius: 10,
-            textAlign: 'center',
-            letterSpacing: -0.5,
-            width: 300,
-            marginTop: 30,
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchApi();
           }}
-          type="text"
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search for artists/album/song"
-        />
-      </form>
+        >
+          <InputBase
+            startAdornment={
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            }
+            style={{
+              fontSize: 16,
+              background: '#E8EEF3',
+              borderRadius: 10,
+              textAlign: 'center',
+              letterSpacing: -0.5,
+              width: 300,
+              marginTop: 30,
+            }}
+            type="text"
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search for artists/album/song"
+          />
+        </form>
+      </Box>
     </Box>
-    </>
   );
 }
 

@@ -1,47 +1,168 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+//import "../styles/queueViewer.css";
 
-import { SearchContext } from "../context/SongProvider";
+import Button from '@mui/material/Button';
+import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import Typography from '@mui/material/Typography';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+
+import { SearchContext } from '../context/SongProvider';
 
 function QueueViewer() {
-  const { currentSong, queueSongs } = useContext(SearchContext);
+  const history = useHistory();
+
+  const {
+    currentSong,
+    queueSongs,
+    clearQueueSongs,
+    changeQueueSongs,
+    setQueueSongs,
+    shuffleSongs,
+    playList,
+  } = useContext(SearchContext);
+
+  // checks "droparea" , orders and stores it in a new arr passed into setQueue, runs when item is dropped in list
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(queueSongs);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setQueueSongs(items);
+    setTimeout(() => {
+      changeQueueSongs(items);
+    }, 1000);
+  }
 
   return (
-    <div>
-      {/* <button className={hideBtn}>Icon</button> */}
-      <h2>Now Playing</h2>
-      {currentSong ? (
-        <div className="currentSong">
-          <img src={currentSong.thumbnails[1].url} alt="song thumbnail" />
-          <div>
-            <h3>{currentSong.name}</h3>
-            <h4>{currentSong.artist.name}</h4>
+    <>
+      <div className="top-container">
+        <button
+          onClick={() => {
+            history.goBack();
+          }}
+        >
+          <ArrowBackIosRoundedIcon />
+        </button>
+      </div>
+      <div className="np-container">
+        <Typography variant="h6" gutterBottom component="div">
+          Now Playing:
+        </Typography>
+        {currentSong ? (
+          <div className="currentSong">
+            <img src={currentSong.thumbnails[0].url} alt="song thumbnail" />
+            <div>
+              <Typography variant="subtitle1" gutterBottom component="div">
+                {currentSong.name}
+              </Typography>
+              {/* <Typography variant="subtitle2" gutterBottom component="div">
+                {currentSong.artist.browseId}
+              </Typography> */}
+            </div>
           </div>
-        </div>
-      ) : null}
-
-      <div>
-        <h2>Next in queue:</h2>
+        ) : null}
       </div>
 
-      {queueSongs
-        ? queueSongs.map((obj, index) => {
-            return (
-              // Adds id and index so if the same song is added several times the key prop still works
-              <div key={`${obj.id} ${index}`} className="queueListContainer">
-                <div className="">
-                  <h3>{obj.name}</h3>
-                  <p>{obj.artist.name}</p>
-                </div>
-              </div>
-            );
-          })
-        : null}
-
-      {/* <h2>Next from: Playlist</h2>
-			<div className="songListContainer">
-				<div className=""></div>
-			</div>*/}
-    </div>
+      <div className="niq-container">
+        <Typography variant="h6" gutterBottom component="div">
+          Next in queue:
+        </Typography>
+        <div>
+          <Button variant="outlined" onClick={shuffleSongs}>
+            <ShuffleIcon />
+          </Button>
+          <Button variant="outlined" onClick={clearQueueSongs}>
+            Clear Queue
+          </Button>
+        </div>
+      </div>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="songs">
+          {queueSongs
+            ? (provided) => (
+                <ul
+                  className="songs"
+                  {...provided.droppableProps}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {queueSongs.map(({ id, name, thumbnails, artist }, index) => {
+                    return (
+                      <Draggable
+                        key={`${id}${index}`}
+                        draggableId={id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <li
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="songs-thumb">
+                              <img
+                                src={thumbnails[1].url}
+                                alt={`${name} THumb`}
+                              />
+                            </div>
+                            <Typography
+                              variant="subtitle1"
+                              gutterBottom
+                              component="div"
+                            >
+                              {name}
+                              {artist.browseId}
+                            </Typography>
+                            <button>
+                              <MoreVertRoundedIcon />
+                            </button>
+                          </li>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </ul>
+              )
+            : null}
+        </Droppable>
+      </DragDropContext>
+      <div>
+        <h2>Next from: Playlist</h2>
+        <div className="songListContainer">
+          <div className=""></div>
+        </div>
+        <ul>
+          {playList
+            ? playList.map(({ id, name, thumbnails, artist }, index) => {
+                return (
+                  <li key={`${id}${index}${index}`}>
+                    <div className="songs-thumb">
+                      <img src={thumbnails[0].url} alt={`${name} THumb`} />
+                    </div>
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      component="div"
+                    >
+                      {name}
+                      {artist}
+                    </Typography>
+                    <button>
+                      <MoreVertRoundedIcon />
+                    </button>
+                  </li>
+                );
+              })
+            : null}
+        </ul>
+      </div>
+    </>
   );
 }
 

@@ -1,18 +1,22 @@
-import React, { useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import React from "react";
+import { Grid, Button } from "@mui/material";
+import { Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import { SearchContext } from "../context/SongProvider";
+import SearchBar from "../components/SearchBar";
+import { color } from "@mui/system";
 
-import { Grid, Button } from '@mui/material';
-
-import { SearchContext } from '../context/SongProvider';
-import SearchBar from '../components/SearchBar';
-
-function SearchResults() {
+export default function SearchResults() {
   const {
     searchResults,
     setCurrentSong,
     setCurrentAlbum,
     setCurrentArtist,
     setSongDetail,
+    setPlayedSongs,
+    playedSongs,
     setPlayList,
     playList,
   } = useContext(SearchContext);
@@ -21,54 +25,82 @@ function SearchResults() {
 
   function renderSong(object) {
     return (
-      <Grid
-        data-render-song={JSON.stringify(object)}
-        data-render-details={JSON.stringify(object)}
-        key={object.id}
-      >
-        <img
+      <Paper key={`${object.id}`} sx={{ height: 250, width: 150, marginTop: 2 }}>
+        <Grid
+		display="flex"
+		flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
           data-render-song={JSON.stringify(object)}
-          src={object.thumbnails[0].url}
-          alt={'song thumbnail'}
-        />
-        <div data-render-song={JSON.stringify(object)}>
-          <h4 data-render-song={JSON.stringify(object)}>{object.name}</h4>
-          <p data-render-song={JSON.stringify(object)}>{object.artist.name}</p>
-        </div>
-        <Button variant="contained" type="click" onClick={showSongDetails}>
-          song details
-        </Button>
-        <Button type="click" onClick={addToPlaylist}>
-          Add to playlist
-        </Button>
-      </Grid>
+          data-render-details={JSON.stringify(object)}
+          key={object.id}
+        >
+         
+            <img 
+              data-render-song={JSON.stringify(object)}
+              src={object.thumbnails[0].url}
+              alt={"song thumbnail"}
+            />
+             <p data-render-song={JSON.stringify(object)}
+           >
+              {object.name}
+            </p>
+			<p data-render-song={JSON.stringify(object)}
+           >
+              {object.artist}
+            </p>
+          
+          <Button
+            variant="outlined"
+            size="small"
+            type="click"
+            onClick={showSongDetails}
+          >
+            song details
+          </Button>
+        </Grid>
+      </Paper>
     );
   }
 
   function renderArtist(object) {
     return (
-      <Grid data-render-artist={JSON.stringify(object)} key={object.id}>
-        <p data-render-artist={JSON.stringify(object)}>{object.type}</p>
-        <img
+      <Paper key={`${object.id}`} sx={{ height: 200, width: 150, marginTop: 2 }}>
+        <Grid
+          justifyContent="center"
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
           data-render-artist={JSON.stringify(object)}
-          src={object.thumbnails[0].url}
-          alt={'artist thumbnail'}
-        />
-        <h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
-      </Grid>
+          key={object.id}
+        >
+          <p data-render-artist={JSON.stringify(object)}>{object.type}</p>
+          <img
+            data-render-artist={JSON.stringify(object)}
+            src={object.thumbnails[0].url}
+            alt={"artist thumbnail"}
+          />
+          <h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
+        </Grid>
+      </Paper>
     );
   }
   function renderAlbum(object) {
     return (
-      <Grid data-render-album={JSON.stringify(object)} key={object.id}>
-        <img
-          data-render-album={JSON.stringify(object)}
-          src={object.thumbnails[0].url}
-          alt={'album cover'}
-        />
-        <h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
-        <p data-render-album={JSON.stringify(object)}>{object.artist}</p>
-      </Grid>
+      <Paper key={`${object.id}`} sx={{ height: 200, width: 150, marginTop: 2 }}>
+        <Grid  justifyContent="center"
+          alignItems="center"
+          display="flex"
+          flexDirection="column" data-render-album={JSON.stringify(object)} key={object.id}>
+          <img
+            data-render-album={JSON.stringify(object)}
+            src={object.thumbnails[0].url}
+            alt={"album cover"}
+          />
+          <h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
+          <p data-render-album={JSON.stringify(object)}>{object.artist}</p>
+        </Grid>
+      </Paper>
     );
   }
 
@@ -84,10 +116,9 @@ function SearchResults() {
         ).value
       );
       setPlayList([...playList, addToListSong]);
-      console.log('playList', playList);
-      console.log(addToListSong);
     }
   }
+
   function playListView() {
     history.push('/playListView');
   }
@@ -110,9 +141,8 @@ function SearchResults() {
     }
   }
 
-  /**
-   * Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
-   */
+  //Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
+
   function resultsClickHandler(e) {
     if (e.target.attributes.getNamedItem('data-render-song') !== null) {
       let clickedValueSong = JSON.parse(
@@ -120,7 +150,8 @@ function SearchResults() {
       );
 
       setCurrentSong(clickedValueSong);
-      // history.push('/playerPage');
+      setPlayedSongs([...playedSongs, clickedValueSong]);
+      history.push('/playerPage');
     }
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
@@ -173,5 +204,3 @@ function SearchResults() {
     </div>
   );
 }
-
-export default SearchResults;

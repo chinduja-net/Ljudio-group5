@@ -16,21 +16,43 @@ function MiniPlayer() {
     currentSong,
     queueSongs,
     shiftQueue,
+    shiftPlayList,
     setCurrentSong,
     ytPlayerState,
     ytPlayer,
+    popPlayedSongs,
+    playedSongs,
+    playList,
   } = useContext(SearchContext);
 
   const [audioState, setAudioState] = useState(true);
 
   function playNextSong() {
-    // If any songs are queued load the first one's videoId and feed it to the player
+    // Feed song to player if they exist in either the queue or the next in playlist
     if (queueSongs.length) {
       // Get first song from queue and update the queue
       let song = shiftQueue();
 
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
+      setCurrentSong(song);
+    } else if (playList.length) {
+      // Get first song from playList and update it
+      let song = shiftPlayList();
+
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+      setCurrentSong(song);
+    }
+  }
+
+  function playPrevSong() {
+    //plays last song in playedSongs array and pops last element
+    if (playedSongs.length) {
+      let song = popPlayedSongs();
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+
       setCurrentSong(song);
     }
   }
@@ -82,7 +104,7 @@ function MiniPlayer() {
             }}
           />
           <h1 className="miniPlayerClick">{currentSong.name}</h1>
-          <button>
+          <button onClick={() => playPrevSong()}>
             <SkipPreviousIcon />
           </button>
 
