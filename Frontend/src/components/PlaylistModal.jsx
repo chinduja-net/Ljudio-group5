@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
-import { styled } from "@mui/system/";
-import PlayLists from "../components/PlayLists";
+import { styled } from '@mui/system/';
+import PlayLists from './PlayLists';
 
-import ModalUnstyled from "@mui/core/ModalUnstyled/";
-import { SearchContext } from "../context/SongProvider";
+import ModalUnstyled from '@mui/core/ModalUnstyled/';
+import { SearchContext } from '../context/SongProvider';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -18,7 +18,7 @@ const StyledModal = styled(ModalUnstyled)`
   justify-content: center;
 `;
 
-const Backdrop = styled("div")`
+const Backdrop = styled('div')`
   z-index: -1;
   position: fixed;
   right: 0;
@@ -31,8 +31,8 @@ const Backdrop = styled("div")`
 
 const style = {
   width: 300,
-  border: "2px solid #000",
-  bgcolor: "background.paper",
+  border: '2px solid #000',
+  bgcolor: 'background.paper',
   p: 2,
   px: 4,
   pb: 3,

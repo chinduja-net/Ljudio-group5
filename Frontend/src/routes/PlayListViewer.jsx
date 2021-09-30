@@ -86,7 +86,10 @@ function PlayListViewer() {
         <h2>PlayListViewer</h2>
         <PlayCircleIcon
           onClick={() => {
-            setPlayList([...songsInPlaylist, ...playList]);
+            let newArr = [...songsInPlaylist];
+            newArr.shift();
+            setPlayList([...newArr, ...playList]);
+            setCurrentSong(songsInPlaylist[0]);
           }}
         />
       </Container>

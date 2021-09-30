@@ -7,7 +7,7 @@ import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import { Typography } from '@mui/material';
 import Box from '@mui/system/Box';
 
-import PlaylistModal from './PlaylistModal';
+import PlaylistModal from '../components/PlaylistModal';
 
 import { SearchContext } from '../context/SongProvider';
 
