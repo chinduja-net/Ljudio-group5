@@ -35,7 +35,6 @@ export async function loginFetch(body) {
     },
   });
   const data = await response.json();
-  console.log('login data', data);
   return data;
 }
 
@@ -56,7 +55,6 @@ export async function isLoggedIn() {
     },
   });
   const data = await response.json();
-  console.log(data);
   return await data;
 }
 
@@ -70,7 +68,6 @@ export async function showUserPlaylistsFetch() {
     },
   });
   const data = await res.json();
-  console.log('data log frontend', data);
   return data;
 }
 
@@ -85,7 +82,6 @@ export async function songsInsidePlaylistFetch(body) {
     },
   });
   const data = await res.json();
-  console.log('songs found from backend', data);
   return data;
 }
 
@@ -100,6 +96,5 @@ export async function addSongsToPlaylistFetch(body) {
     },
   });
   const data = await res.json();
-  console.log('song added to playlist', data);
   return data;
 }

@@ -35,7 +35,7 @@ function ProgressBar() {
   useEffect(() => {
     setDuration(ytPlayer.player.playerInfo.duration);
 
-    // Checks if the player exists and it's onReady event has fired, which means the player is ready
+    // Checks if the player exists and if its ready
   }, [ytPlayer?.player?.playerInfo.duration, ytPlayer?.player?.G.onReady]);
 
   useEffect(() => {

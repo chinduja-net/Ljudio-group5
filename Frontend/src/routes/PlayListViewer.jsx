@@ -17,17 +17,16 @@ function PlayListViewer() {
     playList,
   } = useContext(SearchContext);
 
-  // On Load call fetchSongsOnMount
   useEffect(fetchSongsOnMount, []);
 
-  // Creates a object with playListId property whos value is the current selected playlists id.
+  // Post the selected playlist to the database and get corresponding songs
   async function fetchSongsOnMount() {
     let obj = {
       playlistId: selectedPlaylist,
     };
     let unFormattedfoundSongs = await songsInsidePlaylistFetch(obj);
-    console.log("unformattedFoundSongs", unFormattedfoundSongs);
 
+    // Re-format songs since the db cant have arrays
     let formattedSongs = unFormattedfoundSongs.map((obj) => {
       let formattedFoundSongs = {
         name: obj.songName,
@@ -45,8 +44,6 @@ function PlayListViewer() {
       };
       return formattedFoundSongs;
     });
-
-    console.log("found songs inside playlist viewer", formattedSongs);
     setSongsInPlaylist(formattedSongs);
   }
 
@@ -70,13 +67,8 @@ function PlayListViewer() {
         ],
       };
       setCurrentSong(clickedSong);
-      console.log("clickedSong obj", clickedSong);
     }
   }
-
-  // Dataset properties on every element in the DOM except maybe buttons
-  // make a clickHandler just like in PlayLists.jsx
-  // on click JSON.parse dataset obj and set the queue/playlist whatever
 
   return (
     <>
@@ -90,8 +82,12 @@ function PlayListViewer() {
           margin: "auto",
         }}
       >
-        <h2>Selected Playlist</h2>
+        <Typography variant="h4" color="white">
+          PlayListViewer
+        </Typography>
         <PlayCircleIcon
+          sx={{ marginLeft: 2, color: "#1976d2" }}
+          fontSize="large"
           onClick={() => {
             let newArr = [...songsInPlaylist];
             newArr.shift();
@@ -118,12 +114,6 @@ function PlayListViewer() {
                   })}
                   key={`${id}${index}`}
                 >
-                  {/* <div>
-            <img
-              src={obj.thumbnails[0].url}
-              alt={obj.artist.id + "'s cover thumbnail"}
-            />
-          </div> */}
                   <Typography
                     data-song={JSON.stringify({
                       name,
@@ -152,7 +142,7 @@ function PlayListViewer() {
                         margin: 1,
                       }}
                       image={thumbnails[0].url}
-                      alt="Song tumbnail"
+                      alt="thb"
                     />
                     <div>
                       {name} - {artist}
@@ -163,7 +153,9 @@ function PlayListViewer() {
             }
           )
         ) : (
-          <h2>No songs found</h2>
+          <Typography variant="h2" color="white">
+            No songs found
+          </Typography>
         )}
       </Container>
     </>

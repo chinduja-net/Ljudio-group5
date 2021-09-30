@@ -30,7 +30,7 @@ function getUserPlaylistsById(userIdObj) {
   return all(query, userIdObj);
 }
 
-// Get all playlist
+// Get all playlists
 function getAllPlaylists() {
   let playlists = all(`SELECT userName,playlistName
       FROM playlists, users, playlist_track_user
@@ -48,7 +48,7 @@ function createAccount(account) {
   return run(query, account);
 }
 
-//login Account
+// Login Account
 function getUserLoginInfo(loginCredentials) {
   let query = `SELECT id,userName, password FROM  users WHERE  (userName = :userName)`;
   return all(query, loginCredentials);

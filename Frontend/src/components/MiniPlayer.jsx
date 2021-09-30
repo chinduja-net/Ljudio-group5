@@ -34,16 +34,14 @@ function MiniPlayer() {
   const [audioState, setAudioState] = useState(true);
 
   function playNextSong() {
-    // Feed song to player if they exist in either the queue or the next in playlist
+    // Feed song to player if they exist in eiter the queue or the next in playlist and update the arrays
     if (queueSongs.length) {
-      // Get first song from queue and update the queue
       let song = shiftQueue();
 
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
       setCurrentSong(song);
     } else if (playList.length) {
-      // Get first song from playList and update it
       let song = shiftPlayList();
 
       ytPlayer.player.loadVideoById(song.videoId);
@@ -78,7 +76,6 @@ function MiniPlayer() {
     console.log("audio state", audioState);
   }
 
-  // Checks if user clicked ON miniplayer
   function miniPlayerClickHandler(e) {
     if (e.target.classList.contains("miniPlayerClick")) {
       history.push("/playerPage");

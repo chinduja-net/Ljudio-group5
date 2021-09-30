@@ -1,4 +1,3 @@
-const db = require('./database.js');
 const express = require('express');
 const app = express();
 app.use(express.json());
@@ -28,15 +27,14 @@ app.get('/api/users', (req, res) => {
 // Get all of current users playlists
 //*(songs not included)
 app.get('/api/playlistsByUserId', async (req, res) => {
+  // Get token and decode it.
   const token = req.headers.authorization;
-  console.log('token header log', token);
   let newToken = token.substring(7, token.length);
   let decoded = jwt.decode(newToken);
-  console.log('decoded token header', decoded);
-  console.log('user id from token', decoded.id);
+  console.log('Decoded token: ', decoded);
+
   let userIdObj = { userId: decoded.id };
   let userPlaylists = getUserPlaylistsById(userIdObj);
-  console.log(userPlaylists);
   res.json(userPlaylists);
 });
 
@@ -44,10 +42,9 @@ app.get('/api/playlistsByUserId', async (req, res) => {
 app.post('/api/signup', async (req, res) => {
   let account = req.body;
   account.uid = nanoid();
-  console.log('Account info before hashing', account);
   account.password = await hashPassword(account.password);
-  console.log('Account info after hashing', account);
   let insert = createAccount(account);
+  // Pass autoincrement id to res.
   account.id = insert.lastInsertRowid;
   res.json(account);
 });
@@ -56,13 +53,12 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   let loginCredentials = req.body;
   const user = getUserLoginInfo(loginCredentials);
-  console.log('Log user object', user);
-  // Break out password prop of userObj
   let userHashPass = user[0].password;
   let compareHashPass = await comparePassword(
     loginCredentials.password,
     userHashPass
   );
+
   let result = { success: false, token: null };
   if (compareHashPass) {
     result.success = true;
@@ -72,9 +68,6 @@ app.post('/api/login', async (req, res) => {
       expiresIn: '24h',
     });
     result.token = token;
-    console.log('Signed JWT', token);
-    let decoded = jwt.decode(token);
-    console.log('decoded JWT', decoded);
   }
   res.json(result);
 });
@@ -103,15 +96,13 @@ app.get('/api/playlists', (req, res) => {
   res.json(allPlaylists);
 });
 
-// Create a playlist
+// Create a empty playlist connected to user
 app.post('/api/createPlaylist', async (req, res) => {
   const token = req.headers.authorization;
-  console.log('token header log', token);
   let newToken = token.substring(7, token.length);
   let decoded = jwt.decode(newToken);
-  console.log('decoded token header', decoded);
-  console.log('user id from token', decoded.id);
   let playlist = req.body;
+
   let insert = createPlaylist(playlist);
   playlist.id = insert.lastInsertRowid;
   let relationData = { playlistId: playlist.id, userId: decoded.id };
@@ -119,25 +110,22 @@ app.post('/api/createPlaylist', async (req, res) => {
   res.json(playlist);
 });
 
-// Remove a playlist
-
 // Add song to playlist
 app.post('/api/addSongToPlaylist', async (req, res) => {
   let songAndPlaylist = req.body;
   const token = req.headers.authorization;
   let newToken = token.substring(7, token.length);
   let decoded = jwt.decode(newToken);
-  console.log('song and playlist log', songAndPlaylist);
   let songInfo = songAndPlaylist.songInfo;
-  console.log('Song info log', songInfo);
   let insert = addSongToTable(songInfo);
+
   songAndPlaylist.songInfo.id = insert.lastInsertRowid;
   let relationData = {
     playlistId: songAndPlaylist.playlistId,
     userId: decoded.id,
     songId: songAndPlaylist.songInfo.id,
   };
-  console.log('log of relationData', relationData);
+
   addSongToPlaylistAndUser(relationData);
   res.json(songAndPlaylist);
 });
@@ -152,9 +140,6 @@ app.post('/api/getSongsInPlaylist', async (req, res) => {
   let relationData = { playlistId: playlist.playlistId, userId: decoded.id };
   let result = getSongsInPlaylist(relationData);
   res.json(result);
-  console.log('log of results', result);
 });
-
-//Share a playlist
 
 app.listen(4000, () => console.log('Server started on Port 4000'));

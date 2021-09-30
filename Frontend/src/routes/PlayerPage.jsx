@@ -32,6 +32,7 @@ function PlayerPage() {
     ytPlayer,
     popPlayedSongs,
     playedSongs,
+    playList,
   } = useContext(SearchContext);
 
   const [audioState, setAudioState] = useState(true);
@@ -41,14 +42,12 @@ function PlayerPage() {
   function playNextSong() {
     // Feed song to player if they exist in either the queue or the next in playlist
     if (queueSongs.length) {
-      // Get first song from queue and update the queue
       let song = shiftQueue();
 
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
       setCurrentSong(song);
     } else if (playList.length) {
-      // Get first song from playList and update it
       let song = shiftPlayList();
 
       ytPlayer.player.loadVideoById(song.videoId);
@@ -84,7 +83,7 @@ function PlayerPage() {
   }
 
   // Only renders the miniplayer if a currentSong is in the player
-  return currentSong ? (
+  return currentSong && ytPlayer ? (
     <Card
       sx={{
         display: "flex",
@@ -187,15 +186,11 @@ function PlayerPage() {
       </Box>
     </Card>
   ) : (
-    <>
+    <div>
       <Typography variant="subtitle1" gutterBottom component="div" m={2}>
         No song selected, go back and search for a song!
-        <IconButton>
-          {" "}
-          <HomeMaxSharpIcon onClick={() => history.push("/")} />
-        </IconButton>
       </Typography>
-    </>
+    </div>
   );
 }
 

@@ -16,7 +16,7 @@ function BottomNavLinks() {
   const history = useHistory();
   const location = useLocation();
 
-  // Run once on mount to set initial linkTagsValue for proper rendering in the nav
+  // Set initial rendering on Nav
   useEffect(() => {
     if (location.pathname === "/") {
       setLinkTagsValue(0);
@@ -28,15 +28,13 @@ function BottomNavLinks() {
   // Run every time linkTagsValue change and history changes
   // Why? - To update pages across the app with the proper link tag value
   useEffect(() => {
-    // This is poorly optimized, it runs some of the selections several times / Joel
-    // Change url based on click value from bottom nav
     if (linkTagsValue === 0 && location.pathname !== "/") {
       history.push("/");
     } else if (linkTagsValue === 1 && location.pathname !== "/searchResults") {
       history.push("/searchResults");
     }
 
-    // Change the state value that handles the highlighting of the nav tags
+    // history.listen runs everytime URL changes
     history.listen((location) => {
       if (location.pathname === "/") {
         setLinkTagsValue(0);

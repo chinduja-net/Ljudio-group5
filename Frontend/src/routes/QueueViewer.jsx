@@ -8,6 +8,8 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import Typography from "@mui/material/Typography";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 import { SearchContext } from "../context/SongProvider";
 
@@ -105,7 +107,7 @@ function QueueViewer() {
         <Droppable droppableId="songs">
           {queueSongs
             ? (provided) => (
-                <ul
+                <List
                   className="songs"
                   {...provided.droppableProps}
                   {...provided.droppableProps}
@@ -119,7 +121,7 @@ function QueueViewer() {
                         index={index}
                       >
                         {(provided) => (
-                          <li
+                          <ListItem
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -127,7 +129,7 @@ function QueueViewer() {
                             <div className="songs-thumb">
                               <img
                                 src={thumbnails[1].url}
-                                alt={`${name} THumb`}
+                                alt={`${name} Thumbnail`}
                               />
                             </div>
                             <Typography
@@ -135,38 +137,36 @@ function QueueViewer() {
                               gutterBottom
                               component="div"
                               color="white"
+                              sx={{ ml: 1 }}
                             >
                               {name} - {artist}
                             </Typography>
-
-                            <Button
-                              variant="outlined"
-                              color="secondary"
-                              style={{ color: "white" }}
-                            >
-                              <MoreVertRoundedIcon />
-                            </Button>
-                          </li>
+                          </ListItem>
                         )}
                       </Draggable>
                     );
                   })}
                   {provided.placeholder}
-                </ul>
+                </List>
               )
             : null}
         </Droppable>
       </DragDropContext>
       <div>
-        <h2>Next from: Playlist</h2>
-        <div className="songListContainer">
-          <div className=""></div>
-        </div>
-        <ul>
+        <Typography
+          variant="h6"
+          gutterBottom
+          component="div"
+          color="white"
+          sx={{ ml: 2 }}
+        >
+          Next in playlist:
+        </Typography>
+        <List>
           {playList
             ? playList.map(({ id, name, thumbnails, artist }, index) => {
                 return (
-                  <li className="pl-item" key={`${id}${index}${index}`}>
+                  <ListItem className="pl-item" key={`${id}${index}${index}`}>
                     <div className="songs-thumb">
                       <img src={thumbnails[0].url} alt={`${name} THumb`} />
                     </div>
@@ -175,21 +175,15 @@ function QueueViewer() {
                       gutterBottom
                       component="div"
                       color="white"
+                      sx={{ ml: 1 }}
                     >
                       {name} - {artist}
                     </Typography>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      style={{ color: "white" }}
-                    >
-                      <MoreVertRoundedIcon />
-                    </Button>
-                  </li>
+                  </ListItem>
                 );
               })
             : null}
-        </ul>
+        </List>
       </div>
     </>
   );

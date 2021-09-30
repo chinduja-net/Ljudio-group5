@@ -23,8 +23,6 @@ function SearchBar() {
     );
     const searchResult = await response.json();
 
-    console.log(searchResult.content);
-
     let filteredResults = [];
 
     searchResult.content.forEach((obj) => {
@@ -66,7 +64,6 @@ function SearchBar() {
     filteredResults.sort((a, b) =>
       a.type < b.type ? 1 : b.type < a.type ? -1 : 0
     );
-    console.log(filteredResults);
     // update the searchResults context
     setSearchResults(filteredResults);
 
@@ -107,7 +104,7 @@ function SearchBar() {
             }}
             type="text"
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search for artists/album/song"
+            placeholder="Search for song/artist/album"
           />
         </form>
       </Box>

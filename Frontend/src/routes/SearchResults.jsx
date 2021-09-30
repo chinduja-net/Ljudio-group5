@@ -1,13 +1,15 @@
-import { useHistory, useLocation } from "react-router-dom";
-import { useContext } from "react";
-import React from "react";
-import { Grid, Button } from "@mui/material";
-import { Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+
 import { SearchContext } from "../context/SongProvider";
 import SearchBar from "../components/SearchBar";
-import { color } from "@mui/system";
+
+import { Grid, Button } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 export default function SearchResults() {
   const {
@@ -18,8 +20,6 @@ export default function SearchResults() {
     setSongDetail,
     setPlayedSongs,
     playedSongs,
-    setPlayList,
-    playList,
   } = useContext(SearchContext);
 
   const history = useHistory();
@@ -234,9 +234,6 @@ export default function SearchResults() {
             })
           : null}
       </Grid>
-      <Button type="click" onClick={playListView}>
-        view playlist
-      </Button>
     </div>
   );
 }

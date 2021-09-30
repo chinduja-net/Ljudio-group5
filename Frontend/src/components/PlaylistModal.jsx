@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { styled } from '@mui/system/';
 import PlayLists from './PlayLists';
 
 import ModalUnstyled from '@mui/core/ModalUnstyled/';
-import { SearchContext } from '../context/SongProvider';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -28,15 +27,6 @@ const Backdrop = styled('div')`
   background-color: rgba(166, 185, 255, 1);
   -webkit-tap-highlight-color: transparent;
 `;
-
-const style = {
-  width: 300,
-  border: '2px solid #000',
-  bgcolor: 'background.paper',
-  p: 2,
-  px: 4,
-  pb: 3,
-};
 
 function PlaylistModal({ handlePlaylistClose, playlistModalOpen }) {
   return (
