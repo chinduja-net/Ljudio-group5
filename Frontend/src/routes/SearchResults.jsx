@@ -1,12 +1,11 @@
-import { useHistory, useLocation } from "react-router-dom";
-import { useContext } from "react";
-import React from "react";
-import { Grid, Button } from "@mui/material";
-import { Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
+import React, { useContext }  from "react";
+import { useHistory } from "react-router-dom";
+
 import { SearchContext } from "../context/SongProvider";
 import SearchBar from "../components/SearchBar";
-import { color } from "@mui/system";
+
+import { Grid, Button } from "@mui/material";
+import Paper from "@mui/material/Paper";
 
 export default function SearchResults() {
   const {
@@ -17,8 +16,6 @@ export default function SearchResults() {
     setSongDetail,
     setPlayedSongs,
     playedSongs,
-    setPlayList,
-    playList,
   } = useContext(SearchContext);
 
   const history = useHistory();
@@ -104,25 +101,6 @@ export default function SearchResults() {
     );
   }
 
-  function addToPlaylist(e) {
-    if (
-      e.currentTarget.parentElement.attributes.getNamedItem(
-        'data-render-details'
-      ) !== null
-    ) {
-      let addToListSong = JSON.parse(
-        e.currentTarget.parentElement.attributes.getNamedItem(
-          'data-render-details'
-        ).value
-      );
-      setPlayList([...playList, addToListSong]);
-    }
-  }
-
-  function playListView() {
-    history.push('/playListView');
-  }
-
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
     if (
@@ -198,9 +176,6 @@ export default function SearchResults() {
             })
           : null}
       </Grid>
-      <Button type="click" onClick={playListView}>
-        view playlist
-      </Button>
     </div>
   );
 }

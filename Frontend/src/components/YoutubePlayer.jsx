@@ -17,8 +17,8 @@ function YoutubePlayer() {
   } = useContext(SearchContext);
 
   const opts = {
-    height: '100',
-    width: '200',
+    height: '0',
+    width: '0',
     playerVars: {
       autoplay: 1,
     },

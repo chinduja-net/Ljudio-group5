@@ -8,7 +8,6 @@ import Box from '@mui/system/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from 'react';
 import { createAccountFetch } from '../services/authService';
 
 const theme = createTheme();

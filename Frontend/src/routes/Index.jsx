@@ -38,7 +38,7 @@ function Routes() {
       <Route path="/queueViewer">
         <QueueViewer />
       </Route>
-      <Route path="/PlayerPage">
+      <Route path="/playerPage">
         <PlayerPage />
       </Route>
     </Switch>

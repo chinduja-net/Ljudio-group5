@@ -104,7 +104,7 @@ function SearchBar() {
             }}
             type="text"
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search for artists/album/song"
+            placeholder="Search for song/artist/album"
           />
         </form>
       </Box>

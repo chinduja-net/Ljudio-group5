@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import './App.css';
 import BottomNavLinks from './components/BottomNavLinks';
 import Routes from './routes/Index';
 import MiniPlayer from './components/MiniPlayer';
@@ -13,7 +12,7 @@ function App() {
       <Router>
         <YoutubePlayer />
         <Routes />
-        <MiniPlayer />
+        {location.pathname !== "/playerPage"? <MiniPlayer />: null}
         <BottomNavLinks />
       </Router>
     </>

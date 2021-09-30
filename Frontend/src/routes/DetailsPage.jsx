@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import QueueIcon from '@mui/icons-material/Queue';
 import IconButton from '@mui/material/IconButton';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
@@ -14,23 +14,20 @@ import { SearchContext } from '../context/SongProvider';
 function DetailsPage() {
   const {
     songDetail,
-    setSongDetail,
     addObjToArray,
     playList,
-    setPlayList,
     handlePlaylistOpen,
     handlePlaylistClose,
     playlistModalOpen,
   } = useContext(SearchContext);
   const history = useHistory();
-  //Add songs to the queue list
+  
   function addToQueue() {
     addObjToArray(songDetail);
     history.push('/searchResults');
   }
 
   function addSongToPlaylist() {
-    console.log(playList);
     handlePlaylistOpen();
   }
   return (

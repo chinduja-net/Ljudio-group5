@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-//import "../styles/queueViewer.css";
 
 import Button from '@mui/material/Button';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import Typography from '@mui/material/Typography';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 import { SearchContext } from '../context/SongProvider';
 
@@ -60,9 +60,9 @@ function QueueViewer() {
               <Typography variant="subtitle1" gutterBottom component="div">
                 {currentSong.name}
               </Typography>
-              {/* <Typography variant="subtitle2" gutterBottom component="div">
-                {currentSong.artist.browseId}
-              </Typography> */}
+              <Typography variant="subtitle2" gutterBottom component="div">
+                {currentSong.artist}
+              </Typography>
             </div>
           </div>
         ) : null}
@@ -85,7 +85,7 @@ function QueueViewer() {
         <Droppable droppableId="songs">
           {queueSongs
             ? (provided) => (
-                <ul
+                <List
                   className="songs"
                   {...provided.droppableProps}
                   {...provided.droppableProps}
@@ -99,7 +99,7 @@ function QueueViewer() {
                         index={index}
                       >
                         {(provided) => (
-                          <li
+                          <ListItem
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -107,7 +107,7 @@ function QueueViewer() {
                             <div className="songs-thumb">
                               <img
                                 src={thumbnails[1].url}
-                                alt={`${name} THumb`}
+                                alt={`${name} Thumbnail`}
                               />
                             </div>
                             <Typography
@@ -118,30 +118,26 @@ function QueueViewer() {
                               {name}
                               {artist.browseId}
                             </Typography>
-                            <button>
-                              <MoreVertRoundedIcon />
-                            </button>
-                          </li>
+                          </ListItem>
                         )}
                       </Draggable>
                     );
                   })}
                   {provided.placeholder}
-                </ul>
+                </List>
               )
             : null}
         </Droppable>
       </DragDropContext>
       <div>
-        <h2>Next from: Playlist</h2>
-        <div className="songListContainer">
-          <div className=""></div>
-        </div>
-        <ul>
+      <Typography variant="h6" gutterBottom component="div">
+          Next in playlist:
+        </Typography>
+        <List>
           {playList
             ? playList.map(({ id, name, thumbnails, artist }, index) => {
                 return (
-                  <li key={`${id}${index}${index}`}>
+                  <ListItem key={`${id}${index}${index}`}>
                     <div className="songs-thumb">
                       <img src={thumbnails[0].url} alt={`${name} THumb`} />
                     </div>
@@ -153,14 +149,11 @@ function QueueViewer() {
                       {name}
                       {artist}
                     </Typography>
-                    <button>
-                      <MoreVertRoundedIcon />
-                    </button>
-                  </li>
+                  </ListItem>
                 );
               })
             : null}
-        </ul>
+        </List>
       </div>
     </>
   );

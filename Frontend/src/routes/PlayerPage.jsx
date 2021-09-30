@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { SearchContext } from '../context/SongProvider';
 import ProgressBar from '../components/ProgressBar';
 
+import { Typography } from '@mui/material';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { AppBar, Toolbar } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 
 function PlayerPage() {
@@ -22,6 +22,7 @@ function PlayerPage() {
     setCurrentSong,
     ytPlayerState,
     ytPlayer,
+    playList
   } = useContext(SearchContext);
 
   const [audioState, setAudioState] = useState(true);
@@ -29,14 +30,13 @@ function PlayerPage() {
   function playNextSong() {
     // Feed song to player if they exist in either the queue or the next in playlist
     if (queueSongs.length) {
-      // Get first song from queue and update the queue
       let song = shiftQueue();
 
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
       setCurrentSong(song);
     } else if (playList.length) {
-      // Get first song from playList and update it
+
       let song = shiftPlayList();
 
       ytPlayer.player.loadVideoById(song.videoId);
@@ -60,7 +60,6 @@ function PlayerPage() {
     console.log('audio state', audioState);
   }
 
-  // Only renders the miniplayer if a currentSong is in the player
   return currentSong ? (
     <div style={{ width: '200px', height: '200px' }}>
       <img
@@ -77,7 +76,6 @@ function PlayerPage() {
           <h1>{currentSong.name}</h1>
           <h2>{currentSong.artist.name}</h2>
         </div>
-        {/* Go to details page button */}
       </div>
 
       <ProgressBar />
@@ -120,8 +118,7 @@ function PlayerPage() {
     </div>
   ) : (
     <div>
-      <h3>No song selected, go back and search for a song!</h3>
-      <button onClick={() => history.push('/')}>Home page</button>
+      <Typography variant="h5">No song selected, go back and search for a song!</Typography>
     </div>
   );
 }
