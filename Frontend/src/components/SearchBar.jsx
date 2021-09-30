@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { InputBase, InputAdornment, Box } from '@mui/material';
+import { InputBase, InputAdornment} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/system/Box';
 import { SearchContext } from '../context/SongProvider';

@@ -18,6 +18,11 @@ export default function SongProvider(props) {
   const [playlistsState, setPlaylistsState] = useState([]);
   const [songsInPlaylist, setSongsInPlaylist] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
+
+
+  const handlePlaylistOpen = () => setPlaylistModalOpen(true);
+  const handlePlaylistClose = () => setPlaylistModalOpen(false);
 
   useEffect(() => {
     getLocalQueued();
@@ -185,6 +190,8 @@ export default function SongProvider(props) {
         setSongsInPlaylist,
         selectedPlaylist,
         setSelectedPlaylist,
+        playlistModalOpen, setPlaylistModalOpen,
+        handlePlaylistOpen, handlePlaylistClose
       }}
     >
       {props.children}
