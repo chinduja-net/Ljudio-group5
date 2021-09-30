@@ -70,8 +70,8 @@ function createPlaylistUserConnection(relationData) {
 
 // Add song to songsTable
 function addSongToTable(songInfo) {
-  let query = `INSERT INTO songs(songName, songArtist, songVideoId)
-  VALUES (:name, :artist, :videoId)`;
+  let query = `INSERT INTO songs(songName, songArtist, songVideoId, smallSongPic, bigSongPic)
+  VALUES (:songName, :songArtist, :songVideoId, :smallSongPic, :bigSongPic)`;
   return run(query, songInfo);
 }
 
@@ -82,7 +82,7 @@ function addSongToPlaylistAndUser(relationData) {
 }
 
 function getSongsInPlaylist(relationData) {
-  let query = `SELECT playlistName, songName, songId, songVideoId, songArtist
+  let query = `SELECT playlistName, songName, songId, songVideoId, songArtist, smallSongPic, bigSongPic
   FROM users, songs, playlists, playlist_track_user as ptu
   WHERE ptu.userId = :userId
   AND ptu.userId = users.id

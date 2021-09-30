@@ -14,12 +14,10 @@ import { useHistory } from "react-router";
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({handleClose}) {
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleClose = () => setOpen(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +44,7 @@ export default function Login() {
         history.push("/signup");
       } else {
         await saveToken(data.token);
+        handleClose()
       }
     } catch (error) {
       console.log(error);
@@ -100,7 +99,12 @@ export default function Login() {
                 />
               </Grid>
             </Grid>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
               Login
             </Button>
           </Box>

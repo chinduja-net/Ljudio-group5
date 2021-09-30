@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/system/Box";
+
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -14,7 +15,7 @@ import { useHistory } from "react-router";
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp({ handleClose }) {
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +32,8 @@ export default function SignUp() {
     };
     try {
       const data = await createAccountFetch(obj);
-      console.log(data);
-      history.push("/");
+      console.log("signup fetch data", data);
+      handleClose();
     } catch (error) {
       console.log(error);
     }

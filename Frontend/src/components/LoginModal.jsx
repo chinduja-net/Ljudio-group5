@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, Box } from "@mui/system/";
 import ModalUnstyled from "@mui/core/ModalUnstyled/";
 import Button from "@mui/material/Button";
@@ -23,21 +23,21 @@ const Backdrop = styled("div")`
   bottom: 0;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(166, 185, 255, 1);
   -webkit-tap-highlight-color: transparent;
 `;
 
 const style = {
-  width: 400,
-  bgcolor: "background.paper",
+  width: 300,
   border: "2px solid #000",
+  bgcolor: "background.paper",
   p: 2,
   px: 4,
   pb: 3,
 };
 
 export default function LoginModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -52,7 +52,7 @@ export default function LoginModal() {
         BackdropComponent={Backdrop}
       >
         <Box sx={style}>
-          <Login />
+          <Login handleClose={handleClose} />
         </Box>
       </StyledModal>
     </div>

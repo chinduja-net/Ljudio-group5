@@ -94,18 +94,26 @@ function MiniPlayer() {
         onClick={miniPlayerClickHandler}
         style={{
           background:
-            "linear-gradient(0deg, rgba(255,199,111,1) 0%, rgba(230,150,0,0.8939950980392157) 50%, rgba(255,199,111,1) 100%)",
+            "linear-gradient(273deg, rgba(77,85,226,1) 0%, rgba(108,138,227,1) 50%, rgba(126,179,227,1) 100%)",
         }}
         sx={{
           top: "auto",
-          bottom: 0,
+          bottom: 56,
+          zIndex: 98,
         }}
       >
         <Toolbar
           className={`miniPlayerClick`}
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: {
+              sm: "space-around",
+              xs: "flex-start",
+            },
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+            },
             alignItems: "center",
           }}
         >

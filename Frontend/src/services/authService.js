@@ -88,3 +88,18 @@ export async function songsInsidePlaylistFetch(body) {
   console.log('songs found from backend', data);
   return data;
 }
+
+export async function addSongsToPlaylistFetch(body) {
+  const token = getToken();
+  const res = await fetch('/api/addSongToPlaylist', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await res.json();
+  console.log('song added to playlist', data);
+  return data;
+}
