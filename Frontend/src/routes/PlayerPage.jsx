@@ -88,10 +88,12 @@ function PlayerPage() {
     <Card
       sx={{
         display: "flex",
-        bgcolor: "#FFF7E3",
+        bgcolor: "#8090f6",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        height: 400,
+        boxShadow: 3,
       }}
     >
       <CardMedia

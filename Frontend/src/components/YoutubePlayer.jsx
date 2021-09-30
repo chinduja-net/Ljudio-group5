@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import YouTube from 'react-youtube';
+import React, { useContext } from "react";
+import YouTube from "react-youtube";
 
-import { SearchContext } from '../context/SongProvider';
+import { SearchContext } from "../context/SongProvider";
 
 function YoutubePlayer() {
   const {
@@ -17,8 +17,8 @@ function YoutubePlayer() {
   } = useContext(SearchContext);
 
   const opts = {
-    height: '100',
-    width: '200',
+    height: "0",
+    width: "0",
     playerVars: {
       autoplay: 1,
     },

@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-//import "../styles/queueViewer.css";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import "../styles/queueViewer.css";
 
-import Button from '@mui/material/Button';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
-import Typography from '@mui/material/Typography';
-import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
+import Button from "@mui/material/Button";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import Typography from "@mui/material/Typography";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 
-import { SearchContext } from '../context/SongProvider';
+import { SearchContext } from "../context/SongProvider";
 
 function QueueViewer() {
   const history = useHistory();
@@ -50,33 +50,53 @@ function QueueViewer() {
         </button>
       </div>
       <div className="np-container">
-        <Typography variant="h6" gutterBottom component="div">
+        <Typography variant="h6" gutterBottom component="div" color="white">
           Now Playing:
         </Typography>
         {currentSong ? (
           <div className="currentSong">
-            <img src={currentSong.thumbnails[0].url} alt="song thumbnail" />
+            <img src={currentSong.thumbnails[1].url} alt="song thumbnail" />
             <div>
-              <Typography variant="subtitle1" gutterBottom component="div">
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                component="div"
+                color="white"
+              >
                 {currentSong.name}
               </Typography>
-              {/* <Typography variant="subtitle2" gutterBottom component="div">
-                {currentSong.artist.browseId}
-              </Typography> */}
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                component="div"
+                color="white"
+              >
+                {currentSong.artist}
+              </Typography>
             </div>
           </div>
         ) : null}
       </div>
 
       <div className="niq-container">
-        <Typography variant="h6" gutterBottom component="div">
+        <Typography variant="h6" gutterBottom component="div" color="white">
           Next in queue:
         </Typography>
         <div>
-          <Button variant="outlined" onClick={shuffleSongs}>
+          <Button
+            variant="outlined"
+            onClick={shuffleSongs}
+            color="secondary"
+            style={{ color: "white" }}
+          >
             <ShuffleIcon />
           </Button>
-          <Button variant="outlined" onClick={clearQueueSongs}>
+          <Button
+            variant="outlined"
+            onClick={clearQueueSongs}
+            color="secondary"
+            style={{ color: "white" }}
+          >
             Clear Queue
           </Button>
         </div>
@@ -114,13 +134,18 @@ function QueueViewer() {
                               variant="subtitle1"
                               gutterBottom
                               component="div"
+                              color="white"
                             >
-                              {name}
-                              {artist.browseId}
+                              {name} - {artist}
                             </Typography>
-                            <button>
+
+                            <Button
+                              variant="outlined"
+                              color="secondary"
+                              style={{ color: "white" }}
+                            >
                               <MoreVertRoundedIcon />
-                            </button>
+                            </Button>
                           </li>
                         )}
                       </Draggable>
@@ -141,7 +166,7 @@ function QueueViewer() {
           {playList
             ? playList.map(({ id, name, thumbnails, artist }, index) => {
                 return (
-                  <li key={`${id}${index}${index}`}>
+                  <li className="pl-item" key={`${id}${index}${index}`}>
                     <div className="songs-thumb">
                       <img src={thumbnails[0].url} alt={`${name} THumb`} />
                     </div>
@@ -149,13 +174,17 @@ function QueueViewer() {
                       variant="subtitle1"
                       gutterBottom
                       component="div"
+                      color="white"
                     >
-                      {name}
-                      {artist}
+                      {name} - {artist}
                     </Typography>
-                    <button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      style={{ color: "white" }}
+                    >
                       <MoreVertRoundedIcon />
-                    </button>
+                    </Button>
                   </li>
                 );
               })

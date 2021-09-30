@@ -2,8 +2,18 @@ import React, { useState } from "react";
 import { styled, Box } from "@mui/system/";
 import ModalUnstyled from "@mui/core/ModalUnstyled/";
 import Button from "@mui/material/Button";
+import { deepPurple } from "@mui/material/colors";
 
 import Login from "./LogIn";
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(deepPurple[700]),
+  backgroundColor: deepPurple[700],
+  "&:hover": {
+    backgroundColor: deepPurple[300],
+  },
+}));
+
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -43,9 +53,10 @@ export default function LoginModal() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleOpen} size="small">
-        SIGN IN
-      </Button>
+      <ColorButton variant="contained" onClick={handleOpen} size="small">
+        SIGN IN{" "}
+      </ColorButton>
+
       <StyledModal
         open={open}
         onClose={handleClose}

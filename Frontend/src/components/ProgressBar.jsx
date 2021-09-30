@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 const Widget = styled("div")(({ theme }) => ({
   padding: 16,
   borderRadius: 16,
-  width: 343,
+  width: 300,
   maxWidth: "100%",
   margin: "auto",
   position: "relative",

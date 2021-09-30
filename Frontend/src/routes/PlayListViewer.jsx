@@ -1,10 +1,11 @@
-import { Box } from '@mui/system';
-import React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { SearchContext } from '../context/SongProvider';
-import { songsInsidePlaylistFetch } from '../services/authService';
-import { Typography, Container } from '@mui/material';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import { Box } from "@mui/system";
+import React from "react";
+import { useContext, useEffect, useState } from "react";
+import { SearchContext } from "../context/SongProvider";
+import { songsInsidePlaylistFetch } from "../services/authService";
+import { Typography, Container } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import CardMedia from "@mui/material/CardMedia";
 
 function PlayListViewer() {
   const {
@@ -25,7 +26,7 @@ function PlayListViewer() {
       playlistId: selectedPlaylist,
     };
     let unFormattedfoundSongs = await songsInsidePlaylistFetch(obj);
-    console.log('unformattedFoundSongs', unFormattedfoundSongs);
+    console.log("unformattedFoundSongs", unFormattedfoundSongs);
 
     let formattedSongs = unFormattedfoundSongs.map((obj) => {
       let formattedFoundSongs = {
@@ -45,14 +46,14 @@ function PlayListViewer() {
       return formattedFoundSongs;
     });
 
-    console.log('found songs inside playlist viewer', formattedSongs);
+    console.log("found songs inside playlist viewer", formattedSongs);
     setSongsInPlaylist(formattedSongs);
   }
 
   function clickHandler(e) {
-    if (e.target.attributes.getNamedItem('data-song') !== null) {
+    if (e.target.attributes.getNamedItem("data-song") !== null) {
       const clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem('data-song').value
+        e.target.attributes.getNamedItem("data-song").value
       );
       let clickedSong = {
         name: clickedValueSong.name,
@@ -69,7 +70,7 @@ function PlayListViewer() {
         ],
       };
       setCurrentSong(clickedSong);
-      console.log('clickedSong obj', clickedSong);
+      console.log("clickedSong obj", clickedSong);
     }
   }
 
@@ -81,9 +82,15 @@ function PlayListViewer() {
     <>
       <Container
         maxWidth="xs"
-        sx={{ display: 'flex', alignItems: 'center', padding: '5px' }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          padding: "5px",
+          justifyContent: "space-between",
+          margin: "auto",
+        }}
       >
-        <h2>PlayListViewer</h2>
+        <h2>Selected Playlist</h2>
         <PlayCircleIcon
           onClick={() => {
             let newArr = [...songsInPlaylist];
@@ -91,6 +98,7 @@ function PlayListViewer() {
             setPlayList([...newArr, ...playList]);
             setCurrentSong(songsInPlaylist[0]);
           }}
+          sx={{ color: "white" }}
         />
       </Container>
       <Container onClick={clickHandler}>
@@ -125,11 +133,31 @@ function PlayListViewer() {
                       thumbnails,
                       id,
                     })}
+                    component="div"
+                    variant="h5"
+                    color="white"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      m: "auto",
+                    }}
                   >
-                    {name} {artist}
-                    <img src={thumbnails[0].url} alt="" />
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        width: 60,
+                        height: 60,
+                        boxShadow: 10,
+                        borderRadius: 2,
+                        margin: 1,
+                      }}
+                      image={thumbnails[0].url}
+                      alt="Song tumbnail"
+                    />
+                    <div>
+                      {name} - {artist}
+                    </div>
                   </Typography>
-                  <h2>{videoId}</h2>
                 </Box>
               );
             }
