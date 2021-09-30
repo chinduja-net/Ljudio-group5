@@ -40,7 +40,6 @@ function YoutubePlayer() {
       player.playVideo();
     }
 
-    // Toggles between playing and pausing the player
     function toggleVidBtn() {
       let state = player.getPlayerState();
 
@@ -79,7 +78,7 @@ function YoutubePlayer() {
   }
 
   // Runs after song in player ends
-  function _onEnd(event) {
+  function _onEnd() {
     if (queueSongs.length) {
       autoPlayNextInQueue();
     } else if (playList.length) {
@@ -90,14 +89,6 @@ function YoutubePlayer() {
   // Runs after player state (iframe api) changes
   function _onStateChange(event) {
     let state = event.target.getPlayerState();
-    /**
-     * -1 unstarted
-     * 0 ended
-     * 1 playing
-     * 2 paused
-     * 3 buffering
-     * 5 video cued
-     */
     setYtPlayerState(state); // playing
   }
 

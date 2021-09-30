@@ -1,24 +1,21 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/system/Box";
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/system/Box';
 
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from "react";
-import { createAccountFetch } from "../services/authService";
-import { useHistory } from "react-router";
+import { useState } from 'react';
+import { createAccountFetch } from '../services/authService';
 
 const theme = createTheme();
 
 export default function SignUp({ handleClose }) {
-  const history = useHistory();
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +29,7 @@ export default function SignUp({ handleClose }) {
     };
     try {
       const data = await createAccountFetch(obj);
-      console.log("signup fetch data", data);
+      console.log('signup fetch data', data);
       handleClose();
     } catch (error) {
       console.log(error);
@@ -45,10 +42,10 @@ export default function SignUp({ handleClose }) {
         <CssBaseline />
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Box
@@ -57,10 +54,10 @@ export default function SignUp({ handleClose }) {
             onSubmit={handleSubmit}
             sx={{
               mt: 2,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Grid container spacing={1}>

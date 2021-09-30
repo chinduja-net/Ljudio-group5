@@ -1,20 +1,19 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/system/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from 'react';
 import { loginFetch } from '../services/authService';
 import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
-export default function Login({handleClose}) {
+export default function Login({ handleClose }) {
   const history = useHistory();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +43,7 @@ export default function Login({handleClose}) {
         history.push('/signup');
       } else {
         await saveToken(data.token);
-        handleClose()
+        handleClose();
       }
     } catch (error) {
       console.log(error);

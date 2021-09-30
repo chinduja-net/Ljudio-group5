@@ -37,7 +37,6 @@ function PlayLists() {
   async function fetchOnMountIfLoggedIn() {
     const data = await isLoggedIn();
     if (data.loggedIn === true) {
-      console.log('LOGGED IN on Mount', data.loggedIn);
       let playlists = await showUserPlaylistsFetch();
       setPlaylistsState(playlists);
     }
