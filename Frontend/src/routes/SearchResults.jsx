@@ -34,7 +34,7 @@ function SearchResults() {
         />
         <div data-render-song={JSON.stringify(object)}>
           <h4 data-render-song={JSON.stringify(object)}>{object.name}</h4>
-          <p data-render-song={JSON.stringify(object)}>{object.artist.name}</p>
+          <p data-render-song={JSON.stringify(object)}>{object.artist}</p>
         </div>
         <Button variant="contained" type="click" onClick={showSongDetails}>
           song details

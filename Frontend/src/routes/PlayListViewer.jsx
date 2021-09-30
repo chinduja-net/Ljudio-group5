@@ -16,7 +16,7 @@ function PlayListViewer() {
       playlistId: selectedPlaylist,
     };
     let foundSongs = await songsInsidePlaylistFetch(obj);
-    setSongsInPlaylist([foundSongs]);
+    setSongsInPlaylist(foundSongs);
     console.log('found songs inside playlist viewer', foundSongs);
   }
 
@@ -25,25 +25,33 @@ function PlayListViewer() {
   // make a clickHandler just like in PlayLists.jsx
   // on click JSON.parse dataset obj and set the queue/playlist whatever
 
-  // {songsInPlaylist.map(({ songName, songId }, index) => {
-  //   return (
-  //     // Adds id and index so if the same song is added several times the key prop still works
-  //     <div key={`${songId}${index}`}>
-  //       {/* <div>
-  //         <img
-  //           src={obj.thumbnails[0].url}
-  //           alt={obj.artist.id + "'s cover thumbnail"}
-  //         />
-  //       </div> */}
-  //       <div>
-  //         <h3>{songName}</h3>
-  //       </div>
-  //     </div>
-  //   );
-  // })}
   return (
     <>
       <h2>PlayListViewer</h2>
+      {songsInPlaylist ? (
+        songsInPlaylist.map(
+          ({ songName, songId, songVideoId, songArtist }, index) => {
+            return (
+              // Adds id and index so if the same song is added several times the key prop still works
+              <div key={`${songId}${index}`}>
+                {/* <div>
+            <img
+              src={obj.thumbnails[0].url}
+              alt={obj.artist.id + "'s cover thumbnail"}
+            />
+          </div> */}
+                <div>
+                  <h3>{songName}</h3>
+                  <h2>{songVideoId}</h2>
+                  <h2>{songArtist}</h2>
+                </div>
+              </div>
+            );
+          }
+        )
+      ) : (
+        <h2>No songs found</h2>
+      )}
     </>
   );
 }
