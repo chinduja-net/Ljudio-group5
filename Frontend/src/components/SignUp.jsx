@@ -1,31 +1,27 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/system/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useState } from "react";
 import { createAccountFetch } from "../services/authService";
 import { useHistory } from "react-router";
 
-
 const theme = createTheme();
 
 export default function SignUp() {
-
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     createAccount(userName, password);
-    
   };
 
   async function createAccount(userName, password) {
@@ -37,9 +33,8 @@ export default function SignUp() {
       const data = await createAccountFetch(obj);
 
       if (data) {
-
-            console.log(data);
-            history.push('/');
+        console.log(data);
+        history.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -53,27 +48,31 @@ export default function SignUp() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
-                            
               <Grid item xs={12}>
                 <TextField
-                   autoComplete="Uname"
-                   name="UserName"
-                   required
-                   fullWidth
-                   id="UserName"
-                   label="UserName"
-                   autoFocus
-                   onChange={(e) => setUserName(e.target.value)}
+                  autoComplete="Uname"
+                  name="UserName"
+                  required
+                  fullWidth
+                  id="UserName"
+                  label="UserName"
+                  autoFocus
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -88,7 +87,7 @@ export default function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
-              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -99,7 +98,6 @@ export default function SignUp() {
             </Button>
           </Box>
         </Box>
-        
       </Container>
     </ThemeProvider>
   );

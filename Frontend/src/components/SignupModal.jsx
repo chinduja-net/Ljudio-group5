@@ -1,8 +1,9 @@
-import * as React from 'react';
-import { styled, Box } from '@mui/system';
-import ModalUnstyled from '@mui/core/ModalUnstyled';
+import * as React from "react";
+import { styled } from "@mui/system";
+import Box from "@mui/system/Box";
+import ModalUnstyled from "@mui/core/ModalUnstyled";
 
-import SignUp from './signUp';
+import SignUp from "./signUp";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -15,7 +16,7 @@ const StyledModal = styled(ModalUnstyled)`
   justify-content: center;
 `;
 
-const Backdrop = styled('div')`
+const Backdrop = styled("div")`
   z-index: -1;
   position: fixed;
   right: 0;
@@ -28,8 +29,8 @@ const Backdrop = styled('div')`
 
 const style = {
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   p: 2,
   px: 4,
   pb: 3,
@@ -46,12 +47,12 @@ export default function SignupModal() {
         SIGN UP
       </button>
       <StyledModal
-          open={open}
+        open={open}
         onClose={handleClose}
         BackdropComponent={Backdrop}
       >
         <Box sx={style}>
-          <SignUp/>
+          <SignUp />
         </Box>
       </StyledModal>
     </div>
