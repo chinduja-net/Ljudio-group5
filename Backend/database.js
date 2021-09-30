@@ -1,4 +1,3 @@
-   
 const sqlite = require('better-sqlite3');
 const { comparePassword } = require('./utility/utils');
 
@@ -71,8 +70,8 @@ function createPlaylistUserConnection(relationData) {
 
 // Add song to songsTable
 function addSongToTable(songInfo) {
-  let query = `INSERT INTO songs(songName, songArtist, songVideoId)
-  VALUES (:name, :artist, :videoId)`;
+  let query = `INSERT INTO songs(songName, songArtist, songVideoId, smallSongPic, bigSongPic)
+  VALUES (:songName, :songArtist, :songVideoId, :smallSongPic, :bigSongPic)`;
   return run(query, songInfo);
 }
 
