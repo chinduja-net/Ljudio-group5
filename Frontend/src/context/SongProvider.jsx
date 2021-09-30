@@ -4,7 +4,7 @@ export const SearchContext = createContext()
 
 export default function SongProvider(props) {
 	// This state handles the highlighting of the icons
-	// 0 = Home page, 1 = searchResults, 2 = playlists
+	// 0 = Home page, 1 = searchResults
 	const [linkTagsValue, setLinkTagsValue] = useState()
 	const [searchResults, setSearchResults] = useState()
 	const [currentSong, setCurrentSong] = useState()

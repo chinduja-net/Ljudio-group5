@@ -40,9 +40,10 @@ function BottomNavLinks() {
     history.listen((location) => {
       if (location.pathname === '/') {
         setLinkTagsValue(0);
-      }
-      if (location.pathname === '/searchResults') {
+      } else if (location.pathname === '/searchResults') {
         setLinkTagsValue(1);
+      } else {
+        setLinkTagsValue(null)
       }
     });
   }, [linkTagsValue, history]);
@@ -58,6 +59,7 @@ function BottomNavLinks() {
           showLabels
           value={linkTagsValue}
           onChange={(_, newValue) => {
+            console.log(newValue);
             setLinkTagsValue(newValue);
           }}
         >
