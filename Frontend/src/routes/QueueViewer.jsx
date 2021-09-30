@@ -55,14 +55,14 @@ function QueueViewer() {
         </Typography>
         {currentSong ? (
           <div className="currentSong">
-            <img src={currentSong.thumbnails[1].url} alt="song thumbnail" />
+            <img src={currentSong.thumbnails[0].url} alt="song thumbnail" />
             <div>
               <Typography variant="subtitle1" gutterBottom component="div">
                 {currentSong.name}
               </Typography>
-              <Typography variant="subtitle2" gutterBottom component="div">
+              {/* <Typography variant="subtitle2" gutterBottom component="div">
                 {currentSong.artist.browseId}
-              </Typography>
+              </Typography> */}
             </div>
           </div>
         ) : null}
@@ -106,7 +106,7 @@ function QueueViewer() {
                           >
                             <div className="songs-thumb">
                               <img
-                                src={thumbnails[0].url}
+                                src={thumbnails[1].url}
                                 alt={`${name} THumb`}
                               />
                             </div>
@@ -151,7 +151,7 @@ function QueueViewer() {
                       component="div"
                     >
                       {name}
-                      {artist.browseId}
+                      {artist}
                     </Typography>
                     <button>
                       <MoreVertRoundedIcon />

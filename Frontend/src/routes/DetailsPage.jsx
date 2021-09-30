@@ -40,7 +40,7 @@ function DetailsPage() {
           <img
             style={{ height: 200 }}
             src={songDetail.thumbnails[1].url}
-            alt={songDetail.artist.name + "'s cover thumbnail"}
+            alt={songDetail.artist + "'s cover thumbnail"}
           />
           <Typography fontSize="small" variant="h5">
             {songDetail.name}

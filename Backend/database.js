@@ -82,7 +82,7 @@ function addSongToPlaylistAndUser(relationData) {
 }
 
 function getSongsInPlaylist(relationData) {
-  let query = `SELECT playlistName, songName, songId, songVideoId, songArtist
+  let query = `SELECT playlistName, songName, songId, songVideoId, songArtist, smallSongPic, bigSongPic
   FROM users, songs, playlists, playlist_track_user as ptu
   WHERE ptu.userId = :userId
   AND ptu.userId = users.id
