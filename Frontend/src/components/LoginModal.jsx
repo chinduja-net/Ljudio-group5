@@ -23,14 +23,14 @@ const Backdrop = styled('div')`
   bottom: 0;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(166, 185, 255, 1);
   -webkit-tap-highlight-color: transparent;
 `;
 
 const style = {
-  width: 400,
-  bgcolor: 'background.paper',
+  width: 300,
   border: '2px solid #000',
+  bgcolor: 'background.paper',
   p: 2,
   px: 4,
   pb: 3,

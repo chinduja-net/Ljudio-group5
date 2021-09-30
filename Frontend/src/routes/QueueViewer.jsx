@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import '../styles/queueViewer.css';
+//import '../styles/queueViewer.css';
 
 import Button from '@mui/material/Button';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';

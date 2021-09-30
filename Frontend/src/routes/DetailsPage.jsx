@@ -16,7 +16,6 @@ function DetailsPage() {
 	//Add songs to the queue list
 	function addToQueue() {
 		addObjToArray(songDetail)
-
 		history.push("/searchResults")
 	}
 

@@ -1,3 +1,4 @@
+   
 const sqlite = require('better-sqlite3');
 const { comparePassword } = require('./utility/utils');
 
@@ -21,7 +22,7 @@ function getAllUsers() {
 
 // Get user playlist based on userId
 function getUserPlaylistsById(userIdObj) {
-  let query = `SELECT playlistName
+  let query = `SELECT playlistName, playlists.id
   FROM users, playlists, playlist_track_user
   WHERE users.id = :userId
   AND playlist_track_user.userId = users.id
@@ -68,6 +69,30 @@ function createPlaylistUserConnection(relationData) {
   return run(query, relationData);
 }
 
+// Add song to songsTable
+function addSongToTable(songInfo) {
+  let query = `INSERT INTO songs(songName, songArtist, songVideoId)
+  VALUES (:name, :artist, :videoId)`;
+  return run(query, songInfo);
+}
+
+function addSongToPlaylistAndUser(relationData) {
+  let query = `INSERT INTO playlist_track_user (playlistId, userId, songId)
+  VALUES (:playlistId, :userId, :songId)`;
+  return run(query, relationData);
+}
+
+function getSongsInPlaylist(relationData) {
+  let query = `SELECT playlistName, songName,songVideoId, userName
+  FROM users, songs, playlists, playlist_track_user as ptu
+  WHERE ptu.userId = :userId
+  AND ptu.userId = users.id
+  AND ptu.playlistId = :playlistId
+  AND ptu.playlistId = playlists.id
+  AND ptu.songId = songs.id`;
+  return all(query, relationData);
+}
+
 exports.getAllUsers = getAllUsers;
 exports.getAllPlaylists = getAllPlaylists;
 exports.createAccount = createAccount;
@@ -75,3 +100,6 @@ exports.getUserLoginInfo = getUserLoginInfo;
 exports.getUserPlaylistsById = getUserPlaylistsById;
 exports.createPlaylist = createPlaylist;
 exports.createPlaylistUserConnection = createPlaylistUserConnection;
+exports.addSongToTable = addSongToTable;
+exports.addSongToPlaylistAndUser = addSongToPlaylistAndUser;
+exports.getSongsInPlaylist = getSongsInPlaylist;

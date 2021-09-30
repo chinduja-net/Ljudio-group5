@@ -7,8 +7,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/system/Box';
 
-import SignupModal from "./SignupModal";
-import LoginModal from "./LoginModal";
+
 import CreatePlaylistForm from "./CreatePlaylistForm";
 import PlayLists from "./PlayLists";
 import { SearchContext } from "../context/SongProvider";
@@ -42,7 +41,7 @@ function SearchBar() {
           type: obj.type,
           name: obj.name,
           thumbnails: obj.thumbnails,
-          artist: obj.artist.browseId,
+          artist: obj.artist.name,
           album: obj.album.browseId,
           duration: obj.duration,
           videoId: obj.videoId,
@@ -86,18 +85,6 @@ function SearchBar() {
   return (
     <Box sx = {{width: '300'}}>
       <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-evenly"
-
-        }}
-      >
-        <SignupModal />
-        <LoginModal />
-      </Box>
-
-      <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -130,12 +117,12 @@ function SearchBar() {
           />
         </form>
         </Box>
-        <Grid container sx = {{width: 300, marginTop: 5}}>
+       {/*  <Grid container sx = {{width: 300, marginTop: 5}}>
         <Grid item xs = {12}
           sx={{
             width: 200,
             height: 200,
-            bgcolor: "lightGrey",
+            bgcolor: "#A6B9FF",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -145,7 +132,7 @@ function SearchBar() {
           <PlayLists />
         </Grid>
 
-        </Grid>
+        </Grid> */}
        
       
     </Box>

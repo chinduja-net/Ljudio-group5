@@ -29,22 +29,19 @@ function CreatePlaylistForm() {
 
   return (
     <div>
-      {isLoggedIn() ? (
+      {
         <form action="submit" onSubmit={handleSubmit}>
           <input
             name="playlistname"
             type="text"
-            onChange ={(e) => setPlaylistName(e.target.value)}
+            onChange ={(e) => {isLoggedIn() ? setPlaylistName(e.target.value) : <p>
+              you need to login first ! <a href="/">click here</a>
+            </p>}}
           />
           <label htmlFor="playlistname">Give your playlist a name</label>
         </form>
-      ) : (
-        <div>
-          <p>
-            you need to login first ! <a href="/">click here</a>
-          </p>
-        </div>
-      )}
+     
+      }
     </div>
   );
 }
