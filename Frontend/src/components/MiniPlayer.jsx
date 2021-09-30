@@ -1,14 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SearchContext } from '../context/SongProvider';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { SearchContext } from "../context/SongProvider";
 
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { AppBar, Toolbar } from '@mui/material';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { AppBar, Toolbar } from "@mui/material";
+import ProgressBar from "../components/ProgressBar";
+import CardMedia from "@mui/material/CardMedia";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import ListIcon from "@mui/icons-material/List";
+import IconButton from "@mui/material/IconButton";
 
 function MiniPlayer() {
   const history = useHistory();
@@ -69,13 +75,13 @@ function MiniPlayer() {
 
   function toggleAudio() {
     audioState ? muteAudio() : unmuteAudio();
-    console.log('audio state', audioState);
+    console.log("audio state", audioState);
   }
 
   // Checks if user clicked ON miniplayer
   function miniPlayerClickHandler(e) {
-    if (e.target.classList.contains('miniPlayerClick')) {
-      history.push('/playerPage');
+    if (e.target.classList.contains("miniPlayerClick")) {
+      history.push("/playerPage");
     }
   }
 
@@ -86,48 +92,94 @@ function MiniPlayer() {
         position="fixed"
         className={`miniPlayerClick`}
         onClick={miniPlayerClickHandler}
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(255,199,111,1) 0%, rgba(230,150,0,0.8939950980392157) 50%, rgba(255,199,111,1) 100%)",
+        }}
         sx={{
-          top: 'auto',
+          top: "auto",
           bottom: 0,
         }}
       >
-        <Toolbar className="miniPlayerClick">
-          <img
-            className="miniPlayerClick"
-            src={currentSong.thumbnails[0].url}
-            alt="Song tumbnail"
-            style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
+        <Toolbar
+          className={`miniPlayerClick`}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <CardMedia
+              component="img"
+              className={`miniPlayerClick`}
+              sx={{
+                width: 60,
+                height: 60,
+                boxShadow: 10,
+                borderRadius: 2,
+                margin: 1,
+              }}
+              image={currentSong.thumbnails[1].url}
+              alt="Song tumbnail"
+            />
+
+            <Typography
+              className={`miniPlayerClick`}
+              component="div"
+              variant="h5"
+            >
+              {currentSong.name}
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 1,
             }}
-          />
-          <h1 className="miniPlayerClick">{currentSong.name}</h1>
-          <button onClick={() => playPrevSong()}>
-            <SkipPreviousIcon />
-          </button>
+          >
+            <ProgressBar />
+            <div>
+              <IconButton aria-label="next" onClick={() => playPrevSong()}>
+                <SkipPreviousIcon />
+              </IconButton>
 
-          <button onClick={() => ytPlayer.toggleVidBtn()}>
-            {/* 
-							Toggle play button icon based on player state
-							1 = playing, 2 = paused
-						*/}
-            {ytPlayerState === 1 ? (
-              <PauseIcon />
-            ) : ytPlayerState === 2 ? (
-              <PlayArrowIcon />
-            ) : (
-              <PlayArrowIcon />
-            )}
-          </button>
+              <IconButton
+                aria-label="play/pause"
+                onClick={() => ytPlayer.toggleVidBtn()}
+              >
+                {ytPlayerState === 1 ? (
+                  <PauseIcon sx={{ height: 38, width: 38 }} />
+                ) : ytPlayerState === 2 ? (
+                  <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                ) : (
+                  <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                )}
+              </IconButton>
 
-          <button onClick={() => playNextSong()}>
-            <SkipNextIcon />
-          </button>
+              <IconButton aria-label="next" onClick={() => playNextSong()}>
+                <SkipNextIcon />
+              </IconButton>
+            </div>
+          </Box>
 
-          <button onClick={toggleAudio}>
-            {audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
-          </button>
+          <Box sx={{ display: "flex" }}>
+            <IconButton onClick={toggleAudio}>
+              {audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
+            </IconButton>
+            <IconButton>
+              {" "}
+              <ListIcon
+                onClick={() => {
+                  history.push("/queueViewer");
+                }}
+              />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
     ) : null
