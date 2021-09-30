@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { InputBase, InputAdornment } from "@mui/material";
-import Box from "@mui/system/Box";
+import { InputBase, InputAdornment, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
-
+import CreatePlaylistForm from "./CreatePlaylistForm";
+import PlayLists from "./PlayLists";
 import { SearchContext } from "../context/SongProvider";
 
 function SearchBar() {
@@ -39,7 +41,7 @@ function SearchBar() {
           type: obj.type,
           name: obj.name,
           thumbnails: obj.thumbnails,
-          artist: obj.artist.browseId,
+          artist: obj.artist.name,
           album: obj.album.browseId,
           duration: obj.duration,
           videoId: obj.videoId,
@@ -81,13 +83,15 @@ function SearchBar() {
   }
 
   return (
-    <>
-      <SignupModal />
-      <LoginModal />
-      <Box display="flex" justifyContent="center" alignItems="center">
+    <Box sx={{ width: "300" }}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
         <form
           onSubmit={(e) => {
-            // Todo: something
             e.preventDefault();
             fetchApi();
           }}
@@ -113,7 +117,7 @@ function SearchBar() {
           />
         </form>
       </Box>
-    </>
+    </Box>
   );
 }
 

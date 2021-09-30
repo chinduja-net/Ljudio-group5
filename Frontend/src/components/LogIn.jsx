@@ -19,6 +19,8 @@ export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleClose = () => setOpen(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     login(userName, password);
@@ -44,7 +46,6 @@ export default function Login() {
         history.push("/signup");
       } else {
         await saveToken(data.token);
-        history.push("/playLists");
       }
     } catch (error) {
       console.log(error);
@@ -53,32 +54,34 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+            sx={{
+              mt: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="Uname"
                   name="UserName"
                   required
-                  fullWidth
                   id="UserName"
                   label="UserName"
                   autoFocus
@@ -88,7 +91,6 @@ export default function Login() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
@@ -98,12 +100,7 @@ export default function Login() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Login
             </Button>
           </Box>

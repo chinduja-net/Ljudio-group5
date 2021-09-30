@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { SearchContext } from "../context/SongProvider";
 
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/system/Box";
+import { Box } from "@mui/system";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
 

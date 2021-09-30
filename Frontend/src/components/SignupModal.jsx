@@ -1,7 +1,7 @@
 import * as React from "react";
-import { styled } from "@mui/system";
-import Box from "@mui/system/Box";
+import { styled, Box } from "@mui/system";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
+import Button from "@mui/material/Button";
 
 import SignUp from "./signUp";
 const StyledModal = styled(ModalUnstyled)`
@@ -43,9 +43,9 @@ export default function SignupModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <Button variant="outlined" size="small" onClick={handleOpen}>
         SIGN UP
-      </button>
+      </Button>
       <StyledModal
         open={open}
         onClose={handleClose}
