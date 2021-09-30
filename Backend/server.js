@@ -82,9 +82,9 @@ app.post('/api/login', async (req, res) => {
 // Login status
 app.get('/api/loggedin', (req, res) => {
   const token = req.header('Authorization').replace('Bearer ', '');
-
+  
   let result = { loggedIn: false };
-
+  
   if (token) {
     const tokenVerified = jwt.verify(token, 'a1b1c1');
 
