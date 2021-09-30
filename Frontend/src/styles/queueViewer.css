@@ -7,11 +7,11 @@
 .songs li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+ 
   
   border-radius: .2em;
   padding: .5em .8em .5em .5em;
-  margin: 1em;
+  margin: 1rem
  
 }
 
@@ -61,17 +61,4 @@ button {
   align-items: center;
 }
 
-.pl-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  border-radius: .2em;
-  padding: .5em .8em .5em .5em;
-  margin: 1em;
- 
-}
-
-h2 {
-  margin-left: 1em;
-}
