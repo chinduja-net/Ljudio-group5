@@ -43,14 +43,16 @@ export default function SignupModal() {
 
   return (
     <div>
-       <Button variant="outlined" size = "small" onClick={handleOpen}>SIGN UP</Button>
+      <Button variant="outlined" size="small" onClick={handleOpen}>
+        SIGN UP
+      </Button>
       <StyledModal
-          open={open}
+        open={open}
         onClose={handleClose}
         BackdropComponent={Backdrop}
       >
         <Box sx={style}>
-          <SignUp/>
+          <SignUp />
         </Box>
       </StyledModal>
     </div>

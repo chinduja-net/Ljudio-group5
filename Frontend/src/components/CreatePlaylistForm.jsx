@@ -1,16 +1,28 @@
-import React from 'react';
-import { useState } from 'react';
-import { useHistory } from 'react-router';
-import { createPlaylistFetch, isLoggedIn } from '../services/authService';
+import React, { useState, useContext } from 'react';
+import {
+  showUserPlaylistsFetch,
+  createPlaylistFetch,
+  isLoggedIn,
+} from '../services/authService';
 
-function CreatePlaylistForm() {
+import { SearchContext } from '../context/SongProvider';
+
+function CreatePlaylistForm({ setRenderCreateButton }) {
+  const { setPlaylistsState } = useContext(SearchContext);
   const [playlistName, setPlaylistName] = useState('');
-  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createPlaylist(playlistName);
   };
+
+  async function fetchOnMountIfLoggedIn() {
+    const data = await isLoggedIn();
+    if (data.loggedIn === true) {
+      let playlists = await showUserPlaylistsFetch();
+      setPlaylistsState(playlists);
+    }
+  }
 
   async function createPlaylist(playlistName) {
     const obj = {
@@ -20,7 +32,8 @@ function CreatePlaylistForm() {
       const data = await createPlaylistFetch(obj);
       if (data) {
         console.log(data);
-        history.push('/');
+        await fetchOnMountIfLoggedIn();
+        setRenderCreateButton(true);
       }
     } catch (error) {
       console.log(error);

@@ -1,32 +1,32 @@
-import React, { useContext, useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
-import { SearchContext } from "../context/SongProvider"
-import ProgressBar from "../components/ProgressBar"
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { SearchContext } from '../context/SongProvider';
+import ProgressBar from '../components/ProgressBar';
 
-import SkipNextIcon from "@mui/icons-material/SkipNext"
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import PauseIcon from "@mui/icons-material/Pause"
-import VolumeOffIcon from "@mui/icons-material/VolumeOff"
-import VolumeUpIcon from "@mui/icons-material/VolumeUp"
-import { AppBar, Toolbar } from "@mui/material"
-import ListIcon from "@mui/icons-material/List"
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { AppBar, Toolbar } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
 
 function PlayerPage() {
-	const history = useHistory()
-	const {
-		currentSong,
-		queueSongs,
-		shiftQueue,
-		shiftPlayList,
-		setCurrentSong,
-		ytPlayerState,
-		ytPlayer,
-	} = useContext(SearchContext)
+  const history = useHistory();
+  const {
+    currentSong,
+    queueSongs,
+    shiftQueue,
+    shiftPlayList,
+    setCurrentSong,
+    ytPlayerState,
+    ytPlayer,
+  } = useContext(SearchContext);
 
-	const [audioState, setAudioState] = useState(true)
+  const [audioState, setAudioState] = useState(true);
 
-	function playNextSong() {
+  function playNextSong() {
     // Feed song to player if they exist in either the queue or the next in playlist
     if (queueSongs.length) {
       // Get first song from queue and update the queue
@@ -35,95 +35,95 @@ function PlayerPage() {
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
       setCurrentSong(song);
-    } else if(playList.length) {
+    } else if (playList.length) {
       // Get first song from playList and update it
-      let song = shiftPlayList()
-  
-      ytPlayer.player.loadVideoById(song.videoId)
-      ytPlayer.player.playVideo()
-      setCurrentSong(song)
+      let song = shiftPlayList();
+
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+      setCurrentSong(song);
     }
   }
 
-	function muteAudio() {
-		ytPlayer.player.mute()
-		setAudioState(false)
-	}
+  function muteAudio() {
+    ytPlayer.player.mute();
+    setAudioState(false);
+  }
 
-	function unmuteAudio() {
-		ytPlayer.player.unMute()
-		setAudioState(true)
-	}
+  function unmuteAudio() {
+    ytPlayer.player.unMute();
+    setAudioState(true);
+  }
 
-	function toggleAudio() {
-		audioState ? muteAudio() : unmuteAudio()
-		console.log("audio state", audioState)
-	}
+  function toggleAudio() {
+    audioState ? muteAudio() : unmuteAudio();
+    console.log('audio state', audioState);
+  }
 
-	// Only renders the miniplayer if a currentSong is in the player
-	return currentSong ? (
-		<div style={{ width: "200px", height: "200px" }}>
-			<img
-				src={currentSong.thumbnails[1].url}
-				alt="Song tumbnail"
-				style={{
-					width: "120px",
-					height: "120px",
-					borderRadius: "50%",
-				}}
-			/>
-			<div>
-				<div>
-					<h1>{currentSong.name}</h1>
-					<h2>{currentSong.artist.name}</h2>
-				</div>
-				{/* Go to details page button */}
-			</div>
+  // Only renders the miniplayer if a currentSong is in the player
+  return currentSong ? (
+    <div style={{ width: '200px', height: '200px' }}>
+      <img
+        src={currentSong.thumbnails[1].url}
+        alt="Song tumbnail"
+        style={{
+          width: '120px',
+          height: '120px',
+          borderRadius: '50%',
+        }}
+      />
+      <div>
+        <div>
+          <h1>{currentSong.name}</h1>
+          <h2>{currentSong.artist.name}</h2>
+        </div>
+        {/* Go to details page button */}
+      </div>
 
-			<ProgressBar />
+      <ProgressBar />
 
-			<div>
-				<button onClick={toggleAudio}>
-					{audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
-				</button>
+      <div>
+        <button onClick={toggleAudio}>
+          {audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
+        </button>
 
-				<button>
-					<SkipPreviousIcon />
-				</button>
+        <button>
+          <SkipPreviousIcon />
+        </button>
 
-				<button onClick={() => ytPlayer.toggleVidBtn()}>
-					{/* 
+        <button onClick={() => ytPlayer.toggleVidBtn()}>
+          {/* 
 					Toggle play button icon based on player state
 					1 = playing, 2 = paused
 				*/}
-					{ytPlayerState === 1 ? (
-						<PauseIcon />
-					) : ytPlayerState === 2 ? (
-						<PlayArrowIcon />
-					) : (
-						<PlayArrowIcon />
-					)}
-				</button>
+          {ytPlayerState === 1 ? (
+            <PauseIcon />
+          ) : ytPlayerState === 2 ? (
+            <PlayArrowIcon />
+          ) : (
+            <PlayArrowIcon />
+          )}
+        </button>
 
-				<button onClick={() => playNextSong()}>
-					<SkipNextIcon />
-				</button>
+        <button onClick={() => playNextSong()}>
+          <SkipNextIcon />
+        </button>
 
-				<button
-					onClick={() => {
-						history.push("/queueViewer")
-					}}
-				>
-					<ListIcon />
-				</button>
-			</div>
-		</div>
-	) : (
-		<div>
-			<h3>No song selected, go back and search for a song!</h3>
-			<button onClick={() => history.push("/")}>Home page</button>
-		</div>
-	)
+        <button
+          onClick={() => {
+            history.push('/queueViewer');
+          }}
+        >
+          <ListIcon />
+        </button>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <h3>No song selected, go back and search for a song!</h3>
+      <button onClick={() => history.push('/')}>Home page</button>
+    </div>
+  );
 }
 
-export default PlayerPage
+export default PlayerPage;

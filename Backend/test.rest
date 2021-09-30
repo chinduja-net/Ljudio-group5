@@ -4,11 +4,7 @@ GET http://localhost:4000/api/users
 ### Get one user
 GET http://localhost:4000/api/playlistsByUserId
 Content-Type: application/json
-
-{
-	"id": 17
-}
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTYzMjkyMTM5OSwiZXhwIjoxNjMyOTIxOTk5fQ.O8ugDQ4M40_mWqnuSxc7HwBQ4sKvvL7zFeiyIUB17zc
 ### Gets all playlists
 GET http://localhost:4000/api/playlists
 
@@ -17,8 +13,8 @@ POST http://localhost:4000/api/signup
 Content-Type: application/json
 
 {
-	"userName":"Anna",
-	"password":"anna"
+	"password":"anna2",
+	"userName":"Anna2"
 }
 
 ### login user
@@ -32,3 +28,33 @@ Content-Type: application/json
 
 ###login status
 GET  http://localhost:4000/api/loggedin
+
+### Add songs to playlist
+POST http://localhost:4000/api/addSongToPlaylist HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMjk0NzczMiwiZXhwIjoxNjMzMDM0MTMyfQ.zcxnStl1vgTwxy5bniM2kLRu_jokOLaeSrR-B6jqM1c
+Content-Type: application/json
+
+{
+	"playlistId": 17,
+	"songInfo": {
+	"name": "I staden där vi bor",
+	"artist": "UC2qWLFiL0wdu6wsNiXiGefw",
+	"videoId": "ilfg9KcpXx0",
+	"thumbnails": [
+  {
+    "url": "https://lh3.googleusercontent.com/XKjrYSe7PxDycjCcewOEA0q5bi6fjE5N8rNuU1K_Eeold8tOzpw2c4EWpLFic4Qr3SzvH09zLPm1KN5A=w60-h60-l90-rj"
+  },
+  {
+    "url": "https://lh3.googleusercontent.com/XKjrYSe7PxDycjCcewOEA0q5bi6fjE5N8rNuU1K_Eeold8tOzpw2c4EWpLFic4Qr3SzvH09zLPm1KN5A=w120-h120-l90-rj"
+  }
+]}	
+}
+
+### Get songs inside a specific playlist
+POST http://localhost:4000/api/getSongsInPlaylist HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMjk0NzczMiwiZXhwIjoxNjMzMDM0MTMyfQ.zcxnStl1vgTwxy5bniM2kLRu_jokOLaeSrR-B6jqM1c
+Content-Type: application/json
+
+{
+	"playlistId": 17
+}

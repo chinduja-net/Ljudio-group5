@@ -104,62 +104,61 @@ export default function SearchResults() {
     );
   }
 
-  /* function addToPlaylist(e) {
+  function addToPlaylist(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
-        "data-render-details"
+        'data-render-details'
       ) !== null
     ) {
       let addToListSong = JSON.parse(
         e.currentTarget.parentElement.attributes.getNamedItem(
-          "data-render-details"
+          'data-render-details'
         ).value
       );
       setPlayList([...playList, addToListSong]);
-      console.log("playList", playList);
     }
-  } */
-  /* function playListView() {
-    history.push("/playListView");
   }
-  */
+
+  function playListView() {
+    history.push('/playListView');
+  }
 
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
-        "data-render-details"
+        'data-render-details'
       ) !== null
     ) {
       let clickedDetailSong = JSON.parse(
         e.currentTarget.parentElement.attributes.getNamedItem(
-          "data-render-details"
+          'data-render-details'
         ).value
       );
 
       setSongDetail(clickedDetailSong);
-      history.push("/detailsPage");
+      history.push('/detailsPage');
     }
   }
 
   //Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
 
   function resultsClickHandler(e) {
-    if (e.target.attributes.getNamedItem("data-render-song") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-song') !== null) {
       let clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-song").value
+        e.target.attributes.getNamedItem('data-render-song').value
       );
 
       setCurrentSong(clickedValueSong);
       setPlayedSongs([...playedSongs, clickedValueSong]);
-      history.push("/playerPage");
+      history.push('/playerPage');
     }
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ARTIST
-    if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-artist') !== null) {
       let clickedValueArtist = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-artist").value
+        e.target.attributes.getNamedItem('data-render-artist').value
       );
 
       setCurrentArtist(clickedValueArtist);
@@ -167,9 +166,9 @@ export default function SearchResults() {
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ALBUM
-    if (e.target.attributes.getNamedItem("data-render-album") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-album') !== null) {
       let clickedValueAlbum = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-album").value
+        e.target.attributes.getNamedItem('data-render-album').value
       );
 
       setCurrentAlbum(clickedValueAlbum);
@@ -189,19 +188,19 @@ export default function SearchResults() {
       >
         {searchResults
           ? searchResults.map((obj) => {
-              return obj.type === "song"
+              return obj.type === 'song'
                 ? renderSong(obj)
-                : obj.type === "artist"
+                : obj.type === 'artist'
                 ? renderArtist(obj)
-                : obj.type === "album"
+                : obj.type === 'album'
                 ? renderAlbum(obj)
                 : null;
             })
           : null}
       </Grid>
-      {/* <Button type="click" onClick={playListView}>
+      <Button type="click" onClick={playListView}>
         view playlist
-      </Button> */}
+      </Button>
     </div>
   );
 }

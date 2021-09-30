@@ -1,36 +1,38 @@
-import * as React from "react"
-import Button from "@mui/material/Button"
-import CssBaseline from "@mui/material/CssBaseline"
-import TextField from "@mui/material/TextField"
-import Grid from "@mui/material/Grid"
-import Box from "@mui/system/Box"
-import Typography from "@mui/material/Typography"
-import Container from "@mui/material/Container"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/system/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from "react"
-import { loginFetch } from "../services/authService"
-import { useHistory } from "react-router"
+import { useState } from 'react';
+import { loginFetch } from '../services/authService';
+import { useHistory } from 'react-router';
 
-const theme = createTheme()
+const theme = createTheme();
 
 export default function Login() {
-	const history = useHistory()
-	const [userName, setUserName] = useState("")
-	const [password, setPassword] = useState("")
+  const history = useHistory();
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
-		login(userName, password)
-	}
+  const handleClose = () => setOpen(false);
 
-	function saveToken(token) {
-		return new Promise((resolve, reject) => {
-			sessionStorage.setItem("auth", token)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(userName, password);
+  };
 
-			resolve("Done")
-		})
-	}
+  function saveToken(token) {
+    return new Promise((resolve, reject) => {
+      sessionStorage.setItem('auth', token);
+
+      resolve('Done');
+    });
+  }
 
   async function login(userName, password) {
     const obj = {
@@ -39,13 +41,11 @@ export default function Login() {
     };
     try {
       const data = await loginFetch(obj);
-      if (data.success = false) {
+      if ((data.success = false)) {
         console.log('Wrong Credentials');
         history.push('/signup');
       } else {
         await saveToken(data.token);
-        
-        
       }
     } catch (error) {
       console.log(error);
@@ -62,17 +62,22 @@ export default function Login() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-                              
           }}
         >
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 2, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}
+            sx={{
+              mt: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
             <Grid container spacing={1}>
-              <Grid item xs = {12}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="Uname"
                   name="UserName"
@@ -83,7 +88,7 @@ export default function Login() {
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
-              <Grid item xs = {12}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   name="password"
