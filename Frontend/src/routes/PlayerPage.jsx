@@ -1,4 +1,4 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SearchContext } from '../context/SongProvider';
 import ProgressBar from '../components/ProgressBar';
@@ -22,7 +22,8 @@ function PlayerPage() {
     setCurrentSong,
     ytPlayerState,
     ytPlayer,
-    playList
+    playList,
+    popPlayedSongs,
   } = useContext(SearchContext);
 
   const [audioState, setAudioState] = useState(true);
@@ -36,11 +37,21 @@ function PlayerPage() {
       ytPlayer.player.playVideo();
       setCurrentSong(song);
     } else if (playList.length) {
-
       let song = shiftPlayList();
 
       ytPlayer.player.loadVideoById(song.videoId);
       ytPlayer.player.playVideo();
+      setCurrentSong(song);
+    }
+  }
+
+  function playPrevSong() {
+    //plays last song in playedSongs array and pops last element
+    if (playedSongs.length) {
+      let song = popPlayedSongs();
+      ytPlayer.player.loadVideoById(song.videoId);
+      ytPlayer.player.playVideo();
+
       setCurrentSong(song);
     }
   }
@@ -60,7 +71,7 @@ function PlayerPage() {
     console.log('audio state', audioState);
   }
 
-  return currentSong ? (
+  return currentSong && ytPlayer ? (
     <div style={{ width: '200px', height: '200px' }}>
       <img
         src={currentSong.thumbnails[1].url}
@@ -85,7 +96,7 @@ function PlayerPage() {
           {audioState ? <VolumeUpIcon /> : <VolumeOffIcon />}
         </button>
 
-        <button>
+        <button onClick={() => playPrevSong()}>
           <SkipPreviousIcon />
         </button>
 
@@ -118,7 +129,9 @@ function PlayerPage() {
     </div>
   ) : (
     <div>
-      <Typography variant="h5">No song selected, go back and search for a song!</Typography>
+      <Typography variant="h5">
+        No song selected, go back and search for a song!
+      </Typography>
     </div>
   );
 }
