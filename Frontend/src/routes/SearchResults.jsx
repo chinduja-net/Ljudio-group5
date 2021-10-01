@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { SearchContext } from "../context/SongProvider";
-import SearchBar from "../components/SearchBar";
+import { SearchContext } from '../context/SongProvider';
+import SearchBar from '../components/SearchBar';
 
-import { Grid, Button } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
+import { Grid, Button } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 export default function SearchResults() {
   const {
@@ -28,8 +28,8 @@ export default function SearchResults() {
     return (
       <Paper
         key={`${object.id}`}
-        sx={{ height: 250, width: 150, marginTop: 2 }}
-        style={{ background: "#8090f6" }}
+        sx={{ height: 250, width: '65%', marginTop: 2 }}
+        style={{ background: '#8090f6' }}
       >
         <Grid
           display="flex"
@@ -39,18 +39,18 @@ export default function SearchResults() {
           data-render-song={JSON.stringify(object)}
           data-render-details={JSON.stringify(object)}
           key={object.id}
-          sx={{ m: "auto" }}
+          sx={{ m: 'auto' }}
         >
           <CardMedia
             component="img"
             sx={{
-              width: 60,
-              height: 60,
+              width: 120,
+              height: 120,
               boxShadow: 5,
               borderRadius: 1,
               margin: 1,
             }}
-            image={object.thumbnails[0].url}
+            image={object.thumbnails[1].url}
             alt="Song tumbnail"
           />
           <Typography
@@ -76,7 +76,7 @@ export default function SearchResults() {
             type="click"
             onClick={showSongDetails}
             color="secondary"
-            style={{ color: "white" }}
+            style={{ color: 'white' }}
             sx={{ mt: 2 }}
           >
             Add to
@@ -91,7 +91,7 @@ export default function SearchResults() {
       <Paper
         key={`${object.id}`}
         sx={{ height: 200, width: 150, marginTop: 2 }}
-        style={{ background: "#8090f6" }}
+        style={{ background: '#8090f6' }}
       >
         <Grid
           justifyContent="center"
@@ -105,7 +105,7 @@ export default function SearchResults() {
           <img
             data-render-artist={JSON.stringify(object)}
             src={object.thumbnails[0].url}
-            alt={"artist thumbnail"}
+            alt={'artist thumbnail'}
           />
           <h3 data-render-artist={JSON.stringify(object)}>{object.name}</h3>
         </Grid>
@@ -117,7 +117,7 @@ export default function SearchResults() {
       <Paper
         key={`${object.id}`}
         sx={{ height: 200, width: 150, marginTop: 2 }}
-        style={{ background: "#8090f6" }}
+        style={{ background: '#8090f6' }}
       >
         <Grid
           justifyContent="center"
@@ -130,7 +130,7 @@ export default function SearchResults() {
           <img
             data-render-album={JSON.stringify(object)}
             src={object.thumbnails[0].url}
-            alt={"album cover"}
+            alt={'album cover'}
           />
 
           <h4 data-render-album={JSON.stringify(object)}>{object.name}</h4>
@@ -143,12 +143,12 @@ export default function SearchResults() {
   function addToPlaylist(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
-        "data-render-details"
+        'data-render-details'
       ) !== null
     ) {
       let addToListSong = JSON.parse(
         e.currentTarget.parentElement.attributes.getNamedItem(
-          "data-render-details"
+          'data-render-details'
         ).value
       );
       setPlayList([...playList, addToListSong]);
@@ -156,45 +156,45 @@ export default function SearchResults() {
   }
 
   function playListView() {
-    history.push("/playListView");
+    history.push('/playListView');
   }
 
   //Displays the details of the song in a new page or route
   function showSongDetails(e) {
     if (
       e.currentTarget.parentElement.attributes.getNamedItem(
-        "data-render-details"
+        'data-render-details'
       ) !== null
     ) {
       let clickedDetailSong = JSON.parse(
         e.currentTarget.parentElement.attributes.getNamedItem(
-          "data-render-details"
+          'data-render-details'
         ).value
       );
 
       setSongDetail(clickedDetailSong);
-      history.push("/detailsPage");
+      history.push('/detailsPage');
     }
   }
 
   //Handles all of the clicks inside of the dynamic DOM and serves the context the relevant data
 
   function resultsClickHandler(e) {
-    if (e.target.attributes.getNamedItem("data-render-song") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-song') !== null) {
       let clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-song").value
+        e.target.attributes.getNamedItem('data-render-song').value
       );
 
       setCurrentSong(clickedValueSong);
       setPlayedSongs([...playedSongs, clickedValueSong]);
-      history.push("/playerPage");
+      history.push('/playerPage');
     }
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ARTIST
-    if (e.target.attributes.getNamedItem("data-render-artist") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-artist') !== null) {
       let clickedValueArtist = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-artist").value
+        e.target.attributes.getNamedItem('data-render-artist').value
       );
 
       setCurrentArtist(clickedValueArtist);
@@ -202,9 +202,9 @@ export default function SearchResults() {
 
     // Look at the clicked element and determine their types, then update the context with the element's connected data
     // ALBUM
-    if (e.target.attributes.getNamedItem("data-render-album") !== null) {
+    if (e.target.attributes.getNamedItem('data-render-album') !== null) {
       let clickedValueAlbum = JSON.parse(
-        e.target.attributes.getNamedItem("data-render-album").value
+        e.target.attributes.getNamedItem('data-render-album').value
       );
 
       setCurrentAlbum(clickedValueAlbum);
@@ -224,11 +224,11 @@ export default function SearchResults() {
       >
         {searchResults
           ? searchResults.map((obj) => {
-              return obj.type === "song"
+              return obj.type === 'song'
                 ? renderSong(obj)
-                : obj.type === "artist"
+                : obj.type === 'artist'
                 ? renderArtist(obj)
-                : obj.type === "album"
+                : obj.type === 'album'
                 ? renderAlbum(obj)
                 : null;
             })

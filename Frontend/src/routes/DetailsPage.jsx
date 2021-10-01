@@ -1,15 +1,15 @@
-import React from "react";
-import { useContext } from "react";
-import { useHistory } from "react-router-dom";
-import QueueIcon from "@mui/icons-material/Queue";
-import IconButton from "@mui/material/IconButton";
-import PlaylistAddOutlinedIcon from "@mui/icons-material/PlaylistAddOutlined";
-import { Typography } from "@mui/material";
-import Box from "@mui/system/Box";
+import React from 'react';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import QueueIcon from '@mui/icons-material/Queue';
+import IconButton from '@mui/material/IconButton';
+import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
+import { Typography } from '@mui/material';
+import Box from '@mui/system/Box';
 
-import PlaylistModal from "../components/PlaylistModal";
+import PlaylistModal from '../components/PlaylistModal';
 
-import { SearchContext } from "../context/SongProvider";
+import { SearchContext } from '../context/SongProvider';
 
 function DetailsPage() {
   const {
@@ -24,7 +24,7 @@ function DetailsPage() {
 
   function addToQueue() {
     addObjToArray(songDetail);
-    history.push("/searchResults");
+    history.push('/searchResults');
   }
 
   function addSongToPlaylist() {
@@ -44,14 +44,14 @@ function DetailsPage() {
           alignItems="center"
           style={{
             height: 500,
-            flexDirection: "column",
+            flexDirection: 'column',
           }}
         >
           <img
             src={songDetail.thumbnails[1].url}
             alt={songDetail.artist.name + "'s cover thumbnail"}
           />
-          <Typography fontSize="small" variant="h5">
+          <Typography fontSize="medium" variant="h3" color="white">
             {songDetail.name}
           </Typography>
           <div>
