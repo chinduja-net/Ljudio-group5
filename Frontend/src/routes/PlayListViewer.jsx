@@ -1,11 +1,11 @@
-import { Box } from "@mui/system";
-import React from "react";
-import { useContext, useEffect, useState } from "react";
-import { SearchContext } from "../context/SongProvider";
-import { songsInsidePlaylistFetch } from "../services/authService";
-import { Typography, Container } from "@mui/material";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import CardMedia from "@mui/material/CardMedia";
+import { Box } from '@mui/system';
+import React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { SearchContext } from '../context/SongProvider';
+import { songsInsidePlaylistFetch } from '../services/authService';
+import { Typography, Container } from '@mui/material';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CardMedia from '@mui/material/CardMedia';
 
 function PlayListViewer() {
   const {
@@ -48,9 +48,9 @@ function PlayListViewer() {
   }
 
   function clickHandler(e) {
-    if (e.target.attributes.getNamedItem("data-song") !== null) {
+    if (e.target.attributes.getNamedItem('data-song') !== null) {
       const clickedValueSong = JSON.parse(
-        e.target.attributes.getNamedItem("data-song").value
+        e.target.attributes.getNamedItem('data-song').value
       );
       let clickedSong = {
         name: clickedValueSong.name,
@@ -75,18 +75,18 @@ function PlayListViewer() {
       <Container
         maxWidth="xs"
         sx={{
-          display: "flex",
-          alignItems: "center",
-          padding: "5px",
-          justifyContent: "space-between",
-          margin: "auto",
+          display: 'flex',
+          alignItems: 'center',
+          padding: '5px',
+          justifyContent: 'space-between',
+          margin: 'auto',
         }}
       >
         <Typography variant="h4" color="white">
           PlayListViewer
         </Typography>
         <PlayCircleIcon
-          sx={{ marginLeft: 2, color: "#1976d2" }}
+          sx={{ marginLeft: 2, color: '#1976d2' }}
           fontSize="large"
           onClick={() => {
             let newArr = [...songsInPlaylist];
@@ -94,7 +94,7 @@ function PlayListViewer() {
             setPlayList([...newArr, ...playList]);
             setCurrentSong(songsInPlaylist[0]);
           }}
-          sx={{ color: "white" }}
+          sx={{ color: 'white' }}
         />
       </Container>
       <Container onClick={clickHandler}>
@@ -127,13 +127,21 @@ function PlayListViewer() {
                     variant="h5"
                     color="white"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      m: "auto",
+                      display: 'flex',
+                      alignItems: 'center',
+                      m: 'auto',
                     }}
                   >
                     <CardMedia
                       component="img"
+                      data-song={JSON.stringify({
+                        name,
+                        songId,
+                        videoId,
+                        artist,
+                        thumbnails,
+                        id,
+                      })}
                       sx={{
                         width: 60,
                         height: 60,
